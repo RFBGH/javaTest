@@ -1,9 +1,6 @@
 package com.rfb.demo.rxjavatest.poet;
 
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeSpec;
+import com.squareup.javapoet.*;
 
 import javax.lang.model.element.Modifier;
 
@@ -24,6 +21,7 @@ public class PoetTest {
                                 .build())
                                 // 给类添加一个方法
                         .addMethod(MethodSpec.methodBuilder("method")
+                                .addParameter(String.class, "str")
                                 .addModifiers(Modifier.PUBLIC)
                                 .returns(void.class)
                                 .addStatement("System.out.println(str)")

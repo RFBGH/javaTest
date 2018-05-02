@@ -19,6 +19,7 @@ import com.rfb.demo.rxjavatest.funny.PerfectSqrt;
 import com.rfb.demo.rxjavatest.funny.RPN;
 import com.rfb.demo.rxjavatest.jaskson.JacksonTest;
 import com.rfb.demo.rxjavatest.matcher.TestMatcher;
+import com.rfb.demo.rxjavatest.poet.HowToJavaPoetDemo;
 import com.rfb.demo.rxjavatest.poet.PoetTest;
 import com.rfb.demo.rxjavatest.toolkit.StringXmlUtils;
 import com.rfb.demo.rxjavatest.utils.*;
@@ -199,8 +200,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        PoetTest poetTest = new PoetTest();
-        poetTest.helloTest();
+        HowToJavaPoetDemo.test();
+
+//        PoetTest poetTest = new PoetTest();
+//        poetTest.helloTest();
 
 //        testHashSet();
 
