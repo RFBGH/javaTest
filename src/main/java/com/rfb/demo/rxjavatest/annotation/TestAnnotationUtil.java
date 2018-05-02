@@ -8,14 +8,22 @@ import java.lang.reflect.Field;
 public class TestAnnotationUtil {
 
 
-    public static void findAno(TestBean testBean) throws IllegalAccessException {
+    public static void findAno(TestBean testBean) throws IllegalAccessException, NoSuchFieldException {
 
         Field[] fields = testBean.getClass().getDeclaredFields();
         for(Field field:fields){
             Test test = field.getDeclaredAnnotation(Test.class);
+
+            if(test == null){
+                continue;
+            }
+
             field.setAccessible(true);
             field.set(testBean, test.desc());
         }
+
+        Field testField = testBean.getClass().getField("test");
+        System.out.println(testField.get(testBean.getClass()));
     }
 
     public static void test(){
@@ -25,7 +33,7 @@ public class TestAnnotationUtil {
 
         try {
             findAno(testBean);
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

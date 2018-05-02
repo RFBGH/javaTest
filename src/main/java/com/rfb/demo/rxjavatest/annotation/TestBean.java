@@ -5,6 +5,8 @@ package com.rfb.demo.rxjavatest.annotation;
  */
 public class TestBean {
 
+    public static String test = "xxxx";
+
     @Test(id = 1, desc = "11")
     private String mStr1;
 
