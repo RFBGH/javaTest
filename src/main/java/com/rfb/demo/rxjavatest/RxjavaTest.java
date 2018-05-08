@@ -4867,7 +4867,70 @@ public class RxjavaTest implements Cloneable{
 //        replaySubject.onCompleted();
 
         System.out.println(replaySubject.getValue());
+    }
+
+    private ReplaySubject<String> mStringReplaySubject = ReplaySubject.create();
+
+
+    public void testXX(){
+
+
+        Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+
+                        subscriber.onNext("1111");
+                        subscriber.onCompleted();
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                        mStringReplaySubject.onCompleted();
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        mStringReplaySubject.onError(throwable);
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        mStringReplaySubject.onNext(s);
+                    }
+                });
+
+        delay(1000);
+
+        mStringReplaySubject
+                .asObservable()
+                .flatMap(new Func1<String, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(String s) {
+                        return Observable.just("xxx "+s);
+                    }
+                })
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println(s);
+                    }
+                });
 
 
     }
+
+
 }
