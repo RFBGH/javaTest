@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.DeserializationProblemHandler;
 import com.fasterxml.jackson.databind.deser.ValueInstantiator;
 import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
+import com.rfb.demo.rxjavatest.annotation.TestAnnotationUtil;
 import com.rfb.demo.rxjavatest.bean.Outer;
 import com.rfb.demo.rxjavatest.codebyte.FirstReverse;
 import com.rfb.demo.rxjavatest.codebyte.LongestWord;
@@ -199,6 +200,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
+
+        TestAnnotationUtil.test();
 
 //        HowToJavaPoetDemo.test();
 
