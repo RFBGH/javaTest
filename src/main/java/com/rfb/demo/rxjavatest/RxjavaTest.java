@@ -17,6 +17,7 @@ import rx.subscriptions.CompositeSubscription;
 import rx.subscriptions.Subscriptions;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -4930,6 +4931,46 @@ public class RxjavaTest implements Cloneable{
                 });
 
 
+    }
+
+    public void testSubjectBlocking(){
+
+        final ReplaySubject<String> replaySubject = ReplaySubject.create();
+
+
+        new Thread(){
+
+            @Override
+            public void run() {
+
+                Iterator<String> iterator = replaySubject.toBlocking().getIterator();
+
+                while(iterator.hasNext()){
+
+                    String s= iterator.next();
+                    System.out.println("onBlick " + s);
+                }
+
+            }
+        }.start();
+
+
+        new Thread(){
+
+            @Override
+            public void run() {
+
+                for(int i = 0; i < 10; i++){
+                    System.out.println("next "+i);
+                    replaySubject.onNext(i+"");
+                    delay(1000);
+                }
+                replaySubject.onCompleted();
+
+            }
+        }.start();
+
+        delay(20000);
     }
 
 

@@ -306,15 +306,15 @@ public class Main {
 //        System.out.println(map.get(NodeKey.create(2L, NodeType.node)));
 //        System.out.println(map.get(NodeKey.create(0L, NodeType.user)));
 
-//        RxjavaTest rxjavaTest = new RxjavaTest();
-//        rxjavaTest.testGetValue();
-////
-//        try{
+        RxjavaTest rxjavaTest = new RxjavaTest();
+        rxjavaTest.testSubjectBlocking();
 //
-//            Thread.sleep(20000);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
+        try{
+
+            Thread.sleep(20000);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 //        System.out.println("end");
 
 //        List<String> list = new ArrayList<String>();
