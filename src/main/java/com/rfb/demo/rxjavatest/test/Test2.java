@@ -4,6 +4,10 @@ import com.google.gson.Gson;
 import com.rfb.demo.rxjavatest.DelayUtil;
 import com.rfb.demo.rxjavatest.test.bean.TestGsonList;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.Base64;
+
 /**
  * Created by Administrator on 2018/5/18 0018.
  */
@@ -44,6 +48,16 @@ public class Test2{
                 }
             }
         }.start();
+
+    }
+
+    public static void testUrlEncoding(){
+
+        String path = "E://sdfa/asfaf/sfd/a.jpg";
+        String encode = URLEncoder.encode(path);
+        System.out.println(encode);
+        System.out.println(URLDecoder.decode(encode));
+
 
     }
 
