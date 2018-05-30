@@ -60,14 +60,23 @@ public class DirectorySubFileNameCompareUtil {
 
         String path1 = "H:\\WORK\\project\\AndroidStudio\\im-component2\\module_im\\src\\main\\res\\drawable-xhdpi";
         String path2 = "H:\\WORK\\project\\AndroidStudio\\im-component2\\module_im\\src\\main\\res\\drawable-xxhdpi";
-        String result = "E://dirCmpResult.txt";
+        String result = "E://dirCmpResult2.txt";
 
         CmpResult cmpResult = compare(path1, path2);
-        if(cmpResult != null){
-            CmpResult.print2File(result, cmpResult);
+        if(cmpResult == null){
+            System.out.println("result is null");
+            return;
         }
 
+        CmpResult.print2File(result, cmpResult);
         System.out.println("cmp over");
+
+        for(String name:cmpResult.getFilesIn1In2()){
+
+            File file = new File(cmpResult.getPath1()+"\\"+name);
+            file.deleteOnExit();
+        }
+
     }
 
 
