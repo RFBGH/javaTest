@@ -1,7 +1,6 @@
 package com.rfb.demo.rxjavatest.directory_filename_compare;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,19 +10,19 @@ import java.util.Set;
  */
 public class DirectorySubFileNameCompareUtil {
 
-    public static void compare(String path1, String path2, String result){
+    public static CmpResult compare(String path1, String path2){
 
         File file1 = new File(path1);
         File file2 = new File(path2);
 
         if(!file1.exists() || !file1.isDirectory()){
             System.out.println("file1 is not exit or directory");
-            return;
+            return null;
         }
 
         if(!file2.exists() || !file2.isDirectory()){
             System.out.println("file2 is not exit or directory");
-            return;
+            return null;
         }
 
         String[] file1SubFiles = file1.list();
@@ -53,49 +52,8 @@ public class DirectorySubFileNameCompareUtil {
             filesIn2NotIn1.add(son);
         }
 
-        FileOutputStream out = null;
-        try{
+        return new CmpResult(path1, path2, filesIn1In2, filesIn1NotIn2, filesIn2NotIn1);
 
-            out = new FileOutputStream(new File(result));
-
-            out.write("commonFile:\r\n".getBytes());
-            out.write(("file1:"+path1+"\r\n").getBytes());
-            out.write(("file2:"+path2+"\r\n").getBytes());
-            for(String string:filesIn1In2){
-                out.write((string+"\r\n").getBytes());
-            }
-            out.write(("\r\n").getBytes());
-            out.write(("\r\n").getBytes());
-
-            out.write("filesIn1NotIn2:\r\n".getBytes());
-            out.write(("file1:"+path1+"\r\n").getBytes());
-            out.write(("file2:"+path2+"\r\n").getBytes());
-            for(String string:filesIn1NotIn2){
-                out.write((string+"\r\n").getBytes());
-            }
-            out.write(("\r\n").getBytes());
-            out.write(("\r\n").getBytes());
-
-            out.write("filesIn2NotIn1:\r\n".getBytes());
-            out.write(("file1:"+path1+"\r\n").getBytes());
-            out.write(("file2:"+path2+"\r\n").getBytes());
-            for(String string:filesIn2NotIn1){
-                out.write((string+"\r\n").getBytes());
-            }
-            out.write(("\r\n").getBytes());
-            out.write(("\r\n").getBytes());
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            if(out != null){
-                try{
-                    out.close();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
     public static void test(){
@@ -104,7 +62,10 @@ public class DirectorySubFileNameCompareUtil {
         String path2 = "H:\\WORK\\project\\AndroidStudio\\im-component2\\module_im\\src\\main\\res\\drawable-xxhdpi";
         String result = "E://dirCmpResult.txt";
 
-        compare(path1, path2, result);
+        CmpResult cmpResult = compare(path1, path2);
+        if(cmpResult != null){
+            CmpResult.print2File(result, cmpResult);
+        }
 
         System.out.println("cmp over");
     }
