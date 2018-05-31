@@ -1,6 +1,10 @@
 package com.rfb.demo.rxjavatest.directory_filename_compare;
 
 import java.io.File;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -58,9 +62,9 @@ public class DirectorySubFileNameCompareUtil {
 
     public static void test(){
 
-        String path1 = "H:\\WORK\\project\\AndroidStudio\\im-component2\\module_im\\src\\main\\res\\drawable-xhdpi";
+        String path1 = "H:\\WORK\\project\\AndroidStudio\\im-component2\\module_im\\src\\main\\res\\drawable-hdpi";
         String path2 = "H:\\WORK\\project\\AndroidStudio\\im-component2\\module_im\\src\\main\\res\\drawable-xxhdpi";
-        String result = "E://dirCmpResult2.txt";
+        String result = "E://dirCmpResult1.txt";
 
         CmpResult cmpResult = compare(path1, path2);
         if(cmpResult == null){
@@ -72,11 +76,44 @@ public class DirectorySubFileNameCompareUtil {
         System.out.println("cmp over");
 
         for(String name:cmpResult.getFilesIn1In2()){
+            File file = new File(cmpResult.getPath1()+"\\"+name);
+            file.deleteOnExit();
+        }
+    }
 
+    public static void test1(){
+
+        String path1 = "H:\\WORK\\project\\AndroidStudio\\im-component2\\module_im\\src\\main\\res\\drawable-xhdpi";
+        String path2 = "F:\\temp\\2\\xxhdpi";
+        String result = "E://dirCmpResult.txt";
+
+        CmpResult cmpResult = compare(path1, path2);
+        if(cmpResult == null){
+            System.out.println("result is null");
+            return;
+        }
+
+        CmpResult.print2File(result, cmpResult);
+        System.out.println("cmp over");
+
+        for(String name:cmpResult.getFilesIn1In2()){
             File file = new File(cmpResult.getPath1()+"\\"+name);
             file.deleteOnExit();
         }
 
+
+        String path3 = "H:\\WORK\\project\\AndroidStudio\\im-component2\\module_im\\src\\main\\res\\drawable-xxhdpi";
+        for(String name:cmpResult.getFilesIn1In2()){
+
+            try{
+                Files.copy(Paths.get(cmpResult.getPath2()+"\\"+name), Paths.get(path3+"\\"+name), StandardCopyOption.REPLACE_EXISTING);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            File file = new File(cmpResult.getPath2()+"\\"+name);
+            file.deleteOnExit();
+        }
     }
 
 

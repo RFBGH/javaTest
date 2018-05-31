@@ -40,7 +40,7 @@ public class CmpResult {
         return mPath1;
     }
 
-    public String getPaht2() {
+    public String getPath2() {
         return mPaht2;
     }
 
@@ -53,7 +53,7 @@ public class CmpResult {
 
             out.write("commonFile:\r\n".getBytes());
             out.write(("file1:"+cmpResult.getPath1()+"\r\n").getBytes());
-            out.write(("file2:"+cmpResult.getPaht2()+"\r\n").getBytes());
+            out.write(("file2:"+cmpResult.getPath2()+"\r\n").getBytes());
             for(String string:cmpResult.getFilesIn1In2()){
                 out.write((string+"\r\n").getBytes());
             }
@@ -62,7 +62,7 @@ public class CmpResult {
 
             out.write("filesIn1NotIn2:\r\n".getBytes());
             out.write(("file1:"+cmpResult.getPath1()+"\r\n").getBytes());
-            out.write(("file2:"+cmpResult.getPaht2()+"\r\n").getBytes());
+            out.write(("file2:"+cmpResult.getPath2()+"\r\n").getBytes());
             for(String string:cmpResult.getFilesIn1NotIn2()){
                 out.write((string+"\r\n").getBytes());
             }
@@ -71,7 +71,7 @@ public class CmpResult {
 
             out.write("filesIn2NotIn1:\r\n".getBytes());
             out.write(("file1:"+cmpResult.getPath1()+"\r\n").getBytes());
-            out.write(("file2:"+cmpResult.getPaht2()+"\r\n").getBytes());
+            out.write(("file2:"+cmpResult.getPath2()+"\r\n").getBytes());
             for(String string:cmpResult.getFilesIn2NotIn1()){
                 out.write((string+"\r\n").getBytes());
             }
