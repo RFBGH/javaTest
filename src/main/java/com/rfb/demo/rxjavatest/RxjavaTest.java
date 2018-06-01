@@ -4973,5 +4973,64 @@ public class RxjavaTest implements Cloneable{
         delay(20000);
     }
 
+    public void testMultiRunRx(){
+
+        Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+                        subscriber.onNext("1");
+                        subscriber.onCompleted();
+                    }
+                })
+                .flatMap(new Func1<String, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(String s) {
+
+                        return Observable
+                                .concat(
+                                        Observable
+                                            .create(new Observable.OnSubscribe<String>() {
+                                                @Override
+                                                public void call(Subscriber<? super String> subscriber) {
+                                                    System.out.println(Thread.currentThread().getName()+" rx1");
+                                                    delay(1000);
+                                                    subscriber.onNext("1");
+                                                    subscriber.onCompleted();
+                                                }
+                                            })
+                                            .subscribeOn(Schedulers.io()),
+                                        Observable
+                                                .create(new Observable.OnSubscribe<String>() {
+                                                    @Override
+                                                    public void call(Subscriber<? super String> subscriber) {
+                                                        System.out.println(Thread.currentThread().getName()+" rx2");
+                                                        subscriber.onNext("1");
+                                                        subscriber.onCompleted();
+                                                    }
+                                                })
+                                                .subscribeOn(Schedulers.io())
+                                );
+                    }
+                })
+                .observeOn(Schedulers.io())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println("onNext "+s);
+                    }
+                });
+
+    }
 
 }
