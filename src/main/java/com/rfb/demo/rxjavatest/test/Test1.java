@@ -388,7 +388,7 @@ public class Test1 {
     public static void main1(){
 
 
-        TestAnnotationUtil.test();
+//        TestAnnotationUtil.test();
 
 //        HowToJavaPoetDemo.test();
 
@@ -494,7 +494,7 @@ public class Test1 {
 //        System.out.println(map.get(NodeKey.create(0L, NodeType.user)));
 
         RxjavaTest rxjavaTest = new RxjavaTest();
-        rxjavaTest.testSubjectBlocking();
+        rxjavaTest.testRetry();
 //
         try{
 

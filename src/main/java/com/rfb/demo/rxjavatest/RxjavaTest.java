@@ -4973,46 +4973,73 @@ public class RxjavaTest implements Cloneable{
         delay(20000);
     }
 
+    public Observable<String> testMultiRx2(List<Observable<String>> observables){
+
+        final CompositeSubscription compositeSubscription = new CompositeSubscription();
+        Observable<String> resultOb = null;
+        for(Observable<String> observable: observables){
+
+            ConnectableObservable<String> ob = observable
+                    .subscribeOn(Schedulers.io())
+                    .replay();
+
+            if(resultOb == null){
+                resultOb = ob;
+            }else{
+                resultOb = resultOb.concatWith(ob);
+            }
+
+            compositeSubscription.add(ob.connect());
+        }
+
+        return resultOb
+                .doOnUnsubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        compositeSubscription.unsubscribe();
+                    }
+                });
+    }
+
     public void testMultiRunRx(){
 
-        Observable
+        List<Observable<String>> observables = new ArrayList<Observable<String>>();
+        observables.add(Observable
                 .create(new Observable.OnSubscribe<String>() {
                     @Override
                     public void call(Subscriber<? super String> subscriber) {
+                        System.out.println(Thread.currentThread().getName() + " rx1");
+                        delay(1000);
+                        System.out.println(Thread.currentThread().getName()+" next 1");
                         subscriber.onNext("1");
                         subscriber.onCompleted();
                     }
-                })
-                .flatMap(new Func1<String, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(String s) {
+                }));
 
-                        return Observable
-                                .concat(
-                                        Observable
-                                            .create(new Observable.OnSubscribe<String>() {
-                                                @Override
-                                                public void call(Subscriber<? super String> subscriber) {
-                                                    System.out.println(Thread.currentThread().getName()+" rx1");
-                                                    delay(1000);
-                                                    subscriber.onNext("1");
-                                                    subscriber.onCompleted();
-                                                }
-                                            })
-                                            .subscribeOn(Schedulers.io()),
-                                        Observable
-                                                .create(new Observable.OnSubscribe<String>() {
-                                                    @Override
-                                                    public void call(Subscriber<? super String> subscriber) {
-                                                        System.out.println(Thread.currentThread().getName()+" rx2");
-                                                        subscriber.onNext("1");
-                                                        subscriber.onCompleted();
-                                                    }
-                                                })
-                                                .subscribeOn(Schedulers.io())
-                                );
+        observables.add(Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+                        System.out.println(Thread.currentThread().getName() + " rx2");
+                        System.out.println(Thread.currentThread().getName()+" next 2");
+                        subscriber.onNext("2");
+                        subscriber.onCompleted();
                     }
-                })
+                }));
+
+        observables.add(Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+                        System.out.println(Thread.currentThread().getName() + " rx3");
+                        delay(500);
+                        System.out.println(Thread.currentThread().getName()+" next 3");
+                        subscriber.onNext("3");
+                        subscriber.onCompleted();
+                    }
+                }));
+
+        testMultiRx2(observables)
                 .observeOn(Schedulers.io())
                 .subscribe(new Subscriber<String>() {
                     @Override
@@ -5022,12 +5049,71 @@ public class RxjavaTest implements Cloneable{
 
                     @Override
                     public void onError(Throwable throwable) {
-
+                        throwable.printStackTrace();
                     }
 
                     @Override
                     public void onNext(String s) {
-                        System.out.println("onNext "+s);
+
+                        System.out.println(Thread.currentThread().getName() + " onNext");
+                        System.out.println("onNext " + s);
+                    }
+                });
+    }
+
+    public void testRetry(){
+
+        Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+
+                        subscriber.onNext("1");
+                        subscriber.onCompleted();
+                    }
+                })
+                .flatMap(new Func1<String, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(final String s) {
+                        return Observable
+                                .create(new Observable.OnSubscribe<String>() {
+                                    @Override
+                                    public void call(Subscriber<? super String> subscriber) {
+
+                                        subscriber.onNext(s+" "+"2");
+
+                                        delay(1000);
+
+                                        throw new RuntimeException("on purpose");
+
+//                                        subscriber.onCompleted();
+                                    }
+                                });
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .doOnError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                })
+                .retry(3)
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println(s);
                     }
                 });
 

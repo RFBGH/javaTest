@@ -51,6 +51,14 @@ public class Test2{
 
     }
 
+    Class<?> getClass(String name){
+        return Object.class;
+    }
+
+    public interface ITest<T extends Object>{
+
+    }
+
     public static void testUrlEncoding(){
 
         String path = "E://sdfa/asfaf/sfd/a.jpg";

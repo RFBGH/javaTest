@@ -1,5 +1,7 @@
 package com.rfb.demo.rxjavatest;
 
+import com.rfb.demo.rxjavatest.directory_filename_compare.DirectorySubFileNameCompareUtil;
+import com.rfb.demo.rxjavatest.test.Test1;
 import com.rfb.demo.rxjavatest.test.Test2;
 
 /**
@@ -10,7 +12,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Test2.testUrlEncoding();
+        String s = "xxxx";
+        System.out.println(s+" "+s.toString());
+        Test1.main1();
     }
 
 }
