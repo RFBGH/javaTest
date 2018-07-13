@@ -4605,26 +4605,10 @@ public class RxjavaTest implements Cloneable{
         publishSubject
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(Schedulers.io())
-                .doOnNext(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-                        if ("0".equals(s)) {
-                        } else {
-                            throw new RuntimeException("xxx");
-                        }
-                    }
-                })
-                .doOnError(new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        throwable.printStackTrace();
-                    }
-                })
-                .retry()
                 .subscribe(new Subscriber<String>() {
                     @Override
                     public void onCompleted() {
-
+                        System.out.println("onCompleted ");
                     }
 
                     @Override
@@ -4633,22 +4617,20 @@ public class RxjavaTest implements Cloneable{
 
                     @Override
                     public void onNext(String s) {
-
-                        if ("0".equals(s)) {
-                            System.out.println("onNext " + s);
-                        }
+                        System.out.println("onNext " + s);
 
                     }
                 });
 
-        for(int i = 0; i < 100; i++){
+        for(int i = 0; i < 10; i++){
 
-            publishSubject.onNext((i%2)+"");
-            delay(1000);
+            publishSubject.onNext(i+"");
+            delay(100);
         }
 
 
         delay(4000);
+        publishSubject.onCompleted();
     }
 
     public void testPublishXXX(){
@@ -5114,6 +5096,262 @@ public class RxjavaTest implements Cloneable{
                     @Override
                     public void onNext(String s) {
                         System.out.println(s);
+                    }
+                });
+
+    }
+
+    public void testBehaviorOncomplete(){
+
+
+        final BehaviorSubject<String> behaviorSubject = BehaviorSubject.create();
+        behaviorSubject.onNext("2");
+        behaviorSubject.onCompleted();
+
+        Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+
+                        subscriber.onNext("1");
+                        subscriber.onCompleted();
+                    }
+                })
+                .flatMap(new Func1<String, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(String s) {
+                        return behaviorSubject.asObservable();
+                    }
+                })
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                        System.out.println("onCompleted ");
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println("onNext "+s);
+                    }
+                });
+    }
+
+    public void testSubjectError(){
+
+        PublishSubject<String> publishSubject = PublishSubject.create();
+        publishSubject
+                .observeOn(Schedulers.io())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+
+                        delay(1000);
+                    }
+                });
+
+        for(int i = 0; i < 1000; i++){
+            publishSubject.onNext(i+"");
+        }
+
+        publishSubject
+                .observeOn(Schedulers.io())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println(s);
+                    }
+                });
+
+        for(int i = 0; i < 10; i++){
+            publishSubject.onNext(i+"");
+        }
+    }
+
+    public void testSubjectOnBackpressureDrop() {
+
+//        System.out.println("start");
+        Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+
+                        for (int i = 0; i < 500; i++) {
+                            subscriber.onNext(i + "");
+                        }
+                        subscriber.onCompleted();
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        delay(1000);
+                    }
+                });
+//
+//        delay(1000);
+
+        final PublishSubject<String> publishSubject = PublishSubject.create();
+
+        Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+
+                        subscriber.onNext("1");
+                        subscriber.onCompleted();
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .flatMap(new Func1<String, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(String s) {
+                        return publishSubject;
+                    }
+                })
+                .observeOn(Schedulers.io())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println(s);
+                        delay(10);
+                    }
+                });
+
+        publishSubject
+                .observeOn(Schedulers.io())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println(s);
+                    }
+                });
+
+        delay(1000);
+
+        for (int i = 0; i < 1000; i++) {
+            publishSubject.onNext(i + "");
+        }
+    }
+
+    public void testPublishAndRetry(){
+
+        final PublishSubject<String> publishSubject = PublishSubject.create();
+        publishSubject.onError(new Exception("111"));
+
+        publishSubject
+                .observeOn(Schedulers.io())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println("onNext "+s);
+                    }
+                });
+
+//        new Thread(){
+//            @Override
+//            public void run() {
+//
+//                for(int i = 0; i < 10; i++){
+//
+//                    delay(1000);
+//
+//                    if( i != 1){
+//                        System.out.println("next "+i);
+//                        publishSubject.onNext(i+"");
+//                    }else{
+//                        System.out.println("error "+i);
+//                        publishSubject.onError(new Exception(i+""));
+//                    }
+//                }
+//
+//            }
+//        }.start();
+
+
+        delay(2000);
+        publishSubject
+                .observeOn(Schedulers.io())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println("onNext "+s);
                     }
                 });
 
