@@ -494,8 +494,8 @@ public class Test1 {
 //        System.out.println(map.get(NodeKey.create(0L, NodeType.user)));
 
         RxjavaTest rxjavaTest = new RxjavaTest();
-        rxjavaTest.testRetry();
-//
+        rxjavaTest.testBufferOnNext();
+
         try{
 
             Thread.sleep(20000);

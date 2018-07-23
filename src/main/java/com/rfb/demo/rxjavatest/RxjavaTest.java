@@ -5357,4 +5357,51 @@ public class RxjavaTest implements Cloneable{
 
     }
 
+
+    public void testBufferOnNext(){
+
+        final PublishSubject<String> publishSubject = PublishSubject.create();
+
+        publishSubject
+                .buffer(5)
+                .doOnNext(new Action1<List<String>>() {
+                    @Override
+                    public void call(List<String> strings) {
+
+                        System.out.println(Thread.currentThread().getName());
+                        delay(1000);
+                    }
+                })
+                .subscribe(new Subscriber<List<String>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(List<String> strings) {
+                        System.out.println("onNext " + strings.size() + "first " + strings.get(0));
+                    }
+                });
+        System.out.println(Thread.currentThread().getName());
+        new Thread(){
+
+            @Override
+            public void run() {
+
+                for(int i = 0; i < 50; i++){
+                    publishSubject.onNext(i+"");
+                }
+                publishSubject.onCompleted();
+
+            }
+        }.start();
+
+
+    }
 }
