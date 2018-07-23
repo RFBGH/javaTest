@@ -40,6 +40,21 @@ public class FinalStaticChangeTest {
             modifiersField.setAccessible(true);
             modifiersField.setInt(actionField, actionField.getModifiers() & ~Modifier.FINAL);
             actionField.set(Action1.class, new ChangeAction());
+            modifiersField.setInt(actionField, actionField.getModifiers() | Modifier.FINAL);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void checkFinal(){
+
+        try{
+            Field actionField = FinalStaticChangeTest.class.getField("sAction");
+            if(Modifier.isFinal(actionField.getModifiers())){
+                System.out.println("it is final");
+            }else {
+                System.out.println("it is not final");
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -48,7 +63,9 @@ public class FinalStaticChangeTest {
     public static void test(){
 
         FinalStaticChangeTest.sAction.call();
+        checkFinal();
         FinalStaticChangeTest.testChangeMethod();
+        checkFinal();
         FinalStaticChangeTest.sAction.call();
     }
 }
