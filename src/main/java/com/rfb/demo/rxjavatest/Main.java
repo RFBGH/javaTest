@@ -2,8 +2,10 @@ package com.rfb.demo.rxjavatest;
 
 import com.rfb.demo.rxjavatest.bean.A;
 import com.rfb.demo.rxjavatest.directory_filename_compare.DirectorySubFileNameCompareUtil;
+import com.rfb.demo.rxjavatest.reflect.FinalStaticChangeTest;
 import com.rfb.demo.rxjavatest.test.Test1;
 import com.rfb.demo.rxjavatest.test.Test2;
+import com.rfb.demo.rxjavatest.test.Test3;
 
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
@@ -40,15 +42,17 @@ public class Main {
         }
     }
 
+
+
     public static void main(String[] args) {
 
-
-        String s = null;
-        if(s instanceof String){
-            System.out.println("yes");
-        }else{
-            System.out.println("no");
-        }
+        Test3.test();
+//        String s = null;
+//        if(s instanceof String){
+//            System.out.println("yes");
+//        }else{
+//            System.out.println("no");
+//        }
 
 //        List<SoftReference<TestBean>> testBeans = new ArrayList<SoftReference<TestBean>>();
 //
