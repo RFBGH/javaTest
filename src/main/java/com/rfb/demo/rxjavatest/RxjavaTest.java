@@ -5401,6 +5401,56 @@ public class RxjavaTest implements Cloneable{
 
             }
         }.start();
+    }
+
+    public void testRxBackpressLatest(){
+
+        final PublishSubject<String> publishSubject = PublishSubject.create();
+
+        publishSubject
+                .onBackpressureLatest()
+                .observeOn(Schedulers.io())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        delay(1000);
+
+                        System.out.println(s);
+                    }
+                });
+
+        new Thread(){
+
+            @Override
+            public void run() {
+                for(int i = 0; i < 1000; i++){
+                    publishSubject.onNext("1 "+i);
+                    delay(1);
+                }
+            }
+        }.start();
+
+        new Thread(){
+
+            @Override
+            public void run() {
+                for(int i = 0; i < 1000; i++){
+                    publishSubject.onNext("2 "+i);
+                    delay(1);
+                }
+            }
+        }.start();
+
 
 
     }

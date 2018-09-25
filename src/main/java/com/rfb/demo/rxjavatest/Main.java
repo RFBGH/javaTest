@@ -3,6 +3,7 @@ package com.rfb.demo.rxjavatest;
 import com.rfb.demo.rxjavatest.bean.A;
 import com.rfb.demo.rxjavatest.directory_filename_compare.DirectorySubFileNameCompareUtil;
 import com.rfb.demo.rxjavatest.reflect.FinalStaticChangeTest;
+import com.rfb.demo.rxjavatest.test.StaticTest;
 import com.rfb.demo.rxjavatest.test.Test1;
 import com.rfb.demo.rxjavatest.test.Test2;
 import com.rfb.demo.rxjavatest.test.Test3;
@@ -46,7 +47,32 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Test3.test();
+        StaticTest staticTest1 = new StaticTest();
+        staticTest1.test();
+
+        StaticTest staticTest2 = new StaticTest();
+        staticTest2.test();
+
+        StaticTest staticTest3 = new StaticTest();
+        staticTest3.test();
+
+
+
+//        for(int i = 0; i < 93; i++){
+//
+//            String replace;
+//            if(i < 10){
+//                replace = "airecording_0000"+i;
+//            }else{
+//                replace = "airecording_000"+i;
+//            }
+//
+//            String content = "<item android:drawable=\"@drawable/%s\" android:duration=\"20\"/>";
+//            System.out.println(String.format(content, replace));
+//        }
+
+
+//        Test3.test();
 //        String s = null;
 //        if(s instanceof String){
 //            System.out.println("yes");
