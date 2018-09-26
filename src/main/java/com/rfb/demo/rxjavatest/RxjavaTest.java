@@ -5450,8 +5450,67 @@ public class RxjavaTest implements Cloneable{
                 }
             }
         }.start();
+    }
 
+    public void testMergeFrom(){
 
+        System.out.println("main "+Thread.currentThread().getName());
+        Observable<String> observable1 = Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+
+                        System.out.println("1 "+Thread.currentThread().getName());
+                        subscriber.onNext("1");
+                        subscriber.onCompleted();
+                    }
+                });
+
+        Observable<String> observable2 = Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+
+                        System.out.println("2 "+Thread.currentThread().getName());
+                        subscriber.onNext("2");
+                        subscriber.onCompleted();
+                    }
+                })
+                .subscribeOn(Schedulers.newThread());
+
+        Observable<String> observable3 = Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+
+                        System.out.println("3 "+Thread.currentThread().getName());
+                        subscriber.onNext("3");
+                        subscriber.onCompleted();
+                    }
+                });
+
+        Observable<String>[] obs = new Observable[]{observable1, observable2, observable3};
+
+        Observable.concat(Observable.from(obs))
+            .subscribeOn(Schedulers.io())
+            .subscribe(new Subscriber<String>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+
+                }
+
+                @Override
+                public void onNext(String s) {
+
+                }
+            });
+
+        delay(1000);
 
     }
 }
