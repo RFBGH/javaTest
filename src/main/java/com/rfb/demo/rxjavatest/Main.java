@@ -11,6 +11,7 @@ import com.rfb.demo.rxjavatest.test.Test3;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by Administrator on 2016/8/10 0010.
@@ -47,14 +48,28 @@ public class Main {
 
     public static void main(String[] args) {
 
-        StaticTest staticTest1 = new StaticTest();
-        staticTest1.test();
+        RxjavaTest rxjavaTest = new RxjavaTest();
+        rxjavaTest.testPublishNextObsOnComplete();
 
-        StaticTest staticTest2 = new StaticTest();
-        staticTest2.test();
 
-        StaticTest staticTest3 = new StaticTest();
-        staticTest3.test();
+
+//        String url = "https://esp-tag.beta.101.com/v1.0/oms/tag_dimensions?tag_dimension_group_id=114576&$offset=0&$limit=10";
+//
+//        int index = url.indexOf("/v");
+//        int end = url.indexOf("?");
+//
+//        System.out.println(url.substring(index, end));
+
+
+
+//        StaticTest staticTest1 = new StaticTest();
+//        staticTest1.test();
+//
+//        StaticTest staticTest2 = new StaticTest();
+//        staticTest2.test();
+//
+//        StaticTest staticTest3 = new StaticTest();
+//        staticTest3.test();
 
 
 
