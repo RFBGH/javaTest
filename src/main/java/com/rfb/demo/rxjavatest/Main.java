@@ -49,7 +49,7 @@ public class Main {
     public static void main(String[] args) {
 
         RxjavaTest rxjavaTest = new RxjavaTest();
-        rxjavaTest.testPublishNextObsOnComplete();
+        rxjavaTest.testSingleTest();
 
 
 

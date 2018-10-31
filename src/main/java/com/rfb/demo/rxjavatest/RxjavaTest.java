@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -5636,5 +5637,83 @@ public class RxjavaTest implements Cloneable{
 //        publishSubject.onNext("2");
 //
 //        delay(1000);
+    }
+
+    public void testSingleTest(){
+
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+        final PublishSubject<String> publishSubject1 = PublishSubject.create();
+
+        final PublishSubject<String> publishSubject2 = PublishSubject.create();
+
+        final PublishSubject<String> publishSubject3 = PublishSubject.create();
+
+        publishSubject1
+                .observeOn(Schedulers.from(executorService))
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println(Thread.currentThread().getName()+" 1onNext "+s);
+                    }
+                });
+
+        publishSubject2
+                .observeOn(Schedulers.from(executorService))
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println(Thread.currentThread().getName()+" 2onNext "+s);
+                        delay(2000 );
+                    }
+                });
+
+        publishSubject3
+                .observeOn(Schedulers.from(executorService))
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println(Thread.currentThread().getName()+" 3onNext "+s);
+                    }
+                });
+
+        delay(1000);
+
+        publishSubject1.onNext("1");
+        publishSubject2.onNext("2");
+        publishSubject3.onNext("3");
+
+        delay(5000);
+
     }
 }
