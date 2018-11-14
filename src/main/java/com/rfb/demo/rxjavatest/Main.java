@@ -44,12 +44,28 @@ public class Main {
         }
     }
 
+    private static void test(){
+        test1();
+    }
+
+    private static void test1(){
+        test2();
+    }
+
 
 
     public static void main(String[] args) {
 
+//        test();
+//
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
         RxjavaTest rxjavaTest = new RxjavaTest();
-        rxjavaTest.testSingleTest();
+        rxjavaTest.testSwitchMap();
 
 
 

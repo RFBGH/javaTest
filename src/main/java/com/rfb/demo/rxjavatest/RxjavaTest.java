@@ -5645,75 +5645,188 @@ public class RxjavaTest implements Cloneable{
 
         final PublishSubject<String> publishSubject1 = PublishSubject.create();
 
-        final PublishSubject<String> publishSubject2 = PublishSubject.create();
+        Subscription subscription1 = publishSubject1.subscribe(new Subscriber<String>() {
+            @Override
+            public void onCompleted() {
 
-        final PublishSubject<String> publishSubject3 = PublishSubject.create();
+            }
 
-        publishSubject1
-                .observeOn(Schedulers.from(executorService))
-                .subscribe(new Subscriber<String>() {
-                    @Override
-                    public void onCompleted() {
+            @Override
+            public void onError(Throwable throwable) {
 
-                    }
+            }
 
-                    @Override
-                    public void onError(Throwable throwable) {
+            @Override
+            public void onNext(String s) {
+                System.out.println(Thread.currentThread().getName()+" 1onNext "+s);
+            }
+        });
 
-                    }
 
-                    @Override
-                    public void onNext(String s) {
-                        System.out.println(Thread.currentThread().getName()+" 1onNext "+s);
-                    }
-                });
+        new Thread(){
 
-        publishSubject2
-                .observeOn(Schedulers.from(executorService))
-                .subscribe(new Subscriber<String>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-
-                    }
-
-                    @Override
-                    public void onNext(String s) {
-                        System.out.println(Thread.currentThread().getName()+" 2onNext "+s);
-                        delay(2000 );
-                    }
-                });
-
-        publishSubject3
-                .observeOn(Schedulers.from(executorService))
-                .subscribe(new Subscriber<String>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-
-                    }
-
-                    @Override
-                    public void onNext(String s) {
-                        System.out.println(Thread.currentThread().getName()+" 3onNext "+s);
-                    }
-                });
+            @Override
+            public void run() {
+                publishSubject1.onNext("1");
+            }
+        }.start();
 
         delay(1000);
 
-        publishSubject1.onNext("1");
-        publishSubject2.onNext("2");
-        publishSubject3.onNext("3");
+        subscription1.unsubscribe();
+
+        new Thread(){
+
+            @Override
+            public void run() {
+                publishSubject1.onNext("1");
+            }
+        }.start();
+
+        delay(1000);
+
+
+//        final PublishSubject<String> publishSubject2 = PublishSubject.create();
+//
+//        final PublishSubject<String> publishSubject3 = PublishSubject.create();
+//
+//        publishSubject1
+//                .observeOn(Schedulers.from(executorService))
+//                .subscribe(new Subscriber<String>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable throwable) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(String s) {
+//                        System.out.println(Thread.currentThread().getName()+" 1onNext "+s);
+//                    }
+//                });
+//
+//        publishSubject2
+//                .observeOn(Schedulers.from(executorService))
+//                .subscribe(new Subscriber<String>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable throwable) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(String s) {
+//                        System.out.println(Thread.currentThread().getName()+" 2onNext "+s);
+//                        delay(2000 );
+//                    }
+//                });
+//
+//        publishSubject3
+//                .observeOn(Schedulers.from(executorService))
+//                .subscribe(new Subscriber<String>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable throwable) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(String s) {
+//                        System.out.println(Thread.currentThread().getName()+" 3onNext "+s);
+//                    }
+//                });
+//
+//        delay(1000);
+//
+//        publishSubject1.onNext("1");
+//        publishSubject2.onNext("2");
+//        publishSubject3.onNext("3");
+//
+//        delay(5000);
+
+    }
+
+    public void testSwitchMap(){
+
+
+        final PublishSubject<String> publishSubject = PublishSubject.create();
+
+        final PublishSubject<String> publishSubject2 = PublishSubject.create();
+
+        publishSubject
+                .observeOn(Schedulers.newThread())
+                .switchMap(new Func1<String, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(String s) {
+                        return publishSubject2
+                                .doOnUnsubscribe(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        System.out.println("doOnUnsubscribe");
+                                    }
+                                })
+                                .doOnError(new Action1<Throwable>() {
+                                    @Override
+                                    public void call(Throwable throwable) {
+                                        System.out.println("doOnError");
+                                    }
+                                })
+                                .doOnCompleted(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        System.out.println("doOnCompleted");
+                                    }
+                                });
+                    }
+                })
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+
+                    }
+                });
+
+        new Thread(){
+
+            @Override
+            public void run() {
+
+                publishSubject.onNext("1");
+                delay(500);
+                publishSubject.onNext("2");
+                delay(500);
+                publishSubject.onNext("3");
+                delay(500);
+                publishSubject.onNext("3");
+                delay(500);
+                publishSubject.onNext("3");
+
+
+            }
+        }.start();
 
         delay(5000);
-
     }
 }
