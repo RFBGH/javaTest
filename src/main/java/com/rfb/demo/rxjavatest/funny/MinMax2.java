@@ -39,28 +39,18 @@ public class MinMax2 {
             return;
         }
 
-        int newValue = value-1;
-        TreeNodeKey key = new TreeNodeKey(!isA, newValue);
-        TreeNode newSon = sMap.get(key);
-        if(newSon != null){
-            root.sons.add(newSon);
-        }else{
-            newSon = new TreeNode(newValue);
-            root.sons.add(newSon);
-            sMap.put(key, newSon);
-            buildTree(newSon, !isA);
-        }
-
-        newValue = value-2;
-        key = new TreeNodeKey(!isA, newValue);
-        newSon = sMap.get(key);
-        if(newSon != null){
-            root.sons.add(newSon);
-        }else{
-            newSon = new TreeNode(newValue);
-            root.sons.add(newSon);
-            sMap.put(key, newSon);
-            buildTree(newSon, !isA);
+        for(int i = 1; i <= 5; i++){
+            int newValue = value-i;
+            TreeNodeKey key = new TreeNodeKey(!isA, newValue);
+            TreeNode newSon = sMap.get(key);
+            if(newSon != null){
+                root.sons.add(newSon);
+            }else{
+                newSon = new TreeNode(newValue);
+                root.sons.add(newSon);
+                sMap.put(key, newSon);
+                buildTree(newSon, !isA);
+            }
         }
     }
 
