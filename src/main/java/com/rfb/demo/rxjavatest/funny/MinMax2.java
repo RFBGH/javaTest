@@ -11,8 +11,13 @@ import java.util.Map;
 public class MinMax2 {
 
     public static Map<TreeNodeKey, TreeNode> sMap = new HashMap<>();
+    public static List<Integer> sGetParam = new ArrayList<>();
 
     public static void test(){
+
+
+        sGetParam.add(5);
+        sGetParam.add(2);
 
         for(int i = 1; i < 30; i++){
 
@@ -39,7 +44,7 @@ public class MinMax2 {
             return;
         }
 
-        for(int i = 1; i <= 5; i++){
+        for(Integer i:sGetParam){
             int newValue = value-i;
             TreeNodeKey key = new TreeNodeKey(!isA, newValue);
             TreeNode newSon = sMap.get(key);
