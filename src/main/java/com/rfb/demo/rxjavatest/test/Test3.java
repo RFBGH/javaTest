@@ -6,6 +6,10 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 /**
  * Created by Administrator on 2018/7/25 0025.
  */
@@ -80,6 +84,54 @@ public class Test3 {
             Thread.sleep(delay);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void testCopyOnWritelist(){
+
+
+        final List<String> list = new CopyOnWriteArrayList<>();
+        for(int i = 0; i < 20; i++){
+            list.add(i+"");
+        }
+
+        new Thread(){
+
+            @Override
+            public void run() {
+
+                for(String s:list){
+
+                    delay(100);
+                    System.out.println("thread1: "+s);
+                }
+
+            }
+        }.start();
+
+        new Thread(){
+
+            @Override
+            public void run() {
+
+                Random random = new Random();
+                while (list.size() > 0){
+//                    int i = random.nextInt(list.size());
+                    list.remove(0);
+
+                    System.out.println("thread2: remove "+0);
+
+                    delay(50);
+                }
+            }
+        }.start();
+
+
+        delay(4000);
+
+        System.out.println("main: ");
+        for(String s:list){
+            System.out.println("main: "+s);
         }
     }
 

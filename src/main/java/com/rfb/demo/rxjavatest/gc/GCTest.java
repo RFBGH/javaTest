@@ -32,7 +32,6 @@ public class GCTest {
             System.out.println("no");
         }
         System.out.println(queue.toString());
-
     }
 
 }

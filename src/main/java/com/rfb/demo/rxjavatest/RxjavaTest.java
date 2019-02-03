@@ -5760,37 +5760,69 @@ public class RxjavaTest implements Cloneable{
 
     public void testSwitchMap(){
 
+//        Observable
+//                .create(new Observable.OnSubscribe<String>() {
+//                    @Override
+//                    public void call(Subscriber<? super String> subscriber) {
+//
+//                        subscriber.onNext("1");
+//                        subscriber.onCompleted();
+//                    }
+//                })
+//                .doOnSubscribe(new Action0() {
+//                    @Override
+//                    public void call() {
+//                        System.out.println(Thread.currentThread().getName());
+//                    }
+//                })
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(Schedulers.newThread())
+//                .doOnSubscribe(new Action0() {
+//                    @Override
+//                    public void call() {
+//                        System.out.println(Thread.currentThread().getName());
+//                    }
+//                })
+//                .subscribe(new Subscriber<String>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable throwable) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(String s) {
+//
+//                    }
+//                });
+//
+//        delay(1000);
 
         final PublishSubject<String> publishSubject = PublishSubject.create();
 
         final PublishSubject<String> publishSubject2 = PublishSubject.create();
 
         publishSubject
-                .observeOn(Schedulers.newThread())
-                .switchMap(new Func1<String, Observable<String>>() {
+                .mergeWith(Observable.create(new Observable.OnSubscribe<String>() {
                     @Override
-                    public Observable<String> call(String s) {
-                        return publishSubject2
-                                .doOnUnsubscribe(new Action0() {
-                                    @Override
-                                    public void call() {
-                                        System.out.println("doOnUnsubscribe");
-                                    }
-                                })
-                                .doOnError(new Action1<Throwable>() {
-                                    @Override
-                                    public void call(Throwable throwable) {
-                                        System.out.println("doOnError");
-                                    }
-                                })
-                                .doOnCompleted(new Action0() {
-                                    @Override
-                                    public void call() {
-                                        System.out.println("doOnCompleted");
-                                    }
-                                });
+                    public void call(Subscriber<? super String> subscriber) {
+                        delay(1000);
+                        subscriber.onNext("create 1");
+                        subscriber.onCompleted();
+                    }
+                }))
+                .subscribeOn(Schedulers.io())
+                .doOnNext(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        System.out.println("doOnNext " + s + " " + Thread.currentThread().getName());
                     }
                 })
+                .observeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<String>() {
                     @Override
                     public void onCompleted() {
@@ -5804,7 +5836,201 @@ public class RxjavaTest implements Cloneable{
 
                     @Override
                     public void onNext(String s) {
+                        System.out.println("onNext " + s + " " + Thread.currentThread().getName());
+                    }
+                });
 
+//        Observable
+//                .merge(
+//                        publishSubject
+//                            .observeOn(Schedulers.io()),
+//                        publishSubject2
+//                            .observeOn(Schedulers.io())
+//                )
+//                .doOnNext(new Action1<String>() {
+//                    @Override
+//                    public void call(String s) {
+//                        System.out.println("doOnNext " + s + " " + Thread.currentThread().getName());
+//                    }
+//                })
+//                .observeOn(Schedulers.newThread())
+//                .subscribe(new Subscriber<String>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable throwable) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(String s) {
+//                        delay(1000);
+//                        System.out.println("onNext " + s + " " + Thread.currentThread().getName());
+//                    }
+//                });
+
+//        publishSubject
+//                .mergeWith(publishSubject2)
+//                .observeOn(Schedulers.io())
+//                .doOnNext(new Action1<String>() {
+//                    @Override
+//                    public void call(String s) {
+//                        System.out.println("doOnNext " + s + " " + Thread.currentThread().getName());
+//                    }
+//                })
+//                .observeOn(Schedulers.newThread())
+//                .subscribe(new Subscriber<String>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable throwable) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(String s) {
+//                        System.out.println("onNext " + s + " " + Thread.currentThread().getName());
+//                        delay(1000);
+//                    }
+//                });
+//        final PublishSubject<String> publishSubject2 = PublishSubject.create();
+
+//        publishSubject
+//                .observeOn(Schedulers.newThread())
+//                .switchMap(new Func1<String, Observable<String>>() {
+//                    @Override
+//                    public Observable<String> call(String s) {
+//                        return publishSubject2
+//                                .doOnUnsubscribe(new Action0() {
+//                                    @Override
+//                                    public void call() {
+//                                        System.out.println("doOnUnsubscribe");
+//                                    }
+//                                })
+//                                .doOnError(new Action1<Throwable>() {
+//                                    @Override
+//                                    public void call(Throwable throwable) {
+//                                        System.out.println("doOnError");
+//                                    }
+//                                })
+//                                .doOnCompleted(new Action0() {
+//                                    @Override
+//                                    public void call() {
+//                                        System.out.println("doOnCompleted");
+//                                    }
+//                                });
+//                    }
+//                })
+//                .subscribe(new Subscriber<String>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable throwable) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(String s) {
+//
+//                    }
+//                });
+
+        new Thread(){
+
+            @Override
+            public void run() {
+
+                publishSubject.onNext("1");
+                delay(50);
+                publishSubject.onNext("2");
+                delay(50);
+                publishSubject.onNext("3");
+                delay(50);
+                publishSubject.onNext("4");
+                delay(50);
+                publishSubject.onNext("5");
+
+
+            }
+        }.start();
+
+        new Thread(){
+
+            @Override
+            public void run() {
+
+                publishSubject2.onNext("11");
+                delay(50);
+                publishSubject2.onNext("12");
+                delay(50);
+                publishSubject2.onNext("13");
+                delay(50);
+                publishSubject2.onNext("14");
+                delay(50);
+                publishSubject2.onNext("15");
+
+
+            }
+        }.start();
+
+        delay(10000);
+    }
+
+    public static void testFlatMapPublish(){
+
+        final PublishSubject<String> publishSubject = PublishSubject.create();
+
+        Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+
+                        System.out.println("create "+Thread.currentThread().getName());
+
+                        subscriber.onNext("1");
+                        subscriber.onCompleted();
+                    }
+                })
+                .flatMap(new Func1<String, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(String s1) {
+                        return publishSubject.asObservable()
+                                .map(new Func1<String, String>() {
+                                    @Override
+                                    public String call(String s2) {
+
+                                        System.out.println("map "+Thread.currentThread().getName());
+
+                                        return s1+" "+s2;
+                                    }
+                                });
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+
+                        System.out.println("onNext "+Thread.currentThread().getName()+" "+s);
                     }
                 });
 
@@ -5813,20 +6039,21 @@ public class RxjavaTest implements Cloneable{
             @Override
             public void run() {
 
-                publishSubject.onNext("1");
-                delay(500);
-                publishSubject.onNext("2");
-                delay(500);
-                publishSubject.onNext("3");
-                delay(500);
-                publishSubject.onNext("3");
-                delay(500);
-                publishSubject.onNext("3");
+                System.out.println("thread "+Thread.currentThread().getName());
 
+                for(int i = 0; i < 5; i++){
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    publishSubject.onNext(i+"");
+                }
 
             }
         }.start();
 
-        delay(5000);
     }
 }
