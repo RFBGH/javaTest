@@ -6056,4 +6056,39 @@ public class RxjavaTest implements Cloneable{
         }.start();
 
     }
+
+    public void testSubjectOncomplete(){
+
+        final PublishSubject publishSubject = PublishSubject.create();
+//        publishSubject.onCompleted();
+        publishSubject.onError(new Exception("xxx"));
+
+        publishSubject
+                .observeOn(Schedulers.io())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        System.out.println("subscribe");
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber() {
+                    @Override
+                    public void onCompleted() {
+                        System.out.println("onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        System.out.println("onError");
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(Object o) {
+                        System.out.println("onNext");
+                    }
+                });
+
+    }
 }
