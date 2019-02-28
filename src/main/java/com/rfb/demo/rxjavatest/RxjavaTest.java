@@ -6059,9 +6059,9 @@ public class RxjavaTest implements Cloneable{
 
     public void testSubjectOncomplete(){
 
-        final PublishSubject publishSubject = PublishSubject.create();
+        final BehaviorSubject publishSubject = BehaviorSubject.create();
 //        publishSubject.onCompleted();
-        publishSubject.onError(new Exception("xxx"));
+
 
         publishSubject
                 .observeOn(Schedulers.io())
@@ -6089,6 +6089,10 @@ public class RxjavaTest implements Cloneable{
                         System.out.println("onNext");
                     }
                 });
+
+        publishSubject.onNext("1");
+        delay(100);
+        publishSubject.onError(new Exception("xxx"));
 
     }
 }
