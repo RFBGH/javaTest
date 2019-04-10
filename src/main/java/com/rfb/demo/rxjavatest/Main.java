@@ -1,6 +1,7 @@
 package com.rfb.demo.rxjavatest;
 
 
+import com.rfb.demo.rxjavatest.funny.AB_MinMax;
 import com.rfb.demo.rxjavatest.funny.BinaryInsert;
 
 import java.util.Map;
@@ -13,14 +14,17 @@ public class Main {
 
     public static void main(String[] args) {
 
-        RxjavaTest rxjavaTest = new RxjavaTest();
-        rxjavaTest.testExecutor();
+        AB_MinMax ab_minMaxa = new AB_MinMax();
+        ab_minMaxa.deal();
 
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        RxjavaTest rxjavaTest = new RxjavaTest();
+//        rxjavaTest.testExecutor();
+//
+//        try {
+//            Thread.sleep(10000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
 //        BinaryInsert.test();
 //        Map<Long, Long> map = new ConcurrentHashMap<>();
