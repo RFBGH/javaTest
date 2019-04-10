@@ -6095,4 +6095,150 @@ public class RxjavaTest implements Cloneable{
         publishSubject.onError(new Exception("xxx"));
 
     }
+
+    public void testSubscribeIo(){
+
+        final PublishSubject<String> publishSubject1 = PublishSubject.create();
+        final PublishSubject<String> publishSubject2 = PublishSubject.create();
+
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        publishSubject1
+                .observeOn(Schedulers.from(executor))
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        System.out.println("1onNext "+s+" "+Thread.currentThread().getName());
+                    }
+                });
+
+        publishSubject2
+                .observeOn(Schedulers.from(executor))
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        System.out.println("2onNext "+s+" "+Thread.currentThread().getName());
+                    }
+                });
+
+
+        new Thread(){
+
+            @Override
+            public void run() {
+                for(int i = 0; i < 5; i++){
+                    publishSubject1.onNext(i+"");
+                    publishSubject2.onNext(i+"");
+                    delay(100);
+                }
+
+                publishSubject1.onCompleted();
+                publishSubject2.onCompleted();
+            }
+        }.start();
+
+    }
+
+    public void testExecutor(){
+
+        final Executor executor = Executors.newFixedThreadPool(1);
+
+        final PublishSubject<String> publishSubject = PublishSubject.create();
+
+        publishSubject
+                .observeOn(Schedulers.from(executor))
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println("publish onNext "+s);
+                    }
+                });
+
+        Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+
+                        System.out.println("start delay ");
+                        delay(5000);
+                        System.out.println("end delay ");
+                        subscriber.onNext("1");
+
+                        subscriber.onCompleted();
+                    }
+                })
+                .subscribeOn(Schedulers.from(executor))
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println("create onNext "+s);
+                    }
+                });
+
+
+        new Thread(){
+
+            @Override
+            public void run() {
+
+                for(int i = 0; i < 5; i++){
+                    delay(1000);
+                    publishSubject.onNext(i+"");
+                }
+
+            }
+        }.start();
+
+        Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+
+                        System.out.println("start delay 2 ");
+                        delay(5000);
+                        System.out.println("end delay 2 ");
+                        subscriber.onNext("1");
+
+                        subscriber.onCompleted();
+                    }
+                })
+                .subscribeOn(Schedulers.from(executor))
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println("create2 onNext "+s);
+                    }
+                });
+
+    }
 }
