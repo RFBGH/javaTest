@@ -49,6 +49,10 @@ public class AB_MinMax {
             }
 
             cur.bound = max;
+            if(parent.bound > max){
+                parent.bound = max;
+            }
+
             return max;
         }else{
 
@@ -66,6 +70,10 @@ public class AB_MinMax {
             }
 
             cur.bound = min;
+            if(parent.bound < min){
+                parent.bound = min;
+            }
+
             return min;
         }
     }
