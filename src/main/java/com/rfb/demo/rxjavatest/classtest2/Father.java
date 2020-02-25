@@ -7,6 +7,9 @@ public class Father {
 
     public Father(){
 
+
+        String s = "";
+
         init();
     }
 

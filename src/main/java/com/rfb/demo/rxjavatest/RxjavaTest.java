@@ -6002,7 +6002,7 @@ public class RxjavaTest implements Cloneable{
                 })
                 .flatMap(new Func1<String, Observable<String>>() {
                     @Override
-                    public Observable<String> call(String s1) {
+                    public Observable<String> call(final String s1) {
                         return publishSubject.asObservable()
                                 .map(new Func1<String, String>() {
                                     @Override

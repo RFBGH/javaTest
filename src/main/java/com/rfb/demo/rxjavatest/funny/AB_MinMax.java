@@ -30,7 +30,7 @@ public class AB_MinMax {
 
         public Tree(Tree parent) {
             this.parent = parent;
-            sons = new ArrayList<>();
+            sons = new ArrayList<Tree>();
             if(type == TYPE_MIN){
                 value = Integer.MAX_VALUE;
             }
@@ -41,7 +41,7 @@ public class AB_MinMax {
 
         public Tree(Tree parent, int value) {
             this.parent = parent;
-            sons = new ArrayList<>();
+            sons = new ArrayList<Tree>();
             if(parent != null){
                 parent.sons.add(this);
             }

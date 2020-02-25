@@ -50,7 +50,7 @@ public class BinaryInsert {
     public static void test(){
 
         Random random = new Random();
-        List<Integer> list = new ArrayList<>();
+        List<Integer> list = new ArrayList<Integer>();
 
         for(int test = 0; test < 10; test++){
 

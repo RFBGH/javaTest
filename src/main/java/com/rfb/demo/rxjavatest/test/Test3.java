@@ -90,7 +90,7 @@ public class Test3 {
     public static void testCopyOnWritelist(){
 
 
-        final List<String> list = new CopyOnWriteArrayList<>();
+        final List<String> list = new CopyOnWriteArrayList<String>();
         for(int i = 0; i < 20; i++){
             list.add(i+"");
         }

@@ -12,7 +12,7 @@ public class GreedTest {
     private int distance;
     private List<Station> stations;
 
-    private List<Integer> minCostPreStations = new ArrayList<>();
+    private List<Integer> minCostPreStations = new ArrayList<Integer>();
 
 
     public GreedTest(int n, int capacity, int distancePerUnit, int distance, List<Station> stations) {
@@ -44,7 +44,7 @@ public class GreedTest {
         startNode.cost = 0;
         startNode.pre = -1;
 
-        List<Node> nodes = new ArrayList<>();
+        List<Node> nodes = new ArrayList<Node>();
         nodes.add(startNode);
         while(front < nodes.size()){
 

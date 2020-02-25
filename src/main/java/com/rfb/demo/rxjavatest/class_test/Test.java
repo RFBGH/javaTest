@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class Test {
 
-    private Map<Class<? extends ITest>, String> mClassITestMap = new HashMap<>();
+    private Map<Class<? extends ITest>, String> mClassITestMap = new HashMap<Class<? extends ITest>, String>();
 
     public void test(){
 

@@ -10,8 +10,8 @@ import java.util.Map;
  */
 public class MinMax2 {
 
-    public static Map<TreeNodeKey, TreeNode> sMap = new HashMap<>();
-    public static List<Integer> sGetParam = new ArrayList<>();
+    public static Map<TreeNodeKey, TreeNode> sMap = new HashMap<TreeNodeKey, TreeNode>();
+    public static List<Integer> sGetParam = new ArrayList<Integer>();
 
     public static void test(){
 
@@ -103,7 +103,7 @@ public class MinMax2 {
         public TreeNode(int value){
             weight = 0;
             this.value = value;
-            sons = new ArrayList<>();
+            sons = new ArrayList<TreeNode>();
             count++;
         }
     }
