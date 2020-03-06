@@ -45,34 +45,35 @@ public class Main {
 
     public static void main(String[] args) {
 
+        ThreadTest.test();
 
-        Thread t1 = new Thread(){
-            @Override
-            public void run() {
-
-                test();
-
-            }
-        };
-
-
-        Thread t2 = new Thread(){
-            @Override
-            public void run() {
-
-                test();
-
-            }
-        };
-
-        t1.start();
-        t2.start();
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        Thread t1 = new Thread(){
+//            @Override
+//            public void run() {
+//
+//                test();
+//
+//            }
+//        };
+//
+//
+//        Thread t2 = new Thread(){
+//            @Override
+//            public void run() {
+//
+//                test();
+//
+//            }
+//        };
+//
+//        t1.start();
+//        t2.start();
+//
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
 //        AB_MinMax ab_minMaxa = new AB_MinMax();
 //        ab_minMaxa.deal();
