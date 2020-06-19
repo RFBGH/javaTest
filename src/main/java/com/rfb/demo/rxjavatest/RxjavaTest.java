@@ -16,13 +16,11 @@ import rx.subjects.ReplaySubject;
 import rx.subscriptions.CompositeSubscription;
 import rx.subscriptions.Subscriptions;
 
+import java.lang.reflect.AnnotatedArrayType;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Created by Administrator on 2016/8/11 0011.
@@ -6237,6 +6235,181 @@ public class RxjavaTest implements Cloneable{
                     @Override
                     public void onNext(String s) {
                         System.out.println("create2 onNext "+s);
+                    }
+                });
+
+    }
+
+    public void testLock(){
+
+        final ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 5,
+                30L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>());
+
+//        executor.allowCoreThreadTimeOut(true);
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+
+                delay(1000);
+
+                System.out.println(Thread.currentThread().getName()+" new Execute runnable 1");
+            }
+        });
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+
+                delay(1000);
+
+                System.out.println(Thread.currentThread().getName()+" new Execute runnable 2");
+            }
+        });
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+
+                delay(1000);
+
+                System.out.println(Thread.currentThread().getName()+" new Execute runnable 3");
+            }
+        });
+
+//        final Observable<String> lockObs = Observable
+//                .create(new Observable.OnSubscribe<String>() {
+//                    @Override
+//                    public void call(Subscriber<? super String> subscriber) {
+//
+//                        System.out.println(Thread.currentThread().getName()+" lockObs onCreate call");
+//
+//                        subscriber.onNext("1");
+//                        subscriber.onCompleted();
+//                    }
+//                })
+//                .subscribeOn(Schedulers.from(executor));
+//
+//        Observable
+//                .create(new Observable.OnSubscribe<String>() {
+//                    @Override
+//                    public void call(Subscriber<? super String> subscriber) {
+//                        System.out.println(Thread.currentThread().getName()+" obs onCreate call before toblocking");
+//
+//                        String s = lockObs.toBlocking().first();
+//
+//                        System.out.println(Thread.currentThread().getName()+" obs onCreate call after toblocking");
+//
+//                        subscriber.onNext(s);
+//                        subscriber.onCompleted();
+//                    }
+//                })
+//                .subscribeOn(Schedulers.from(executor))
+//                .subscribe(new Subscriber<String>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable throwable) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(String s) {
+//
+//                    }
+//                });
+//
+//        delay(1000);
+//
+//        executor.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                System.out.println(Thread.currentThread().getName()+" new Execute runnable");
+//            }
+//        });
+
+
+    }
+
+
+    public void testMerge2(){
+
+        Observable<String> obs1 = Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+                        delay(1000);
+                        System.out.println("obs1");
+                        subscriber.onNext("1");
+                        subscriber.onCompleted();
+                    }
+                });
+
+        Observable<String> obs2 = Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+                        System.out.println("obs2");
+                        subscriber.onNext("2");
+                        subscriber.onCompleted();
+                    }
+                });
+
+        Observable<String> obs3 = Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+                        System.out.println("obs3");
+                        subscriber.onNext("3");
+                        subscriber.onCompleted();
+                    }
+                });
+
+        List<String> test = new ArrayList<>();
+        test.add("1");
+        test.add("2");
+        test.add("3");
+
+        Observable
+                .merge(
+                        obs1,
+                        Observable.from(test)
+                            .flatMap(new Func1<String, Observable<String>>() {
+                                @Override
+                                public Observable<String> call(String s) {
+
+                                    return Observable
+                                            .create(new Observable.OnSubscribe<String>() {
+                                                @Override
+                                                public void call(Subscriber<? super String> subscriber) {
+
+                                                    subscriber.onNext(s);
+                                                    subscriber.onCompleted();
+                                                }
+                                            });
+                                }
+                            })
+                )
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                        System.out.println("onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println(s);
                     }
                 });
 

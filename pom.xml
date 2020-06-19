@@ -47,6 +47,19 @@
         </dependency>
 
 
+        <!--<dependency>-->
+            <!--<groupId>com.google.zxing</groupId>-->
+            <!--<artifactId>core</artifactId>-->
+            <!--<version>3.4.0</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>com.alibaba</groupId>-->
+            <!--<artifactId>simpleimage</artifactId>-->
+            <!--<version>1.2.3</version>-->
+        <!--</dependency>-->
+
+
     </dependencies>
 
 
