@@ -1,9 +1,13 @@
 package com.rfb.demo.rxjavatest;
 
 
+import com.rfb.demo.rxjavatest.algorithm.Sum;
 import com.rfb.demo.rxjavatest.funny.AB_MinMax;
 import com.rfb.demo.rxjavatest.funny.BinaryInsert;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -43,9 +47,16 @@ public class Main {
 
     }
 
+
+
     public static void main(String[] args) {
 
-        ThreadTest.test();
+        Sum.countSum(10, 10);
+
+//        BigInteger b1 = new BigInteger("1111111111111111111111111111111111111111111");
+//        BigInteger b2 = new BigInteger("23377777777777777777777777777777777777777777");
+//
+//        System.out.println(b1.multiply(b2));
 
 //        Thread t1 = new Thread(){
 //            @Override
