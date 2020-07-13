@@ -11,6 +11,10 @@ public class SegmentTree{
     private List<Integer> mData = null;
     private int mIndexCount = 1;
 
+    public int getIndexCount() {
+        return mIndexCount;
+    }
+
     public void init(int _n){
 
         int mAllCount = 1;
@@ -98,7 +102,7 @@ public class SegmentTree{
     public static void test(){
 
         SegmentTree segmentTree = new SegmentTree();
-        int n = 7;
+        int n = 100;
         segmentTree.init(n);
 
         for(int i = 0; i < n; i++){
@@ -107,13 +111,13 @@ public class SegmentTree{
 
         segmentTree.print();
 
-        int ans = segmentTree.query(0, n, 0, 3, 6);
+        int ans = segmentTree.query(0, segmentTree.getIndexCount()-1, 0, 13, 78);
         System.out.println(ans);
 
-        ans = segmentTree.query(0, n, 0, 1, 5);
-        System.out.println(ans);
-
-        ans = segmentTree.query(0, n, 0, 2, 3);
-        System.out.println(ans);
+//        ans = segmentTree.query(0, n, 0, 1, 5);
+//        System.out.println(ans);
+//
+//        ans = segmentTree.query(0, n, 0, 2, 3);
+//        System.out.println(ans);
     }
 }
