@@ -1,9 +1,7 @@
 package com.rfb.demo.rxjavatest;
 
 
-import com.rfb.demo.rxjavatest.algorithm.DivideAndRule;
-import com.rfb.demo.rxjavatest.algorithm.SegmentTree;
-import com.rfb.demo.rxjavatest.algorithm.Sum;
+import com.rfb.demo.rxjavatest.algorithm.*;
 import com.rfb.demo.rxjavatest.funny.AB_MinMax;
 import com.rfb.demo.rxjavatest.funny.BinaryInsert;
 
@@ -66,7 +64,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-//        SegmentTree.test();
+        DivideAndRule_Max.test();
 //        try{
 //            testE();
 //        }catch (Exception e){
@@ -112,8 +110,8 @@ public class Main {
 //        AB_MinMax ab_minMaxa = new AB_MinMax();
 //        ab_minMaxa.deal();
 
-        RxjavaTest rxjavaTest = new RxjavaTest();
-        rxjavaTest.testBlock();
+//        RxjavaTest rxjavaTest = new RxjavaTest();
+//        rxjavaTest.testBlock();
 //
 //        try {
 //            Thread.sleep(10000);
