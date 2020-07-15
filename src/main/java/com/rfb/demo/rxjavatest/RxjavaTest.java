@@ -6414,4 +6414,24 @@ public class RxjavaTest implements Cloneable{
                 });
 
     }
+
+    public void testBlock(){
+
+        String s = Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+
+                        delay(5000);
+                        subscriber.onNext("1");
+                        subscriber.onCompleted();
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .timeout(2, TimeUnit.SECONDS)
+                .toBlocking()
+                .first();
+
+        System.out.println(s);
+    }
 }

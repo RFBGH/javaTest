@@ -66,7 +66,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        SegmentTree.test();
+//        SegmentTree.test();
 //        try{
 //            testE();
 //        }catch (Exception e){
@@ -112,8 +112,8 @@ public class Main {
 //        AB_MinMax ab_minMaxa = new AB_MinMax();
 //        ab_minMaxa.deal();
 
-//        RxjavaTest rxjavaTest = new RxjavaTest();
-//        rxjavaTest.testExecutor();
+        RxjavaTest rxjavaTest = new RxjavaTest();
+        rxjavaTest.testBlock();
 //
 //        try {
 //            Thread.sleep(10000);
