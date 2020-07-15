@@ -1,6 +1,8 @@
 package com.rfb.demo.rxjavatest;
 
 
+import com.rfb.demo.rxjavatest.algorithm.DivideAndRule;
+import com.rfb.demo.rxjavatest.algorithm.SegmentTree;
 import com.rfb.demo.rxjavatest.algorithm.Sum;
 import com.rfb.demo.rxjavatest.funny.AB_MinMax;
 import com.rfb.demo.rxjavatest.funny.BinaryInsert;
@@ -48,10 +50,31 @@ public class Main {
     }
 
 
+    public static class Exception1 extends Exception{
+
+
+    }
+
+    public static class Excpetion2 extends Exception{
+
+
+    }
+
+    private static void testE() throws Exception1{
+        throw new RuntimeException("exxx");
+    }
 
     public static void main(String[] args) {
 
-        Sum.countSum(10, 10);
+        SegmentTree.test();
+//        try{
+//            testE();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//
+//        System.out.println("end");
+//        Sum.countSum(10, 10);
 
 //        BigInteger b1 = new BigInteger("1111111111111111111111111111111111111111111");
 //        BigInteger b2 = new BigInteger("23377777777777777777777777777777777777777777");

@@ -51,6 +51,44 @@ public class SegmentTree{
         }
     }
 
+    public void add(int start, int end, int k, int left, int right, int plusValue){
+
+        if(right < start || left > end){
+            return;
+        }
+
+        if(start == end) {
+            int value = mData.get(k) + plusValue;
+            mData.set(k, value);
+            return;
+        }
+
+        if(left >= start && right <= end){
+            int value = mData.get(k) + plusValue * (right-left+1);
+            mData.set(k, value);
+        }
+
+        if(start > left && end < right){
+            int value = mData.get(k) + plusValue * (end-start+1);
+            mData.set(k, value);
+        }
+
+        if(left >= start && right > end){
+            int value = mData.get(k) + plusValue * (end-left+1);
+            mData.set(k, value);
+        }
+
+        if(left < start && right <= end){
+            int value = mData.get(k) + plusValue * (right-start+1);
+            mData.set(k, value);
+        }
+
+        int mid = (start + end) / 2;
+
+        add(start, mid, k*2+1, left, right, plusValue);
+        add(mid+1, end, k*2+2, left, right, plusValue);
+    }
+
     public int query(int start, int end, int k, int left, int right){
 
         if(left <= start && right >= end){
@@ -112,6 +150,13 @@ public class SegmentTree{
         segmentTree.print();
 
         int ans = segmentTree.query(0, segmentTree.getIndexCount()-1, 0, 13, 78);
+        System.out.println(ans);
+
+        segmentTree.add(0, segmentTree.getIndexCount()-1, 0, 13, 78, 1);
+
+        segmentTree.print();
+
+        ans = segmentTree.query(0, segmentTree.getIndexCount()-1, 0, 13, 78);
         System.out.println(ans);
 
 //        ans = segmentTree.query(0, n, 0, 1, 5);
