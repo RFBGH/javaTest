@@ -56,9 +56,33 @@ public class DivideAndRule_MaxSonSeq {
         return temp;
     }
 
+
+    private static int calc2(List<Integer> a){
+
+        int temp = a.get(0);
+        int n = a.size();
+        int max = 0;
+
+        for(int i = 1; i < n; i++){
+
+            if(temp < 0){
+                temp = a.get(i);
+            }else{
+                temp += a.get(i);
+            }
+
+            if(max < temp){
+                max = temp;
+            }
+        }
+
+        return max;
+    }
+
+
     public static void test(){
 
-        int n = 100;
+        int n = 10000;
         Random random = new Random(System.currentTimeMillis());
 //        Integer[] array = new Integer[]{83, -63, -67, -68, 23, -18, 83, 24, -77, -42};
         List<Integer> a = new ArrayList<>();
@@ -75,6 +99,16 @@ public class DivideAndRule_MaxSonSeq {
             System.out.print(a.get(i)+" ");
         }
         System.out.println();
+
+        long start = System.currentTimeMillis();
+        int ans = calc(a, 0, a.size()-1);
+        System.out.println("ans "+ans+" cost "+(System.currentTimeMillis()-start));
+
+
+        start = System.currentTimeMillis();
+        ans = calc2(a);
+        System.out.println("ans "+ans+" cost "+(System.currentTimeMillis()-start));
+
 
         int max = Integer.MIN_VALUE;
         int left = 0;
@@ -96,8 +130,7 @@ public class DivideAndRule_MaxSonSeq {
 
         System.out.println("max "+max+" "+left+" "+right);
 
-        int maxSeq = calc(a, 0, a.size()-1);
-        System.out.println("max "+maxSeq);
+
     }
 
 }

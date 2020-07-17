@@ -37,7 +37,7 @@ public class DivideAndRule_Max {
 
     public static void test(){
 
-        int n = 10000000;
+        int n = 100000000;
         Random random = new Random(System.currentTimeMillis());
 //        Integer[] array = new Integer[]{83, -63, -67, -68, 23, -18, 83, 24, -77, -42};
         List<Integer> a = new ArrayList<>(n);
