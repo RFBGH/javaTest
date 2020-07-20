@@ -1,12 +1,11 @@
 package com.rfb.demo.rxjavatest.algorithm;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Administrator on 2020/7/20 0020.
  */
-public class MaxFlow {
+public class MaxFlow2 {
 
     private static class Node{
         int to;
@@ -21,13 +20,16 @@ public class MaxFlow {
     }
 
     private List<List<Node>> G = new ArrayList<>();
-    private List<Boolean> used = new ArrayList<>();
+    private List<Integer> level = new ArrayList<>();
 
     public void init(int n){
+        G.clear();
+        level.clear();
+
         for(int i = 0; i < n; i++){
             List<Node> nodes = new ArrayList<>();
             G.add(nodes);
-            used.add(false);
+            level.add(0);
         }
     }
 
@@ -40,9 +42,47 @@ public class MaxFlow {
         G.get(to).add(node);
     }
 
-    public int dfs(int from, int end, int flow){
+    public void initLevel(int s, int e){
 
-        used.set(from, true);
+        int n = level.size();
+        level.clear();
+        while (n > 0){
+            level.add(0);
+            n--;
+        }
+
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(s);
+        level.set(s, 1);
+
+        while (queue.size() > 0){
+
+            int from = queue.poll();
+            List<Node> edges = G.get(from);
+            int newLevel = level.get(from) + 1;
+
+            for(Node node:edges){
+                int to = node.to;
+                if(level.get(to) != 0){
+                    continue;
+                }
+
+                if(node.cap <= 0){
+                    continue;
+                }
+
+                level.set(to, newLevel);
+
+                if(to == e){
+                    return;
+                }
+
+                queue.offer(to);
+            }
+        }
+    }
+
+    public int dfs(int from, int end, int flow){
 
         if(from == end){
             return flow;
@@ -54,7 +94,7 @@ public class MaxFlow {
             int to = node.to;
             int cap = node.cap;
 
-            if(used.get(to)){
+            if(level.get(from) >= level.get(to)){
                 continue;
             }
 
@@ -67,7 +107,7 @@ public class MaxFlow {
                 continue;
             }
 
-            //System.out.println(to);
+            System.out.print(to+" ");
 
             node.cap -= f;
             G.get(to).get(node.rev).cap += f;
@@ -77,35 +117,35 @@ public class MaxFlow {
         return 0;
     }
 
-    private void resetUsed(){
-        int n = used.size();
-        used.clear();
-        while(n > 0){
-            used.add(false);
-            n--;
-        }
-    }
-
     public int calcMaxFlow(int s, int e){
 
         int maxFlow = 0;
-        while(true){
 
-            int f = dfs(s, e, Integer.MAX_VALUE);
-            System.out.println();
-            if(f == 0){
+        while(true){
+            initLevel(s, e);
+
+            if(level.get(e) == 0){
                 break;
             }
 
-            maxFlow += f;
-            resetUsed();
+            while(true){
+                int f = dfs(s, e, Integer.MAX_VALUE);
+                System.out.println();
+                System.out.println("flow: "+f);
+                if(f == 0){
+                    break;
+                }
+
+                maxFlow += f;
+            }
         }
+
         return maxFlow;
     }
 
     public static void test(){
 
-        MaxFlow maxFlow = new MaxFlow();
+        MaxFlow2 maxFlow = new MaxFlow2();
         maxFlow.init(6);
         maxFlow.add(0, 1, 10);
         maxFlow.add(0, 2, 10);

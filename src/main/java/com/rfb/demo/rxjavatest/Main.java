@@ -64,7 +64,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        MaxFlow.test();
+        MaxFlow2.test();
 //        try{
 //            testE();
 //        }catch (Exception e){
