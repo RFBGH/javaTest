@@ -67,8 +67,6 @@ public class MaxFlow {
                 continue;
             }
 
-            System.out.print(to+" ");
-
             node.cap -= f;
             G.get(to).get(node.rev).cap += f;
             return f;
@@ -96,8 +94,6 @@ public class MaxFlow {
             if(f == 0){
                 break;
             }
-
-            System.out.println("flow:"+f);
 
             maxFlow += f;
             resetUsed();
