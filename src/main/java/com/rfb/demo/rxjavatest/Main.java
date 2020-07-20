@@ -64,7 +64,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        DivideAndRule_MaxSonSeq.test();
+        MaxFlow.test();
 //        try{
 //            testE();
 //        }catch (Exception e){
