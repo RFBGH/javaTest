@@ -64,7 +64,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        MaxFlow2.test();
+        GCutPoint.test();
 //        try{
 //            testE();
 //        }catch (Exception e){

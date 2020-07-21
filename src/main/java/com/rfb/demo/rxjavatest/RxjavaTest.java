@@ -6417,21 +6417,48 @@ public class RxjavaTest implements Cloneable{
 
     public void testBlock(){
 
-        String s = Observable
-                .create(new Observable.OnSubscribe<String>() {
-                    @Override
-                    public void call(Subscriber<? super String> subscriber) {
+        PublishSubject<String> publishSubject = PublishSubject.create();
 
-                        delay(5000);
-                        subscriber.onNext("1");
-                        subscriber.onCompleted();
+        publishSubject
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        throw new RuntimeException("xxxx");
                     }
                 })
-                .subscribeOn(Schedulers.io())
-                .timeout(2, TimeUnit.SECONDS)
-                .toBlocking()
-                .first();
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
 
-        System.out.println(s);
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+
+                    }
+                });
+
+//        String s = Observable
+//                .create(new Observable.OnSubscribe<String>() {
+//                    @Override
+//                    public void call(Subscriber<? super String> subscriber) {
+//
+//                        delay(5000);
+//                        subscriber.onNext("1");
+//                        subscriber.onCompleted();
+//                    }
+//                })
+//                .subscribeOn(Schedulers.io())
+//                .timeout(2, TimeUnit.SECONDS)
+//                .toBlocking()
+//                .first();
+//
+//        System.out.println(s);
     }
+
 }
