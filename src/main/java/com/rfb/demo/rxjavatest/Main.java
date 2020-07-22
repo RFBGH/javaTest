@@ -4,6 +4,7 @@ package com.rfb.demo.rxjavatest;
 import com.rfb.demo.rxjavatest.algorithm.*;
 import com.rfb.demo.rxjavatest.funny.AB_MinMax;
 import com.rfb.demo.rxjavatest.funny.BinaryInsert;
+import com.rfb.demo.rxjavatest.thread.BlockQueueTest;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -64,7 +65,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        GCutPoint.test();
+        Kosaraju.test();
+//        GCutPoint.test();
 //        try{
 //            testE();
 //        }catch (Exception e){
