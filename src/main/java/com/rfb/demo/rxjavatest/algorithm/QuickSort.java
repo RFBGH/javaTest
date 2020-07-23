@@ -52,7 +52,7 @@ public class QuickSort {
             QSort(a, left, i-1);
         }
 
-        if(i+1 < right){
+        if(i + 1 < right){
             QSort(a, i+1, right);
         }
     }
