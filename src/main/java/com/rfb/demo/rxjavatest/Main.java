@@ -65,7 +65,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Kosaraju.test();
+        QuickSort.test();
 //        GCutPoint.test();
 //        try{
 //            testE();
