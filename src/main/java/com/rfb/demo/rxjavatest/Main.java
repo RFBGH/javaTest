@@ -2,6 +2,7 @@ package com.rfb.demo.rxjavatest;
 
 
 import com.rfb.demo.rxjavatest.algorithm.MaxFlowMinCost;
+import com.rfb.demo.rxjavatest.algorithm.Prim;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -59,7 +60,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        MaxFlowMinCost.test();
+        Prim.test();
 //        GCutPoint.test();
 //        try{
 //            testE();
