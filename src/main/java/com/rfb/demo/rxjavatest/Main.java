@@ -1,14 +1,8 @@
 package com.rfb.demo.rxjavatest;
 
 
-import com.rfb.demo.rxjavatest.algorithm.*;
-import com.rfb.demo.rxjavatest.funny.AB_MinMax;
-import com.rfb.demo.rxjavatest.funny.BinaryInsert;
-import com.rfb.demo.rxjavatest.thread.BlockQueueTest;
+import com.rfb.demo.rxjavatest.algorithm.MaxFlowMinCost;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -65,7 +59,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        QuickSort.test();
+        MaxFlowMinCost.test();
 //        GCutPoint.test();
 //        try{
 //            testE();
