@@ -151,16 +151,16 @@ public class MaxFlowMinCost {
 
 //        MaxFlowMinCost maxFlowMinCost = new MaxFlowMinCost();
 //        maxFlowMinCost.init(6);
-//        maxFlowMinCost.addEdge(0, 1, 10, 3);
-//        maxFlowMinCost.addEdge(0, 2, 8, 2);
-//        maxFlowMinCost.addEdge(1, 3, 7, 2);
-//        maxFlowMinCost.addEdge(1, 4, 2, 5);
-//        maxFlowMinCost.addEdge(1, 4, 2, 5);
-//        maxFlowMinCost.addEdge(2, 4, 10, 4);
-//        maxFlowMinCost.addEdge(4, 3, 4, 1);
-//        maxFlowMinCost.addEdge(4, 3, 4, 1);
-//        maxFlowMinCost.addEdge(4, 5, 7, 4);
-//        maxFlowMinCost.addEdge(3, 5, 6, 1);
+//        maxFlowMinCost.addEdge(0, 1, 3, 10);
+//        maxFlowMinCost.addEdge(0, 2, 2, 8);
+//        maxFlowMinCost.addEdge(1, 3, 2, 7);
+//        maxFlowMinCost.addEdge(1, 4, 5, 2);
+//        maxFlowMinCost.addEdge(1, 4, 5, 2);
+//        maxFlowMinCost.addEdge(2, 4, 4, 10);
+//        maxFlowMinCost.addEdge(4, 3, 1, 4);
+//        maxFlowMinCost.addEdge(4, 3, 1, 4);
+//        maxFlowMinCost.addEdge(4, 5, 4, 7);
+//        maxFlowMinCost.addEdge(3, 5, 1, 6);
 //
 //        maxFlowMinCost.calc(0, 5);
 
