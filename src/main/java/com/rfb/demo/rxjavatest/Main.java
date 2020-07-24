@@ -60,7 +60,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Prim.test();
+        MaxFlowMinCost.test();
 //        GCutPoint.test();
 //        try{
 //            testE();

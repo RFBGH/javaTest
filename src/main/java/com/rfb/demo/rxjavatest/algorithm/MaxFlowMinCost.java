@@ -43,6 +43,121 @@ public class MaxFlowMinCost {
         G.get(t).add(rNode);
     }
 
+    public void calc2(int s, int t){
+
+        int maxFlow = 0;
+        int allCost = 0;
+
+        int[] dist = new int[n];
+        int[] pre = new int[n];
+        int[] to2Index = new int[n];
+        boolean[] mark = new boolean[n];
+
+        while (true){
+
+            for(int i = 0; i < n; i++){
+                dist[i] = Integer.MAX_VALUE;
+                pre[i] = -1;
+                to2Index[i] = -1;
+                mark[i] = false;
+            }
+
+            dist[s] = 0;
+
+            for(int I = 0; I < n; I++){
+
+                int min = Integer.MAX_VALUE;
+                int k = -1;
+                for(int i = 0; i < n; i++){
+                    if(mark[i]){
+                        continue;
+                    }
+
+                    if(min > dist[i]){
+                        min = dist[i];
+                        k = i;
+                    }
+                }
+
+                if(min == Integer.MAX_VALUE){
+                    break;
+                }
+
+                mark[k] = true;
+                List<Node> edge = G.get(k);
+                for(int j = 0, size = edge.size(); j < size; j++){
+
+                    Node node = edge.get(j);
+                    if(node.cap <= 0){
+                        continue;
+                    }
+
+                    int to = node.to;
+                    if(mark[to]){
+                        continue;
+                    }
+
+                    int cost = dist[k]+node.cost;
+                    if(dist[to] > cost){
+                        dist[to] = cost;
+                        pre[to] = k;
+                        to2Index[to] = j;
+                    }
+                }
+            }
+
+            if(dist[t] == Integer.MAX_VALUE){
+                break;
+            }
+
+            {
+                System.out.println("cost "+dist[t]);
+                int back = t;
+                while (back != -1){
+                    System.out.print(back+" ");
+                    back = pre[back];
+                }
+                System.out.println();
+            }
+
+
+            int f = Integer.MAX_VALUE;
+            int backNode = t;
+            while (true){
+
+                int from = pre[backNode];
+                if(from == -1){
+                    break;
+                }
+
+                f = Math.min(G.get(from).get(to2Index[backNode]).cap, f);
+                backNode = from;
+            }
+
+            {
+                System.out.println("flow "+f);
+            }
+            maxFlow += f;
+            allCost += f*dist[t];
+
+            backNode = t;
+            while (true){
+
+                int from = pre[backNode];
+                if(from == -1){
+                    break;
+                }
+
+                Node node = G.get(from).get(to2Index[backNode]);
+                node.cap -= f;
+                G.get(node.to).get(node.rev).cap += f;
+                backNode = from;
+            }
+        }
+
+        System.out.println("maxFlow "+maxFlow+" "+"allCost "+allCost);
+    }
+
     public void calc(int s, int t){
 
         int maxFlow = 0;
@@ -174,7 +289,8 @@ public class MaxFlowMinCost {
         maxFlowMinCost.addEdge(2, 3, 3, 10);
         maxFlowMinCost.addEdge(3, 4, 2, 4);
 
-        maxFlowMinCost.calc(0, 4);
+//        maxFlowMinCost.calc(0, 4);
+        maxFlowMinCost.calc2(0, 4);
     }
 
 }
