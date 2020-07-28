@@ -132,24 +132,24 @@ public class POJ2112 {
         System.out.println(ans);
     }
 
-    public static void main(String args[]) throws Exception{
-
-        Scanner scanner = new Scanner(System.in);
-        int K = scanner.nextInt();
-        int C = scanner.nextInt();
-        int M = scanner.nextInt();
-
-        int n = K+C;
-        int[][]dist = new int[n][n];
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
-                dist[i][j] = scanner.nextInt();
-            }
-        }
-
-        calc(K, M, C, dist);
-
-    }
+//    public static void main(String args[]) throws Exception{
+//
+//        Scanner scanner = new Scanner(System.in);
+//        int K = scanner.nextInt();
+//        int C = scanner.nextInt();
+//        int M = scanner.nextInt();
+//
+//        int n = K+C;
+//        int[][]dist = new int[n][n];
+//        for(int i = 0; i < n; i++){
+//            for(int j = 0; j < n; j++){
+//                dist[i][j] = scanner.nextInt();
+//            }
+//        }
+//
+//        calc(K, M, C, dist);
+//
+//    }
 
 
 }

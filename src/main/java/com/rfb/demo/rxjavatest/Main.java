@@ -60,7 +60,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-        POJ2112.test();
+        try {
+            com.rfb.demo.rxjavatest.algorithm.maxFlow.poj2112.Main.test(args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 //        System.out.println(Long.MAX_VALUE);
 //        String s = "14829735431805717965";
