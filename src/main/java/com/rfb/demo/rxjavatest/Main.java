@@ -1,9 +1,7 @@
 package com.rfb.demo.rxjavatest;
 
 
-import com.rfb.demo.rxjavatest.algorithm.MaxFlowMinCost;
-import com.rfb.demo.rxjavatest.algorithm.MaxFlow_PigFarm;
-import com.rfb.demo.rxjavatest.algorithm.Prim;
+import com.rfb.demo.rxjavatest.algorithm.*;
 import com.rfb.demo.rxjavatest.algorithm.maxFlow.Pool;
 
 import java.text.SimpleDateFormat;
@@ -63,7 +61,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Pool.test();
+        MaxFlow3.test();
 
 //        System.out.println(Long.MAX_VALUE);
 //        String s = "14829735431805717965";
