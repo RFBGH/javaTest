@@ -8,7 +8,7 @@ import java.util.Queue;
 /**
  * Created by Administrator on 2020/7/28 0028.
  */
-public class Pool {
+public class POJ1273 {
 
     private int n;
     private List<Edge>[] G;
@@ -141,7 +141,7 @@ public class Pool {
 
     public static void test(){
 
-        Pool pool = new Pool();
+        POJ1273 pool = new POJ1273();
         pool.init(4);
         pool.addEdgeFromOne(1, 2, 40);
         pool.addEdgeFromOne(1, 4, 20);
