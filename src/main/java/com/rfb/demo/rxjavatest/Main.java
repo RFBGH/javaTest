@@ -2,6 +2,7 @@ package com.rfb.demo.rxjavatest;
 
 
 import com.rfb.demo.rxjavatest.algorithm.*;
+import com.rfb.demo.rxjavatest.algorithm.maxFlow.POJ2112;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -59,7 +60,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        MaxFlow3.test();
+        POJ2112.test();
 
 //        System.out.println(Long.MAX_VALUE);
 //        String s = "14829735431805717965";
