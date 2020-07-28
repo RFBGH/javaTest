@@ -68,6 +68,12 @@ public class MaxFlow3 {
         G[to].add(node);
     }
 
+    public void addFromOne(int from, int to, int cap){
+        from--;
+        to--;
+        add(from, to, cap);
+    }
+
     public void calc(int s, int e){
 
         int ans = 0;
@@ -102,7 +108,7 @@ public class MaxFlow3 {
                         continue;
                     }
 
-
+                    used[to] = true;
                     Node newNode = new Node(curIndex, Math.min(edge.cap, cur.flow), to, i);
                     queue.add(newNode);
 
@@ -132,8 +138,6 @@ public class MaxFlow3 {
 
             int pre = queue.size()-1;
             while (true){
-
-
 
                 Node cur = queue.get(pre);
                 int ppre = cur.pre;
@@ -180,6 +184,13 @@ public class MaxFlow3 {
         maxFlow.add(3, 5, 10);
         maxFlow.add(4, 5, 10);
         maxFlow.calc(0, 5);
+//        maxFlow.init(4);
+//        maxFlow.addFromOne(1, 2, 40);
+//        maxFlow.addFromOne(1, 4, 20);
+//        maxFlow.addFromOne(2, 4, 20);
+//        maxFlow.addFromOne(2, 3, 30);
+//        maxFlow.addFromOne(3, 4, 10);
+//        maxFlow.calc(0, 3);
     }
 
 }
