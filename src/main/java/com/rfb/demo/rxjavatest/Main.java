@@ -61,7 +61,7 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-            com.rfb.demo.rxjavatest.algorithm.maxFlow.poj2112.Main.main(args);
+            com.rfb.demo.rxjavatest.algorithm.maxFlow.poj2112.Main2.main(args);
         } catch (Exception e) {
             e.printStackTrace();
         }

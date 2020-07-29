@@ -43,7 +43,7 @@ public class Main {
             }
         }
 
-        Set<Integer> allLength = new HashSet<Integer>();
+            Set<Integer> allLength = new HashSet<Integer>();
 
         for(int k = 0; k < K; k++){
 
