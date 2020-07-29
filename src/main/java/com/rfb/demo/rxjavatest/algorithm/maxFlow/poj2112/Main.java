@@ -93,9 +93,9 @@ public class Main {
 
             }
 
-            for(int i = 0; i < C; i++){
-                int dis = distance[K+i];
-                G[k][i] = dis;
+            for(int c = 0; c < C; c++){
+                int dis = distance[K+c];
+                G[k][c] = dis;
                 allLength.add(dis);
             }
         }
