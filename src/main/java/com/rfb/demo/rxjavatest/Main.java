@@ -60,8 +60,10 @@ public class Main {
 
     public static void main(String[] args) {
 
+//        System.out.println(Long.MAX_VALUE);
+//        System.out.println(1000000000);
         try {
-            com.rfb.demo.rxjavatest.algorithm.maxFlow.poj2112.Main2.main(args);
+            com.rfb.demo.rxjavatest.algorithm.maxFlow.poj2391.Main.main(args);
         } catch (Exception e) {
             e.printStackTrace();
         }
