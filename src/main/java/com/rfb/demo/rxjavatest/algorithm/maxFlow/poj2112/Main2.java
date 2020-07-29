@@ -152,28 +152,23 @@ public class Main2 {
 
         Scanner scanner = new Scanner(System.in);
 
-        while (scanner.hasNext()){
-            int K = scanner.nextInt();
-            int C = scanner.nextInt();
-            int M = scanner.nextInt();
+        int K = scanner.nextInt();
+        int C = scanner.nextInt();
+        int M = scanner.nextInt();
 
-            int n = K+C;
-            int[][]dist = new int[n][n];
+        int n = K+C;
+        int[][]dist = new int[n][n];
 
-            for(int i = 0; i < n; i++){
-                for(int j = 0; j < n; j++){
-                    dist[i][j] = scanner.nextInt();
-                    if(dist[i][j] == 0){
-                        dist[i][j] = MAX;
-                    }
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                dist[i][j] = scanner.nextInt();
+                if(dist[i][j] == 0){
+                    dist[i][j] = MAX;
                 }
             }
-
-            calc(K, M, C, dist);
-
         }
 
-        scanner.close();
+        calc(K, M, C, dist);
     }
 
 }
