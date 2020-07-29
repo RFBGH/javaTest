@@ -1,21 +1,49 @@
 package com.rfb.demo.rxjavatest.algorithm.maxFlow.poj2112;
-
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
+
+    private static boolean connect[][] = new boolean[450][200];
+    private static int[] match = new int[200];
+    private static boolean[] used = new boolean[200];
+    private static int[][] G = new int[30][200];
+    private static int[] distance = new int[250];
+    private static boolean[] mark = new boolean[250];
+
+    public static boolean dfs(int k, int C){
+
+        for(int c = 0; c < C; c++){
+
+            if(!connect[k][c]){
+                continue;
+            }
+
+            if(used[c]){
+                continue;
+            }
+
+            used[c] = true;
+
+            if(match[c] == -1 || dfs(match[c], C)){
+                match[c] = k;
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public static void calc(int K, int M, int C, int[][] dist){
 
         int n = K+C;
-        int[] distance = new int[n];
-        boolean[] mark = new boolean[n];
 
-        int[][] G = new int[K][C];
         for(int i = 0; i < K; i++){
             for(int j = 0; j < C; j++){
                 G[i][j] = Integer.MAX_VALUE;
             }
         }
+
+        Set<Integer> allLength = new HashSet<Integer>();
 
         for(int k = 0; k < K; k++){
 
@@ -35,7 +63,7 @@ public class Main {
                         continue;
                     }
 
-                    if(distance[i] > min){
+                    if(distance[i] < min){
                         min = distance[i];
                         index = i;
                     }
@@ -49,7 +77,7 @@ public class Main {
 
                 for(int i = 0; i < n; i++){
 
-                    if(mark[index]){
+                    if(mark[i]){
                         continue;
                     }
 
@@ -66,66 +94,97 @@ public class Main {
             }
 
             for(int i = 0; i < C; i++){
-                G[k][i] = distance[K+i];
+                int dis = distance[K+i];
+                G[k][i] = dis;
+                allLength.add(dis);
             }
         }
 
-        int[] used = new int[K];
-        boolean[] pick = new boolean[C];
-
-        for(int i = 0; i < K; i++){
-            used[i] = 0;
+        List<Integer> length = new ArrayList<Integer>(allLength.size());
+        for(Integer l:allLength){
+            length.add(l);
         }
 
-        for(int i = 0; i < C; i++){
-            pick[i] = false;
-        }
-
-        int ans = 0;
-
-        for(int c = 0; c < C; c++){
-
-            int min = Integer.MAX_VALUE;
-            int useK = -1;
-            int useC = -1;
-            for(int k = 0; k < K; k++){
-
-                if(used[k] == M){
-                    continue;
+        Collections.sort(length, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                if(o1 < o2){
+                    return -1;
                 }
 
-                for(int i = 0; i < C; i++){
+                if(o1.equals(o2)){
+                    return 0;
+                }
 
-                    if(pick[i]){
+                return 1;
+            }
+        });
+
+        int ans = Integer.MAX_VALUE;
+
+        int left = 0;
+        int right = length.size()-1;
+
+        while (left < right){
+
+            int mid = (left + right) / 2;
+
+            int cut = length.get(mid);
+
+            for(int k = 0, size = K*M; k < size ;k++){
+                for(int c = 0; c < C; c++){
+                    connect[k][c] = false;
+                }
+            }
+
+            for(int c = 0; c < C; c++){
+                match[c] = -1;
+            }
+
+            for(int k = 0; k < K; k++){
+                for(int c = 0; c < C; c++){
+
+                    if(G[k][c] > cut){
                         continue;
                     }
 
-                    if(G[k][i] < min){
-                        min = G[k][i];
-                        useK = k;
-                        useC = i;
+                    for(int m = 0; m < M; m++){
+                        connect[k*M+m][c] = true;
                     }
-
                 }
             }
 
-            if(useC == -1){
-                break;
+            int matchCount = 0;
+            for(int k = 0, size = K*M; k < size; k++){
+
+                for(int c = 0; c < C; c++){
+                    used[c] = false;
+                }
+
+                if(dfs(k, C)){
+                    matchCount++;
+                }
+
+                if(matchCount == C){
+                    break;
+                }
             }
 
-            used[useK]++;
-            pick[useC] = true;
-
-            if(min > ans){
-                ans = min;
+            if(matchCount == C){
+                right = mid;
+                if(ans > cut){
+                    ans = cut;
+                }
+            }else{
+                left = mid+1;
             }
+
         }
 
         System.out.println(ans);
-
     }
 
-    public static void test(String args[]) throws Exception{
+    public static void main(String args[]) throws Exception{
 
         Scanner scanner = new Scanner(System.in);
         int K = scanner.nextInt();
