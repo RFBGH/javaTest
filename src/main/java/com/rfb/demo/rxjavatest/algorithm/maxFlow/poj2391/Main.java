@@ -238,9 +238,7 @@ public class Main {
                 addEdge(G, 0, i+1, fields[i].cow);
                 addEdge(G, F+1+i, n-1, fields[i].shed);
                 addEdge(G, 1+i, F+1+i, Integer.MAX_VALUE);
-            }
 
-            for(int i = 0; i < F; i++){
                 for(int j = 0; j < F; j++){
                     if(dist[i][j] > cut){
                         continue;
