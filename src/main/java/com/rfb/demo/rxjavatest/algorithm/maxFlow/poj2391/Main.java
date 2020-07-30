@@ -12,11 +12,15 @@ public class Main {
         int shed;
     }
 
-    private static int dfs(int from, int flow, int n, boolean[] used, int[][] G){
+    private static int dfs(int from, int flow, int n, boolean[] used, int[][] G, int step){
 
-        if(from == n-1){
-            return flow;
+        if(step == 0){
+            if(from == n-1){
+                return flow;
+            }
+            return 0;
         }
+
 
         used[from] = true;
         for(int i = 0; i < n; i++){
@@ -28,10 +32,12 @@ public class Main {
                 continue;
             }
 
-            int f = dfs(i, Math.min(G[from][i], flow), n, used, G);
+            int f = dfs(i, Math.min(G[from][i], flow), n, used, G, step-1);
             if(f != 0){
-                G[from][i] -= f;
-                G[i][from] += f;
+                if(G[from][i] != Integer.MAX_VALUE){
+                    G[from][i] -= f;
+                    G[i][from] += f;
+                }
                 return f;
             }
         }
@@ -135,7 +141,7 @@ public class Main {
         });
 
         long ans = Long.MAX_VALUE;
-        int n = F*2 + 2;
+        int n = F + 2;
         int [][] G = new int[n][n];
         boolean[] used = new boolean[n];
 
@@ -154,8 +160,7 @@ public class Main {
 
             for(int i = 0; i < F; i++){
                 G[0][i+1] = fields[i].cow;
-                G[1+F+i][n-1] = fields[i].shed;
-                G[1+i][1+F+i] = Integer.MAX_VALUE;
+                G[1+i][n-1] = fields[i].shed;
             }
 
             for(int i = 0; i < F; i++){
@@ -164,7 +169,8 @@ public class Main {
                         continue;
                     }
 
-                    G[i+1][F+j+1] = Integer.MAX_VALUE;
+                    G[i+1][j+1] = Integer.MAX_VALUE;
+                    G[j+1][i+1] = Integer.MAX_VALUE;
                 }
             }
 
@@ -175,7 +181,7 @@ public class Main {
                     used[i] = false;
                 }
 
-                int f = dfs(0, Integer.MAX_VALUE, n, used, G);
+                int f = dfs(0, Integer.MAX_VALUE, n, used, G, 3);
                 if(f == 0){
                     break;
                 }
