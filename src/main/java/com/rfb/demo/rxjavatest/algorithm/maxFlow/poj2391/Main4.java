@@ -5,52 +5,30 @@ import java.util.*;
 /**
  * Created by Administrator on 2020/7/29 0029.
  */
-public class Main {
+public class Main4 {
 
     private static class Field{
         int cow;
         int shed;
     }
 
-    private static class Edge{
-        int to;
-        int cap;
-        int rev;
-
-        private Edge(int to, int cap, int rev) {
-            this.to = to;
-            this.cap = cap;
-            this.rev = rev;
-        }
-    }
-
     private static class Node{
         int from;
         int flow;
         int pre;
-        int toIndex;
 
-        private Node(int from, int flow, int pre, int toIndex) {
+        private Node(int from, int flow, int pre) {
             this.from = from;
             this.flow = flow;
             this.pre = pre;
-            this.toIndex = toIndex;
         }
     }
 
-    public static void addEdge(List<Edge>[]G, int from, int to, int cap){
-        Edge edge = new Edge(to, cap, G[to].size());
-        G[from].add(edge);
-
-        edge = new Edge(from, 0, G[from].size()-1);
-        G[to].add(edge);
-    }
-
-    private static int dfs(int s, int f, int n, boolean[] used,  List<Edge>[] G){
+    private static int dfs(int s, int f, int n, boolean[] used,  int[][] G){
 
         List<Node> queue = new ArrayList<Node>();
         int front = 0;
-        Node node = new Node(s, f, -1, 0);
+        Node node = new Node(s, f, -1);
         queue.add(node);
         used[s] = true;
 
@@ -61,11 +39,10 @@ public class Main {
             Node cur = queue.get(front);
             int from = cur.from;
             int flow = cur.flow;
-            List<Edge> edges = G[from];
-            for(int i = 0, size = edges.size(); i < size; i++){
-                Edge edge = edges.get(i);
-                int to = edge.to;
-                int cap = edge.cap;
+            for(int i = 0; i < n; i++){
+
+                int to = i;
+                int cap = G[from][i];
 
                 if(used[to]){
                     continue;
@@ -76,7 +53,7 @@ public class Main {
                 }
 
                 used[to] = true;
-                Node newNode = new Node(to, Math.min(flow, cap), front, i);
+                Node newNode = new Node(to, Math.min(flow, cap), front);
                 queue.add(newNode);
 
                 if(newNode.from == n-1){
@@ -107,11 +84,10 @@ public class Main {
 
             Node last = queue.get(cur.pre);
             int from = last.from;
-            int toIndex = cur.toIndex;
+            int to = cur.from;
 
-            Edge edge = G[from].get(toIndex);
-            edge.cap -= resultFlow;
-            G[edge.to].get(edge.rev).cap += resultFlow;
+            G[from][to] -= resultFlow;
+            G[to][from] += resultFlow;
 
             cur = last;
         }
@@ -217,10 +193,7 @@ public class Main {
 
         long ans = Long.MAX_VALUE;
         int n = F*2 + 2;
-        List<Edge>[] G = new ArrayList[n];
-        for(int i = 0; i < n; i++){
-            G[i] = new ArrayList<Edge>();
-        }
+        int[][] G = new int[n][n];
         boolean[] used = new boolean[n];
 
         int left = 0;
@@ -231,20 +204,22 @@ public class Main {
             long cut = length.get(mid);
 
             for(int i = 0; i < n; i++){
-                G[i].clear();
+                for(int j = 0; j < n; j++){
+                    G[i][j] = 0;
+                }
             }
 
             for(int i = 0; i < F; i++){
-                addEdge(G, 0, i+1, fields[i].cow);
-                addEdge(G, F+1+i, n-1, fields[i].shed);
-                addEdge(G, 1+i, F+1+i, Integer.MAX_VALUE);
+                G[0][i+1] = fields[i].cow;
+                G[F+1+i][n-1] = fields[i].shed;
+                G[1+i][F+1+i] = Integer.MAX_VALUE;
 
                 for(int j = 0; j < F; j++){
                     if(dist[i][j] > cut){
                         continue;
                     }
 
-                    addEdge(G, 1+i, F+1+j, Integer.MAX_VALUE);
+                    G[1+i][F+1+j] = Integer.MAX_VALUE;
                 }
             }
 

@@ -65,7 +65,7 @@ public class Main {
 //        System.out.println(l);
 //        System.out.println(1000000000*200L);
         try {
-            com.rfb.demo.rxjavatest.algorithm.maxFlow.poj2391.Main.main(args);
+            com.rfb.demo.rxjavatest.algorithm.maxFlow.poj2391.Main4.main(args);
         } catch (Exception e) {
             e.printStackTrace();
         }
