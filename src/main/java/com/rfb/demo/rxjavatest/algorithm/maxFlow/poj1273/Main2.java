@@ -3,6 +3,7 @@ package com.rfb.demo.rxjavatest.algorithm.maxFlow.poj1273;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
  * Created by Administrator on 2020/7/30 0030.
@@ -21,6 +22,18 @@ public class Main2 {
         }
     }
 
+    private static class Node{
+        int from;
+        int startEdgeIndex;
+        int flow;
+
+        private Node(int from, int startEdgeIndex, int flow) {
+            this.from = from;
+            this.startEdgeIndex = startEdgeIndex;
+            this.flow = flow;
+        }
+    }
+
     private static List<Edge>[] G = null;
     private static boolean[] used;
     private static int N;
@@ -36,34 +49,64 @@ public class Main2 {
 
     public static int dfs(int from, int flow){
 
-        if(from == N-1){
-            return flow;
-        }
-
+        Stack<Node> stack = new Stack<Node>();
+        Node node = new Node(from, 0, flow);
+        stack.push(node);
         used[from] = true;
 
-        List<Edge> edges = G[from];
-        for(Edge edge : edges){
-            int to = edge.to;
-            int cap = edge.cap;
+        while (!stack.isEmpty()){
 
-            if(used[to]){
+            boolean hasNew = false;
+
+            Node cur = stack.peek();
+            List<Edge> edges = G[cur.from];
+            for(int i = cur.startEdgeIndex; i < edges.size(); i++){
+                Edge edge = edges.get(i);
+                int to = edge.to;
+                int cap = edge.cap;
+
+                if(cap == 0){
+                    continue;
+                }
+
+                if(used[to]){
+                    continue;
+                }
+
+                used[to] = true;
+                cur.startEdgeIndex = i+1;
+                Node newNode = new Node(to, 0, Math.min(cur.flow, cap));
+                stack.push(newNode);
+                hasNew = true;
+                break;
+            }
+
+            if(hasNew){
+                if(stack.peek().from == N-1){
+                    break;
+                }
                 continue;
             }
 
-            if(cap <= 0){
-                continue;
-            }
-
-            int f = dfs(to, Math.min(flow, cap));
-            if(f != 0){
-                edge.cap -= f;
-                G[to].get(edge.rev).cap += f;
-                return f;
-            }
+            stack.pop();
         }
 
-        return 0;
+        if(stack.isEmpty()){
+            return 0;
+        }
+
+        int f = stack.peek().flow;
+
+        stack.pop();
+        while (!stack.isEmpty()){
+
+            Node cur = stack.pop();
+            Edge edges = G[cur.from].get(cur.startEdgeIndex-1);
+            edges.cap -= f;
+            G[edges.to].get(edges.rev).cap += f;
+        }
+
+        return f;
     }
     
     public static void main(String[] args) throws Exception{
