@@ -52,6 +52,7 @@ public class Main {
         int front = 0;
         Node node = new Node(s, f, -1, 0);
         queue.add(node);
+        used[s] = true;
 
         boolean find = false;
 
