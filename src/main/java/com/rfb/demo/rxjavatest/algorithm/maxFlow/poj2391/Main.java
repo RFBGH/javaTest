@@ -43,7 +43,7 @@ public class Main {
 
             int to = edge.to;
             int cap = edge.cap;
-            if(level[to] < level[from]){
+            if(level[to] <= level[from]){
                 continue;
             }
 
