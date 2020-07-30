@@ -14,13 +14,13 @@ public class Main {
 
     private static int dfs(int from, int flow, int n, boolean[] used, int[][] G, int step){
 
-        if(step == 0){
-            if(from == n-1){
-                return flow;
-            }
-            return 0;
+        if(from == n-1){
+            return flow;
         }
 
+        if(step == 0){
+            return 0;
+        }
 
         used[from] = true;
         for(int i = 0; i < n; i++){
@@ -36,7 +36,6 @@ public class Main {
             if(f != 0){
                 if(G[from][i] != Integer.MAX_VALUE){
                     G[from][i] -= f;
-                    G[i][from] += f;
                 }
                 return f;
             }
@@ -203,5 +202,4 @@ public class Main {
         }
         System.out.println(ans);
     }
-
 }

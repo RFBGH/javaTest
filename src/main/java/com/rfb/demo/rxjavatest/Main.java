@@ -61,9 +61,9 @@ public class Main {
     public static void main(String[] args) {
 
 //        System.out.println(Integer.MAX_VALUE);
-//        System.out.println(10000000*200);
+//        System.out.println(1000000000);
         try {
-            com.rfb.demo.rxjavatest.algorithm.maxFlow.poj1273.Main.main(args);
+            com.rfb.demo.rxjavatest.algorithm.maxFlow.poj2391.Main.main(args);
         } catch (Exception e) {
             e.printStackTrace();
         }
