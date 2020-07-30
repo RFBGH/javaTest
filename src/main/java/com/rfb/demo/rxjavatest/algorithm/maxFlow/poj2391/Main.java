@@ -24,20 +24,6 @@ public class Main {
         }
     }
 
-    private static class Node{
-        int from;
-        int flow;
-        int pre;
-        int toIndex;
-
-        private Node(int from, int flow, int pre, int toIndex) {
-            this.from = from;
-            this.flow = flow;
-            this.pre = pre;
-            this.toIndex = toIndex;
-        }
-    }
-
     public static void addEdge(List<Edge>[]G, int from, int to, int cap){
         Edge edge = new Edge(to, cap, G[to].size());
         G[from].add(edge);
@@ -46,77 +32,34 @@ public class Main {
         G[to].add(edge);
     }
 
-    private static int dfs(int s, int f, int n, boolean[] used,  List<Edge>[] G){
+    private static int dfs(int from, int flow, int n, int[] level,  List<Edge>[] G){
 
-        List<Node> queue = new ArrayList<Node>();
-        int front = 0;
-        Node node = new Node(s, f, -1, 0);
-        queue.add(node);
-        used[s] = true;
-
-        boolean find = false;
-
-        while (front < queue.size()){
-
-            Node cur = queue.get(front);
-            int from = cur.from;
-            int flow = cur.flow;
-            List<Edge> edges = G[from];
-            for(int i = 0, size = edges.size(); i < size; i++){
-                Edge edge = edges.get(i);
-                int to = edge.to;
-                int cap = edge.cap;
-
-                if(used[to]){
-                    continue;
-                }
-
-                if(cap <= 0){
-                    continue;
-                }
-
-                used[to] = true;
-                Node newNode = new Node(to, Math.min(flow, cap), front, i);
-                queue.add(newNode);
-
-                if(newNode.from == n-1){
-                    find = true;
-                    break;
-                }
-            }
-
-            if(find){
-                break;
-            }
-
-            front++;
+        if(from == n-1){
+            return flow;
         }
 
-        if(!find){
-            return 0;
-        }
+        List<Edge> edges = G[from];
+        for(Edge edge : edges){
 
-        Node cur = queue.get(queue.size()-1);
-        int resultFlow = cur.flow;
-
-        while (true){
-
-            if(cur.pre == -1){
-                break;
+            int to = edge.to;
+            int cap = edge.cap;
+            if(level[to] < level[from]){
+                continue;
             }
 
-            Node last = queue.get(cur.pre);
-            int from = last.from;
-            int toIndex = cur.toIndex;
+            if(cap == 0){
+                continue;
+            }
 
-            Edge edge = G[from].get(toIndex);
-            edge.cap -= resultFlow;
-            G[edge.to].get(edge.rev).cap += resultFlow;
-
-            cur = last;
+            int f = dfs(to, Math.min(cap, flow), n, level, G);
+            if(f != 0){
+                edge.cap -= f;
+                G[edge.to].get(edge.rev).cap += f;
+                return f;
+            }
         }
 
-        return resultFlow;
+        return 0;
     }
 
     public static void main(String[] args) throws Exception{
@@ -124,7 +67,6 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int F = scanner.nextInt();
         int P = scanner.nextInt();
-
 
         int allCow = 0;
 
@@ -152,7 +94,7 @@ public class Main {
         for(int i = 0; i < P; i++){
             int from = scanner.nextInt();
             int to = scanner.nextInt();
-            long cost = scanner.nextInt();
+            int cost = scanner.nextInt();
             from--;
             to--;
             long last = dist[from][to];
@@ -221,7 +163,7 @@ public class Main {
         for(int i = 0; i < n; i++){
             G[i] = new ArrayList<Edge>();
         }
-        boolean[] used = new boolean[n];
+        int[] level = new int[n];
 
         int left = 0;
         int right = length.size()-1;
@@ -237,30 +179,73 @@ public class Main {
             for(int i = 0; i < F; i++){
                 addEdge(G, 0, i+1, fields[i].cow);
                 addEdge(G, F+1+i, n-1, fields[i].shed);
-                addEdge(G, 1+i, F+1+i, Integer.MAX_VALUE);
+                addEdge(G, 1 + i, F + 1 + i, Integer.MAX_VALUE);
+            }
 
+            for(int i = 0; i < F; i++){
                 for(int j = 0; j < F; j++){
                     if(dist[i][j] > cut){
                         continue;
                     }
 
-                    addEdge(G, 1+i, F+1+j, Integer.MAX_VALUE);
+                    addEdge(G, 1+i, F+j+1, Integer.MAX_VALUE);
                 }
             }
 
             int allFlow = 0;
-            while (true){
 
+            while (true){
                 for(int i = 0; i < n; i++){
-                    used[i] = false;
+                    level[i] = -1;
                 }
 
-                int f = dfs(0, Integer.MAX_VALUE, n, used, G);
-                if(f == 0){
+                boolean find = false;
+                Queue<Integer> queue = new LinkedList<Integer>();
+                queue.add(0);
+                level[0] = 0;
+                while (!queue.isEmpty()){
+
+                    int cur = queue.poll();
+                    List<Edge> edges = G[cur];
+                    for(Edge edge : edges){
+
+                        int to = edge.to;
+                        if(edge.cap == 0){
+                            continue;
+                        }
+
+                        if(level[to] != -1){
+                            continue;
+                        }
+
+                        level[to] = level[cur]+1;
+                        queue.offer(to);
+
+                        if(to == n-1){
+                            find = true;
+                            break;
+                        }
+                    }
+                    if(find){
+                        break;
+                    }
+                }
+
+                if(!find){
                     break;
                 }
-                allFlow += f;
+
+                while (true){
+
+                    int f = dfs(0, Integer.MAX_VALUE, n, level, G);
+                    if(f == 0){
+                        break;
+                    }
+                    allFlow += f;
+                }
             }
+
+
 
             if(allCow == allFlow){
                 right = mid-1;
