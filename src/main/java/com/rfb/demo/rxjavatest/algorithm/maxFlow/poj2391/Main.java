@@ -12,36 +12,110 @@ public class Main {
         int shed;
     }
 
-    private static int dfs(int from, int flow, int n, boolean[] used, int[][] G, int step){
+    private static class Edge{
+        int to;
+        int cap;
+        int rev;
 
-        if(from == n-1){
-            return flow;
+        private Edge(int to, int cap, int rev) {
+            this.to = to;
+            this.cap = cap;
+            this.rev = rev;
+        }
+    }
+
+    private static class Node{
+        int from;
+        int flow;
+        int pre;
+        int toIndex;
+
+        private Node(int from, int flow, int pre, int toIndex) {
+            this.from = from;
+            this.flow = flow;
+            this.pre = pre;
+            this.toIndex = toIndex;
+        }
+    }
+
+    public static void addEdge(List<Edge>[]G, int from, int to, int cap){
+        Edge edge = new Edge(to, cap, G[to].size());
+        G[from].add(edge);
+
+        edge = new Edge(from, 0, G[from].size()-1);
+        G[to].add(edge);
+    }
+
+    private static int dfs(int s, int f, int n, boolean[] used,  List<Edge>[] G){
+
+        List<Node> queue = new ArrayList<Node>();
+        int front = 0;
+        Node node = new Node(s, f, -1, 0);
+        queue.add(node);
+
+        boolean find = false;
+
+        while (front < queue.size()){
+
+            Node cur = queue.get(front);
+            int from = cur.from;
+            int flow = cur.flow;
+            List<Edge> edges = G[from];
+            for(int i = 0, size = edges.size(); i < size; i++){
+                Edge edge = edges.get(i);
+                int to = edge.to;
+                int cap = edge.cap;
+
+                if(used[to]){
+                    continue;
+                }
+
+                if(cap <= 0){
+                    continue;
+                }
+
+                used[to] = true;
+                Node newNode = new Node(to, Math.min(flow, cap), front, i);
+                queue.add(newNode);
+
+                if(newNode.from == n-1){
+                    find = true;
+                    break;
+                }
+            }
+
+            if(find){
+                break;
+            }
+
+            front++;
         }
 
-        if(step == 0){
+        if(!find){
             return 0;
         }
 
-        used[from] = true;
-        for(int i = 0; i < n; i++){
-            if(used[i]){
-                continue;
+        Node cur = queue.get(queue.size()-1);
+        int resultFlow = cur.flow;
+
+        while (true){
+
+            if(cur.pre == -1){
+                break;
             }
 
-            if(G[from][i] == 0){
-                continue;
-            }
+            Node last = queue.get(cur.pre);
+            int from = last.from;
+            int toIndex = cur.toIndex;
 
-            int f = dfs(i, Math.min(G[from][i], flow), n, used, G, step-1);
-            if(f != 0){
-                if(G[from][i] != Integer.MAX_VALUE){
-                    G[from][i] -= f;
-                }
-                return f;
-            }
+            Edge edge = G[from].get(toIndex);
+            edge.cap -= resultFlow;
+            G[edge.to].get(edge.rev).cap += resultFlow;
+
+            cur = last;
         }
 
-        return 0;
+        return resultFlow;
     }
 
     public static void main(String[] args) throws Exception{
@@ -49,6 +123,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int F = scanner.nextInt();
         int P = scanner.nextInt();
+
 
         int allCow = 0;
 
@@ -140,8 +215,11 @@ public class Main {
         });
 
         long ans = Long.MAX_VALUE;
-        int n = F + 2;
-        int [][] G = new int[n][n];
+        int n = F*2 + 2;
+        List<Edge>[] G = new ArrayList[n];
+        for(int i = 0; i < n; i++){
+            G[i] = new ArrayList<Edge>();
+        }
         boolean[] used = new boolean[n];
 
         int left = 0;
@@ -152,14 +230,13 @@ public class Main {
             long cut = length.get(mid);
 
             for(int i = 0; i < n; i++){
-                for(int j = 0; j < n; j++){
-                    G[i][j] = 0;
-                }
+                G[i].clear();
             }
 
             for(int i = 0; i < F; i++){
-                G[0][i+1] = fields[i].cow;
-                G[1+i][n-1] = fields[i].shed;
+                addEdge(G, 0, i+1, fields[i].cow);
+                addEdge(G, F+1+i, n-1, fields[i].shed);
+                addEdge(G, 1+i, F+1+i, Integer.MAX_VALUE);
             }
 
             for(int i = 0; i < F; i++){
@@ -168,8 +245,7 @@ public class Main {
                         continue;
                     }
 
-                    G[i+1][j+1] = Integer.MAX_VALUE;
-                    G[j+1][i+1] = Integer.MAX_VALUE;
+                    addEdge(G, 1+i, F+1+j, Integer.MAX_VALUE);
                 }
             }
 
@@ -180,7 +256,7 @@ public class Main {
                     used[i] = false;
                 }
 
-                int f = dfs(0, Integer.MAX_VALUE, n, used, G, 3);
+                int f = dfs(0, Integer.MAX_VALUE, n, used, G);
                 if(f == 0){
                     break;
                 }
