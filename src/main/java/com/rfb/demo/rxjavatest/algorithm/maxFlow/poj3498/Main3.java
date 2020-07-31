@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * Created by Administrator on 2020/7/31 0031.
  */
-public class Main {
+public class Main3 {
 
     private static class IceLand{
         int x;
@@ -60,7 +60,6 @@ public class Main {
             return flow;
         }
 
-        int cost = 0;
         for(int i = 0; i < n; i++){
 
             if(level[i] <= level[from]){
@@ -72,22 +71,16 @@ public class Main {
                 continue;
             }
 
-            int f = dfs(G, n, level, i, Math.min(cap, flow-cost), end);
+            int f = dfs(G, n, level, i, Math.min(cap, flow), end);
             if(f != 0){
 
                 G[from][i] -= f;
                 G[i][from] += f;
-
-                cost += f;
-                if(cost == flow){
-                    break;
-                }else{
-                    level[i] = -1;
-                }
+                return f;
             }
         }
 
-        return cost;
+        return 0;
     }
 
     public static void main(String[] args) throws Exception{
@@ -151,7 +144,13 @@ public class Main {
                 int allFlow = 0;
 
                 while (bfs(G, n, level, 0, 1+I)){
-                    allFlow += dfs(G, n, level, 0, Integer.MAX_VALUE, 1+I);
+                    while (true){
+                        int flow = dfs(G, n, level, 0, Integer.MAX_VALUE, 1+I);
+                        if(flow == 0){
+                            break;
+                        }
+                        allFlow += flow;
+                    }
                 }
 
                 if(allFlow == allPenguin){
