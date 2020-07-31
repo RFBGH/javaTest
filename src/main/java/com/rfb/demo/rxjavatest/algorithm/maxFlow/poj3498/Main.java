@@ -21,16 +21,48 @@ public class Main {
         }
     }
 
-    private static int dfs(int[][] G, int n, boolean[] used, int from, int flow, int end){
+    private static boolean bfs(int[][] G, int n, int[] level, int s, int t){
+
+        for(int i = 0; i < n; i++){
+            level[i] = -1;
+        }
+
+        Queue<Integer> queue = new LinkedList<Integer>();
+        queue.add(s);
+        level[s] = 0;
+
+        while (!queue.isEmpty()){
+            int cur = queue.poll();
+            for(int i = 0; i < n; i++){
+                if(level[i] != -1){
+                    continue;
+                }
+
+                if(G[cur][i] <= 0){
+                    continue;
+                }
+
+                level[i] = level[cur]+1;
+                queue.offer(i);
+
+                if(i == t){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static int dfs(int[][] G, int n, int[] level, int from, int flow, int end){
 
         if(from == end){
             return flow;
         }
 
-        used[from] = true;
         for(int i = 0; i < n; i++){
 
-            if(used[i]){
+            if(level[i] <= level[from]){
                 continue;
             }
 
@@ -39,7 +71,7 @@ public class Main {
                 continue;
             }
 
-            int f = dfs(G, n, used, i, Math.min(cap, flow), end);
+            int f = dfs(G, n, level, i, Math.min(cap, flow), end);
             if(f != 0){
 
                 G[from][i] -= f;
@@ -79,7 +111,7 @@ public class Main {
 
             int n = N*2+1;
             int[][] G = new int[n][n];
-            boolean[] used = new boolean[n];
+            int[] level = new int[n];
 
 
             List<Integer> result = new ArrayList<Integer>();
@@ -110,19 +142,16 @@ public class Main {
                 }
 
                 int allFlow = 0;
-                while (true){
 
-                    for(int k = 0; k < n; k++){
-                        used[k] = false;
+                while (bfs(G, n, level, 0, 1+I)){
+                    while (true){
+                        int flow = dfs(G, n, level, 0, Integer.MAX_VALUE, 1+I);
+                        if(flow == 0){
+                            break;
+                        }
+                        allFlow += flow;
                     }
-
-                    int flow = dfs(G, n, used, 0, Integer.MAX_VALUE, 1+I);
-                    if(flow == 0){
-                        break;
-                    }
-                    allFlow += flow;
                 }
-
 
                 if(allFlow == allPenguin){
                     result.add(I);
