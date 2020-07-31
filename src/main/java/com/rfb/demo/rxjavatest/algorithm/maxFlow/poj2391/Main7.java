@@ -5,14 +5,34 @@ import java.util.*;
 /**
  * Created by Administrator on 2020/7/29 0029.
  */
-public class Main {
+public class Main7 {
 
     private static class Field{
         int cow;
         int shed;
     }
 
-    private static boolean bfs(int n, int[] level,  int[][] G){
+    private static class Edge{
+        int to;
+        int cap;
+        int rev;
+
+        private Edge(int to, int cap, int rev) {
+            this.to = to;
+            this.cap = cap;
+            this.rev = rev;
+        }
+    }
+
+    public static void addEdge(List<Edge>[]G, int from, int to, int cap){
+        Edge edge = new Edge(to, cap, G[to].size());
+        G[from].add(edge);
+
+        edge = new Edge(from, 0, G[from].size()-1);
+        G[to].add(edge);
+    }
+
+    private static boolean bfs(int n, int[] level,  List<Edge>[] G){
 
         for(int i = 0; i < n; i++){
             level[i] = -1;
@@ -24,14 +44,15 @@ public class Main {
         while (!queue.isEmpty()){
 
             int cur = queue.poll();
-            for(int i = 0; i < n; i++){
-                int to = i;
+            List<Edge> edges = G[cur];
+            for(Edge edge : edges){
 
-                if(level[to] != -1){
+                int to = edge.to;
+                if(edge.cap == 0){
                     continue;
                 }
 
-                if(G[cur][i] == 0){
+                if(level[to] != -1){
                     continue;
                 }
 
@@ -43,39 +64,40 @@ public class Main {
                 }
             }
 
-
         }
         return false;
     }
 
-    private static int dfs(int from, int flow, int n, int[] level,  int[][] G){
+    private static int dfs(int from, int flow, int n, int[] level,  List<Edge>[] G){
 
         if(from == n-1){
             return flow;
         }
 
         int cost = 0;
-        for(int i = 0; i < n; i++){
+        List<Edge> edges = G[from];
+        for(Edge edge : edges){
 
-            if(level[i] != level[from]+1){
+            int to = edge.to;
+            int cap = edge.cap;
+            if(level[to] != level[from]+1){
                 continue;
             }
 
-            int cap = G[from][i];
-            if(G[from][i] == 0){
+            if(cap == 0){
                 continue;
             }
 
-            int f = dfs(i, Math.min(cap, flow-cost), n, level, G);
+            int f = dfs(to, Math.min(cap, flow-cost), n, level, G);
             if(f != 0){
-                G[from][i] -= f;
-                G[i][from] += f;
+                edge.cap -= f;
+                G[edge.to].get(edge.rev).cap += f;
 
                 cost += f;
                 if(cost == flow){
                     break;
                 }else{
-                    level[i] = -1;
+                    level[to] = -1;
                 }
             }
         }
@@ -180,8 +202,10 @@ public class Main {
 
         long ans = Long.MAX_VALUE;
         int n = F*2 + 2;
-        int[][] G = new int[n][n];
-
+        List<Edge>[] G = new ArrayList[n];
+        for(int i = 0; i < n; i++){
+            G[i] = new ArrayList<Edge>();
+        }
         int[] level = new int[n];
 
         int left = 0;
@@ -192,15 +216,13 @@ public class Main {
             long cut = length.get(mid);
 
             for(int i = 0; i < n; i++){
-                for(int j = 0; j < n; j++){
-                    G[i][j] = 0;
-                }
+                G[i].clear();
             }
 
             for(int i = 0; i < F; i++){
-                G[0][i+1] = fields[i].cow;
-                G[F+1+i][n-1] = fields[i].shed;
-                G[1+i][F+1+i] = Integer.MAX_VALUE;
+                addEdge(G, 0, i+1, fields[i].cow);
+                addEdge(G, F+1+i, n-1, fields[i].shed);
+                addEdge(G, 1 + i, F + 1 + i, Integer.MAX_VALUE);
             }
 
             for(int i = 0; i < F; i++){
@@ -209,8 +231,8 @@ public class Main {
                         continue;
                     }
 
-                    G[1+i][F+j+1] = Integer.MAX_VALUE;
-                    G[1+j][F+i+1] = Integer.MAX_VALUE;
+                    addEdge(G, 1+i, F+j+1, Integer.MAX_VALUE);
+                    addEdge(G, 1+j, F+i+1, Integer.MAX_VALUE);
                 }
             }
 
