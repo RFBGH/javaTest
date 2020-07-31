@@ -1,8 +1,6 @@
 package com.rfb.demo.rxjavatest.algorithm.maxFlow.poj1273;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by Administrator on 2020/7/30 0030.
@@ -22,8 +20,8 @@ public class Main{
     }
 
     private static List<Edge>[] G = null;
-    private static boolean[] used;
     private static int N;
+    private static int level[];
 
     public static void addEdge(int from, int to, int cap){
 
@@ -40,14 +38,13 @@ public class Main{
             return flow;
         }
 
-        used[from] = true;
 
         List<Edge> edges = G[from];
         for(Edge edge : edges){
             int to = edge.to;
             int cap = edge.cap;
 
-            if(used[to]){
+            if(level[to] <= level[from]){
                 continue;
             }
 
@@ -65,6 +62,42 @@ public class Main{
 
         return 0;
     }
+
+    public static boolean bfs(){
+
+        for(int i = 0; i < N; i++){
+            level[i] = -1;
+        }
+
+        level[0] = 0;
+        Queue<Integer> queue = new LinkedList<Integer>();
+        queue.offer(0);
+
+        while (!queue.isEmpty()){
+            int cur = queue.poll();
+            List<Edge> edges = G[cur];
+            for(Edge edge : edges){
+                int to = edge.to;
+                int cap = edge.cap;
+                if(level[to] >= 0){
+                    continue;
+                }
+
+                if(cap <= 0){
+                    continue;
+                }
+
+                level[to] = level[cur] + 1;
+                queue.offer(to);
+
+                if(to == N-1){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
     
     public static void main(String[] args) throws Exception{
 
@@ -75,10 +108,9 @@ public class Main{
             N = scanner.nextInt();
 
             G = new ArrayList[N];
-            used = new boolean[N];
+            level = new int[N];
             for(int i = 0; i < N; i++){
                 G[i] = new ArrayList<Edge>();
-                used[i] = false;
             }
 
             for(int i = 0; i < M; i++){
@@ -91,10 +123,8 @@ public class Main{
             }
 
             long allFlow = 0;
-            while (true){
-                for(int i = 0; i < N; i++){
-                    used[i] = false;
-                }
+            while (bfs()){
+
                 int f = dfs(0, Integer.MAX_VALUE);
                 if(f == 0){
                     break;
