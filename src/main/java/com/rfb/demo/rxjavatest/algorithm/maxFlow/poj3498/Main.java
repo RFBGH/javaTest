@@ -63,7 +63,7 @@ public class Main {
         int cost = 0;
         for(int i = 0; i < n; i++){
 
-            if(level[i] <= level[from]){
+            if(level[i] != level[from]+1){
                 continue;
             }
 
