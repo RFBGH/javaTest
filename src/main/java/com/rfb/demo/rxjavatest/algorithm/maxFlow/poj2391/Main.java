@@ -226,12 +226,13 @@ public class Main {
             }
 
             for(int i = 0; i < F; i++){
-                for(int j = 0; j < F; j++){
+                for(int j = i+1; j < F; j++){
                     if(dist[i][j] > cut){
                         continue;
                     }
 
                     addEdge(G, 1+i, F+j+1, Integer.MAX_VALUE);
+                    addEdge(G, 1+j, F+i+1, Integer.MAX_VALUE);
                 }
             }
 
