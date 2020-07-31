@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * Created by Administrator on 2020/7/30 0030.
  */
-public class Main{
+public class Main4 {
 
     private static class Edge{
         int to;
@@ -38,8 +38,8 @@ public class Main{
             return flow;
         }
 
+
         List<Edge> edges = G[from];
-        int cost = 0;
         for(Edge edge : edges){
             int to = edge.to;
             int cap = edge.cap;
@@ -52,21 +52,15 @@ public class Main{
                 continue;
             }
 
-            int f = dfs(to, Math.min(flow-cost, cap));
+            int f = dfs(to, Math.min(flow, cap));
             if(f != 0){
                 edge.cap -= f;
                 G[to].get(edge.rev).cap += f;
-
-                cost += f;
-                if(cost == flow){
-                    break;
-                }else{
-                    level[to] = -1;
-                }
+                return f;
             }
         }
 
-        return cost;
+        return 0;
     }
 
     public static boolean bfs(){
@@ -130,7 +124,12 @@ public class Main{
 
             long allFlow = 0;
             while (bfs()){
-                allFlow += dfs(0, Integer.MAX_VALUE);
+
+                int f = dfs(0, Integer.MAX_VALUE);
+                if(f == 0){
+                    break;
+                }
+                allFlow += f;
             }
 
             System.out.println(allFlow);
