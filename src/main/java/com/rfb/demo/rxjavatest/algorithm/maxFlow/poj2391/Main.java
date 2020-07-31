@@ -32,6 +32,42 @@ public class Main {
         G[to].add(edge);
     }
 
+    private static boolean bfs(int n, int[] level,  List<Edge>[] G){
+
+        for(int i = 0; i < n; i++){
+            level[i] = -1;
+        }
+
+        Queue<Integer> queue = new LinkedList<Integer>();
+        queue.add(0);
+        level[0] = 0;
+        while (!queue.isEmpty()){
+
+            int cur = queue.poll();
+            List<Edge> edges = G[cur];
+            for(Edge edge : edges){
+
+                int to = edge.to;
+                if(edge.cap == 0){
+                    continue;
+                }
+
+                if(level[to] != -1){
+                    continue;
+                }
+
+                level[to] = level[cur]+1;
+                queue.offer(to);
+
+                if(to == n-1){
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
     private static int dfs(int from, int flow, int n, int[] level,  List<Edge>[] G){
 
         if(from == n-1){
@@ -201,51 +237,9 @@ public class Main {
 
             int allFlow = 0;
 
-            while (true){
-                for(int i = 0; i < n; i++){
-                    level[i] = -1;
-                }
-
-                boolean find = false;
-                Queue<Integer> queue = new LinkedList<Integer>();
-                queue.add(0);
-                level[0] = 0;
-                while (!queue.isEmpty()){
-
-                    int cur = queue.poll();
-                    List<Edge> edges = G[cur];
-                    for(Edge edge : edges){
-
-                        int to = edge.to;
-                        if(edge.cap == 0){
-                            continue;
-                        }
-
-                        if(level[to] != -1){
-                            continue;
-                        }
-
-                        level[to] = level[cur]+1;
-                        queue.offer(to);
-
-                        if(to == n-1){
-                            find = true;
-                            break;
-                        }
-                    }
-                    if(find){
-                        break;
-                    }
-                }
-
-                if(!find){
-                    break;
-                }
-
+            while (bfs(n, level, G)){
                 allFlow += dfs(0, Integer.MAX_VALUE, n, level, G);
             }
-
-
 
             if(allCow == allFlow){
                 right = mid-1;
