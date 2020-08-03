@@ -23,8 +23,11 @@ public class RMQ {
     }
 
     public static int maxFromTo(int from, int to){
-        double d = Math.log(to-from+1)/Math.log(2);
-        int k = (int)d;
+//        double d = Math.log(to-from+1)/Math.log(2);
+//        int k = (int)d;
+
+        int k = 0;
+        while ((1<<k+1) <= to-from+1) k++;
         return Math.max(dp[k][from], dp[k][to-(1<<k)+1]);
     }
 
