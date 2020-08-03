@@ -3,6 +3,7 @@ package com.rfb.demo.rxjavatest;
 
 import com.rfb.demo.rxjavatest.algorithm.*;
 import com.rfb.demo.rxjavatest.algorithm.LCA.LCA;
+import com.rfb.demo.rxjavatest.algorithm.LCA.LCA2;
 import com.rfb.demo.rxjavatest.algorithm.RMQ.RMQ;
 import com.rfb.demo.rxjavatest.algorithm.maxFlow.POJ2112;
 
@@ -62,7 +63,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        RMQ.test();
+        LCA2.test();
 //        System.out.println(Integer.MAX_VALUE);
 //        long l = Long.MAX_VALUE;
 //        System.out.println(l);
