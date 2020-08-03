@@ -81,12 +81,15 @@ public class LCA2 {
         int length = deeps[x] - deeps[y];
         int k = 0;
         for(k = 0; (1<<k) <= length; k++);
-        k--;
 
         for(int i = k; i >= 0; i--){
             if(length >= (1 << i)){
                 x = dp[i][x];
                 length = deeps[x] - deeps[y];
+            }
+
+            if(length == 0){
+                break;
             }
         }
 
@@ -95,7 +98,6 @@ public class LCA2 {
         }
 
         for(k = 0; (1<<k) <= n; k++);
-        k--;
         for(int i = k ;i >= 0; i--){
             if(dp[i][x] != dp[i][y]){
                 x = dp[i][x];
