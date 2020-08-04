@@ -63,7 +63,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        LCA2.test();
+        RMQ.test();
 //        System.out.println(Integer.MAX_VALUE);
 //        long l = Long.MAX_VALUE;
 //        System.out.println(l);
