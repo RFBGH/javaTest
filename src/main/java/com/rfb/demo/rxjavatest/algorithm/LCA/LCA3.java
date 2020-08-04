@@ -41,13 +41,14 @@ public class LCA3 {
 
         rmq = new int[30][visits.size()];
 
-        for(int i = 0; i < n; i++){
+        int size = visits.size();
+        for(int i = 0; i < size; i++){
             rmq[0][i] = visits.get(i);
         }
 
-        for(int i = 1; (1 << i) <= n; i++){
-            for(int j = 1; (j + (1 << i)) <= n; j++){
-                rmq[i][j] = min(rmq[i-1][j], rmq[i-1][j+(1<<(i+1))]);
+        for(int i = 1; (1 << i) <= size; i++){
+            for(int j = 0; (j + (1 << i)) <= size; j++){
+                rmq[i][j] = min(rmq[i-1][j], rmq[i-1][j+(1<<(i-1))]);
             }
         }
     }
@@ -65,6 +66,7 @@ public class LCA3 {
         visits = new ArrayList<>();
         deeps = new int[n];
         parents = new int[n];
+        firsts = new int[n];
         G = new ArrayList[n];
         for(int i = 0; i < n; i++){
             deeps[i] = 0;
