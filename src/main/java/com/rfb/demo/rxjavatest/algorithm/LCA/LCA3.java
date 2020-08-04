@@ -122,5 +122,6 @@ public class LCA3 {
         System.out.println(LCA(4, 8));
         System.out.println(LCA(6, 11));
         System.out.println(LCA(4, 6));
+        System.out.println(LCA(3, 12));
     }
 }
