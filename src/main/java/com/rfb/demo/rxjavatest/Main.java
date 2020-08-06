@@ -7,6 +7,7 @@ import com.rfb.demo.rxjavatest.algorithm.LCA.LCA2;
 import com.rfb.demo.rxjavatest.algorithm.LCA.LCA3;
 import com.rfb.demo.rxjavatest.algorithm.RMQ.RMQ;
 import com.rfb.demo.rxjavatest.algorithm.maxFlow.POJ2112;
+import com.rfb.demo.rxjavatest.algorithm.stack.Test;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -64,7 +65,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        LCA3.test();
+        Test.test();
 //        LCA2.test();
 //        System.out.println(Integer.MAX_VALUE);
 //        long l = Long.MAX_VALUE;
