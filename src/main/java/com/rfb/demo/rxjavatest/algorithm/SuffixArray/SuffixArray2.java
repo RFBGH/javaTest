@@ -1,9 +1,9 @@
 package com.rfb.demo.rxjavatest.algorithm.SuffixArray;
 
 /**
- * Created by Administrator on 2020/8/12 0012.
+ * Created by Administrator on 2020/8/14 0014.
  */
-public class SuffixArray {
+public class SuffixArray2 {
 
     private static void print(int[] a){
         for(int i = 0, size = a.length; i < size; i++){
@@ -12,7 +12,7 @@ public class SuffixArray {
         System.out.println();
     }
 
-    public static void calc(String s){
+    public static int[] suffix(String s){
 
         int n = s.length();
         int[] a = new int[n];
@@ -20,62 +20,40 @@ public class SuffixArray {
             a[i] = s.charAt(i) - 'a';
         }
 
-        int[] x = new int[n+100];
-        for(int i = 0; i < x.length; i++){
-            x[i] = -1;
-        }
-
+        int[] sa = new int[n];
         int[] c = new int[n];
-        for(int i = 0; i < n; i++){
-            x[i] = a[i];
-            c[x[i]]++;
+        int[] x = new int[1000];
+        int[] y = new int[1000];
+        for(int i = 0; i < 1000; i++){
+            x[i] = -1;
+            y[i] = -1;
         }
 
-        print(c);
+
+        for(int i = 0; i < n; i++){
+            c[x[i] = a[i]]++;
+        }
 
         for(int i = 1; i < n; i++){
             c[i] += c[i-1];
         }
 
-        print(c);
-
-        int [] sa = new int[n];
         for(int i = n-1; i >= 0; i--){
             sa[--c[x[i]]] = i;
         }
 
-        print(sa);
-        print(x);
-
-        for(int i = 0; i < n; i++){
-            System.out.print(x[sa[i]]+" ");
-        }
-        System.out.println();
-
-        int[] y = new int[n+100];
-        for(int i = 0; i < y.length; i++){
-            y[i] = -1;
-        }
         for(int k = 1; k <= n; k <<= 1){
 
-            System.out.println(k+" ");
-
-            int num = 0;
+            int cnt = 0;
             for(int i = n-k; i < n; i++){
-                y[num++] = i;
+                y[cnt++] = i;
             }
 
             for(int i = 0; i < n; i++){
                 if(sa[i] >= k){
-                    y[num++] = sa[i]-k;
+                    y[cnt++] = sa[i] - k;
                 }
             }
-
-            print(y);
-            for(int i = 0; i < n; i++){
-                System.out.print(x[y[i]]+" ");
-            }
-            System.out.println();
 
             for(int i = 0; i < n; i++){
                 c[i] = 0;
@@ -88,31 +66,23 @@ public class SuffixArray {
             for(int i = 1; i < n; i++){
                 c[i] += c[i-1];
             }
-//
+
             for(int i = n-1; i >= 0; i--){
                 sa[--c[x[y[i]]]] = y[i];
             }
-
-            print(sa);
 
             int[] t = x;
             x = y;
             y = t;
 
-            for(int i = 0; i < n; i++){
-                System.out.print(y[i]+" ");
-            }
-            System.out.println();
-
-            for(int i = 0; i < n; i++){
-                System.out.print(y[sa[i]]+" ");
-            }
-            System.out.println();
-
-            int cnt = 0;
+            cnt = 0;
             x[sa[0]] = 0;
             for(int i = 1; i < n; i++){
-                x[sa[i]] = (y[sa[i]] == y[sa[i-1]] && y[sa[i]+k] == y[sa[i-1]+k])?cnt:++cnt;
+                if(y[sa[i]] == y[sa[i-1]] && y[sa[i]+k] == y[sa[i-1]+k]){
+                    x[sa[i]] = cnt;
+                }else{
+                    x[sa[i]] = ++cnt;
+                }
             }
 
             print(x);
@@ -123,18 +93,19 @@ public class SuffixArray {
             System.out.println();
         }
 
-        System.out.print("result:");
-        for(int i = 0; i < n; i++){
-            System.out.print(sa[i]+" ");
-        }
-        System.out.println();
+        return sa;
+
     }
 
     public static void test(){
-
         String s = "aabaaaab";
-        calc(s);
 
+        int[] sa = suffix(s);
+        for(int i = 0; i < s.length(); i++){
+            System.out.print(sa[i]+" ");
+        }
+
+        System.out.println();
     }
 
 }
