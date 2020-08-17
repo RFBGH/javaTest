@@ -11,7 +11,7 @@ public class Leet47 {
     private static int resultCount = 0;
     private static boolean[] used = null;
 
-    public static void dfs(int last){
+    public static void dfs(){
 
         if(resultCount == n){
 
@@ -34,7 +34,7 @@ public class Leet47 {
 
             used[i] = true;
             result[resultCount++] = a[i];
-            dfs(i);
+            dfs();
             resultCount--;
             used[i] = false;
         }
@@ -48,7 +48,7 @@ public class Leet47 {
         result = new int[n];
         used = new boolean[n];
 
-        dfs(-1);
+        dfs();
 
     }
 }
