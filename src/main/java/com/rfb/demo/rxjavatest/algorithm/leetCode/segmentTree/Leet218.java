@@ -105,10 +105,23 @@ public class Leet218{
 
     }
 
+    public static List<Data> result = new ArrayList<>();
+
     public static void printLeaf(SegTree root){
 
         if(root.isLeaf()){
-            System.out.println(root.from+" "+root.to+" "+root.height);
+
+            if(result.isEmpty()){
+                result.add(new Data(root.from, root.to, root.height));
+            }else{
+                Data last = result.get(result.size()-1);
+                if(last.to == root.from && last.height == root.height){
+                    last.to = root.to;
+                }else{
+                    result.add(new Data(root.from, root.to, root.height));
+                }
+            }
+
             return;
         }
 
@@ -135,6 +148,10 @@ public class Leet218{
         }
 
         printLeaf(root);
+
+        for(Data data:result){
+            System.out.println(data.from+" "+data.to+" "+data.height);
+        }
 
     }
 

@@ -41,7 +41,7 @@ public class Leet90 {
 
     public static void test(){
 
-        a = new int[]{1, 1, 2, 2};  //need sort
+        a = new int[]{1, 2, 2};  //need sort
         n = a.length;
         result = new int[n];
         used = new boolean[n];

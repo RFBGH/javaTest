@@ -5,6 +5,7 @@ import com.rfb.demo.rxjavatest.recoverPublish.RecoverPublishSubject;
 import com.rfb.demo.rxjavatest.rx.BackPressureBehaviorSubject;
 import com.rfb.demo.rxjavatest.rx.OrderSubjectUtil;
 import rx.Observable;
+import rx.Observer;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.functions.*;
@@ -6417,16 +6418,18 @@ public class RxjavaTest implements Cloneable{
 
     public void testBlock(){
 
-        PublishSubject<String> publishSubject = PublishSubject.create();
-
-        publishSubject
-                .doOnSubscribe(new Action0() {
+        Subscription sub =Observable
+                .create(new Observable.OnSubscribe<Object>() {
                     @Override
-                    public void call() {
-                        throw new RuntimeException("xxxx");
+                    public void call(Subscriber<? super Object> subscriber) {
+
                     }
                 })
-                .subscribe(new Subscriber<String>() {
+                .timeout(1, TimeUnit.SECONDS)
+                .subscribe(new Subscriber<Object>() {
+
+
+
                     @Override
                     public void onCompleted() {
 
@@ -6434,14 +6437,41 @@ public class RxjavaTest implements Cloneable{
 
                     @Override
                     public void onError(Throwable throwable) {
-                        throwable.printStackTrace();
+
                     }
 
                     @Override
-                    public void onNext(String s) {
+                    public void onNext(Object o) {
 
                     }
                 });
+        sub.unsubscribe();
+
+//        PublishSubject<String> publishSubject = PublishSubject.create();
+//
+//        publishSubject
+//                .doOnSubscribe(new Action0() {
+//                    @Override
+//                    public void call() {
+//                        throw new RuntimeException("xxxx");
+//                    }
+//                })
+//                .subscribe(new Subscriber<String>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable throwable) {
+//                        throwable.printStackTrace();
+//                    }
+//
+//                    @Override
+//                    public void onNext(String s) {
+//
+//                    }
+//                });
 
 //        String s = Observable
 //                .create(new Observable.OnSubscribe<String>() {
