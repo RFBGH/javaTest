@@ -27,7 +27,7 @@ public class RMQ {
 //        int k = (int)d;
 
         int k = 0;
-        while ((1<<k+1) <= to-from+1) k++;
+        while ((1<<(k+1)) <= to-from+1) k++;
         return Math.max(dp[k][from], dp[k][to-(1<<k)+1]);
     }
 
