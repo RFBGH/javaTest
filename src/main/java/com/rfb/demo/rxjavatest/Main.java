@@ -14,6 +14,7 @@ import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet90;
 import com.rfb.demo.rxjavatest.algorithm.maxFlow.POJ2112;
 import com.rfb.demo.rxjavatest.algorithm.sort.BucketSort;
 import com.rfb.demo.rxjavatest.algorithm.stack.Test;
+import com.rfb.demo.rxjavatest.rxjava3.RxJava3;
 import rx.Subscriber;
 import rx.subjects.PublishSubject;
 import rx.subjects.ReplaySubject;
@@ -108,7 +109,14 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Leet218.test();
+        RxJava3.test();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 //        int n = 10;
 //        int[][] G = new int[n][n];
 //        int[] dist = new int[n];
