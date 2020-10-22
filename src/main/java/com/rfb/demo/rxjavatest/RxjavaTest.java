@@ -4,10 +4,7 @@ import com.rfb.demo.rxjavatest.bean.MyAdd;
 import com.rfb.demo.rxjavatest.recoverPublish.RecoverPublishSubject;
 import com.rfb.demo.rxjavatest.rx.BackPressureBehaviorSubject;
 import com.rfb.demo.rxjavatest.rx.OrderSubjectUtil;
-import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
-import rx.Subscription;
+import rx.*;
 import rx.functions.*;
 import rx.observables.ConnectableObservable;
 import rx.schedulers.Schedulers;
@@ -6491,4 +6488,139 @@ public class RxjavaTest implements Cloneable{
 //        System.out.println(s);
     }
 
+    public void testJust(){
+
+        Observable
+                .just("s")
+                .subscribeOn(Schedulers.io())
+                .flatMap(new Func1<String, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(String s) {
+
+                        System.out.println(Thread.currentThread().getName());
+
+                        return Observable
+                                .create(new Observable.OnSubscribe<String>() {
+                                    @Override
+                                    public void call(Subscriber<? super String> subscriber) {
+                                        System.out.println(Thread.currentThread().getName()+" create");
+                                        subscriber.onNext(s+" create");
+                                        subscriber.onCompleted();
+                                    }
+                                });
+                    }
+                })
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println("onNext "+s);
+                    }
+                });
+    }
+
+    public void testTimeOut(){
+
+        final PublishSubject<String> publishSubject = PublishSubject.create();
+
+        Observable
+                .create(new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+                        subscriber.onNext("1");
+                        subscriber.onCompleted();
+                    }
+                })
+                .flatMap(new Func1<String, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(String s) {
+                        return publishSubject.asObservable();
+                    }
+                })
+                .filter(new Func1<String, Boolean>() {
+                    @Override
+                    public Boolean call(String s) {
+                        return true;
+                    }
+                })
+                .take(1)
+                .timeout(3, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println("onNext:"+s);
+                    }
+                });
+    }
+
+    public void testOnErrorResume11(){
+        Observable
+                .interval(1, TimeUnit.SECONDS)
+                .switchMap(new Func1<Long, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(Long aLong) {
+                            return Observable
+                                    .create(new Observable.OnSubscribe<String>() {
+                                        @Override
+                                        public void call(Subscriber<? super String> subscriber) {
+
+                                            if(aLong == 3){
+                                                throw new RuntimeException("purpose");
+                                            }
+                                            subscriber.onNext(aLong+"");
+                                            subscriber.onCompleted();
+                                        }
+                                    })
+                                    .subscribeOn(Schedulers.io())
+                                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends String>>() {
+                                        @Override
+                                        public Observable<? extends String> call(Throwable throwable) {
+                                            throwable.printStackTrace();
+                                            return Observable
+                                                    .just("save");
+                                        }
+                                    });
+                    }
+                })
+                .observeOn(Schedulers.newThread())
+
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println("onNext"+s);
+                    }
+                });
+
+    }
 }

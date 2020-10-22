@@ -15,14 +15,18 @@ import com.rfb.demo.rxjavatest.algorithm.maxFlow.POJ2112;
 import com.rfb.demo.rxjavatest.algorithm.sort.BucketSort;
 import com.rfb.demo.rxjavatest.algorithm.stack.Test;
 import com.rfb.demo.rxjavatest.rxjava3.RxJava3;
+import com.rfb.demo.rxjavatest.thread.SynTest;
 import rx.Subscriber;
 import rx.subjects.PublishSubject;
 import rx.subjects.ReplaySubject;
 
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Administrator on 2016/8/10 0010.
@@ -104,18 +108,69 @@ public class Main {
             cur--;
         }
     }
+    private static boolean testEqual(String str, Pattern pattern, String res) {
+        Matcher matcher = pattern.matcher(str);
+        if (matcher.find()) {
+            return matcher.group().equals(res);
+        } else {
+            return res == null || res.isEmpty();
+        }
+    }
+
+    private static final String PHONE_URL_STR = "((?<=\\D|^)(((\\+86)|(86))?(1[3578]\\d{9}))(?=\\D|$)" +
+
+            "|(?<=\\D|^)(400|800)([0-9\\-]{7,10})(?=\\D|$)" +
+
+            "|(?<=\\D|^)(9\\d{4})(?=\\D|$)" +
+
+            "|(?<=\\D|^)(100\\d{2})(?=\\D|$)" +
+
+            "|(?<=\\D|^)(0[1-9]\\d{1,2})?([1-9]\\d{6,7})(?=\\D|$))";
 
 
+    //电话正则哦
+    public static final Pattern PHONE_URL = Pattern.compile(PHONE_URL_STR);
+
+
+    private static void testEx(){
+
+        if (testEqual("中文13012312312中文", PHONE_URL,"13012312312")) {
+            System.out.println("OK");
+        }else{
+            System.out.println("faild");
+        }
+        if(testEqual("中文059130303030中文", PHONE_URL,"059130303030")){
+            System.out.println("OK");
+        }else{
+            System.out.println("faild");
+        }
+        if(testEqual("中文01088888888中文", PHONE_URL,"01088888888")){
+            System.out.println("OK");
+        }else{
+            System.out.println("faild");
+        };
+        if(testEqual("中文12345678中文", PHONE_URL,"")){
+            System.out.println("OK");
+        }else{
+            System.out.println("faild");
+        }
+        if(testEqual("中文95700中文", PHONE_URL,"95700")){
+            System.out.println("OK");
+        }else{
+            System.out.println("faild");
+        }
+
+    }
 
     public static void main(String[] args) {
-
-        RxJava3.test();
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        testEx();
+//        SynTest.test();
+//
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
 //        int n = 10;
 //        int[][] G = new int[n][n];
@@ -227,14 +282,14 @@ public class Main {
 //        AB_MinMax ab_minMaxa = new AB_MinMax();
 //        ab_minMaxa.deal();
 
-//        RxjavaTest rxjavaTest = new RxjavaTest();
-//        rxjavaTest.testBlock();
-//
-//        try {
-//            Thread.sleep(10000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        RxjavaTest rxjavaTest = new RxjavaTest();
+        rxjavaTest.testOnErrorResume11();
+
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 //        BinaryInsert.test();
 //        Map<Long, Long> map = new ConcurrentHashMap<>();
