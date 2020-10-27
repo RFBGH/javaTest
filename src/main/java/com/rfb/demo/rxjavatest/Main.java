@@ -10,6 +10,7 @@ import com.rfb.demo.rxjavatest.algorithm.SuffixArray.SuffixArray;
 import com.rfb.demo.rxjavatest.algorithm.SuffixArray.SuffixArray2;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.FlattenTree;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.LongestSonString;
+import com.rfb.demo.rxjavatest.algorithm.leetCode.MidNum;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.Sum2;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.segmentTree.Leet218;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet47;
@@ -342,7 +343,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        LongestSonString sum2 = new LongestSonString();
+        MidNum sum2 = new MidNum();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
