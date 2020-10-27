@@ -8,23 +8,34 @@ import com.rfb.demo.rxjavatest.algorithm.LCA.LCA3;
 import com.rfb.demo.rxjavatest.algorithm.RMQ.RMQ;
 import com.rfb.demo.rxjavatest.algorithm.SuffixArray.SuffixArray;
 import com.rfb.demo.rxjavatest.algorithm.SuffixArray.SuffixArray2;
+import com.rfb.demo.rxjavatest.algorithm.leetCode.FlattenTree;
+import com.rfb.demo.rxjavatest.algorithm.leetCode.LongestSonString;
+import com.rfb.demo.rxjavatest.algorithm.leetCode.Sum2;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.segmentTree.Leet218;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet47;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet90;
 import com.rfb.demo.rxjavatest.algorithm.maxFlow.POJ2112;
 import com.rfb.demo.rxjavatest.algorithm.sort.BucketSort;
 import com.rfb.demo.rxjavatest.algorithm.stack.Test;
+import com.rfb.demo.rxjavatest.productAndComsumer.IComsumer;
+import com.rfb.demo.rxjavatest.productAndComsumer.IProducer;
+import com.rfb.demo.rxjavatest.productAndComsumer.ProducerAndComsumer;
 import com.rfb.demo.rxjavatest.rxjava3.RxJava3;
 import com.rfb.demo.rxjavatest.thread.SynTest;
+import rx.Observable;
 import rx.Subscriber;
 import rx.subjects.PublishSubject;
 import rx.subjects.ReplaySubject;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -162,7 +173,229 @@ public class Main {
 
     }
 
+
+    private static final String NORMAL_CHAR = "a-zA-Z0-9";
+
+    private static final String EMAIL_CHAR = NORMAL_CHAR + "\\+\\-_%'";
+
+    private static final String EMAIL_ADDRESS_LOCAL_PART =
+            "[" + EMAIL_CHAR + "]" + "(?:[" + EMAIL_CHAR + "\\.]{0,62}[" + EMAIL_CHAR + "])?";
+
+    private static final String TLD_CHAR = "a-zA-Z";
+
+    private static final String TLD = "(" + "[" + TLD_CHAR + "]{2,63}" + ")";
+
+    private static final String NORMAL_LABEL = "[" + NORMAL_CHAR + "](?:[" + NORMAL_CHAR + "_\\-]{0,61}[" + NORMAL_CHAR + "]){0,1}";
+
+    private static final String HOST_NAME = "(" + NORMAL_LABEL + "\\.)+" + TLD;
+
+    private static final String EMAIL_ADDRESS_DOMAIN = "(?=.{1,255}(?:\\s|$|^))" + HOST_NAME;
+
+
+    public static final Pattern EMAIL_ADDRESS = Pattern.compile("("
+            + "(?:" + EMAIL_ADDRESS_LOCAL_PART
+            + "@"
+            + EMAIL_ADDRESS_DOMAIN + ")"
+            + ")"
+    );
+
+    public static boolean isEmailAddress(String uri) {
+        return EMAIL_ADDRESS.matcher(uri).find();
+    }
+
+    public static class FlyPig{
+
+        @Override
+        protected void finalize() throws Throwable {
+            super.finalize();
+
+
+        }
+    }
+
+
+    class Tree{
+        public List<Tree> sons = new ArrayList<>();
+    }
+
+    public static void dfs(List<Tree> parents, int curLevel){
+
+        List<Tree> sons = new ArrayList<>();
+        for(Tree parent : parents) {
+            sons.addAll(parent.sons);
+        }
+
+        if(curLevel % 2 == 0){
+            for(Tree son : sons){
+                System.out.print(son);
+            }
+        }else{
+
+            List<Tree> temp = new ArrayList<>(sons);
+            Collections.reverse(temp);
+
+            for(Tree son : temp){
+                System.out.print(son);
+            }
+        }
+
+        dfs(sons, (curLevel+1)%2);
+    }
+
+
+    public static void solve(int[] prices){
+
+        int maxProfit = 0;
+        int minPrice = prices[0];
+        for(int i = 1, size = prices.length; i < size; i++){
+            if(prices[i] - minPrice > maxProfit){
+                maxProfit = prices[i] - minPrice;
+            }
+
+            if(prices[i] < minPrice){
+                minPrice = prices[i];
+            }
+        }
+    }
+
+    private static boolean isValidLow(int[] prices, int i){
+
+        if(i == 0){
+            if (prices[i+1] > prices[i]) {
+                return true;
+            }
+            return false;
+        }
+
+        if(i == prices.length-1){
+            return false;
+        }
+
+        if(prices[i+1] > prices[i] && prices[i-1] >= prices[i]){
+            return true;
+        }
+
+        return false;
+    }
+
+    private static boolean isValidHigh(int[] prices, int i){
+
+        if(i == 0){
+            return false;
+        }
+
+        if(i == prices.length-1){
+            if(prices[i] > prices[i-1]){
+                return true;
+            }
+            return false;
+        }
+
+        if(prices[i] > prices[i+1] && prices[i] >= prices[i-1]){
+            return true;
+        }
+        return false;
+    }
+
+    public static void solve2(int[] prices){
+
+        int validLowPos = 0;
+        int size = prices.length;
+        int allProfit = 0;
+        while (validLowPos < size){
+
+            if(!isValidLow(prices, validLowPos)){
+                validLowPos++;
+                continue;
+            }
+
+            int nextValidHighPos = validLowPos+1;
+            while (nextValidHighPos < size){
+                if(!isValidHigh(prices, nextValidHighPos)){
+                    nextValidHighPos++;
+                    continue;
+                }
+                break;
+            }
+
+            if(nextValidHighPos == size){
+                break;
+            }
+
+            allProfit += prices[nextValidHighPos] - prices[validLowPos];
+            validLowPos = nextValidHighPos+1;
+        }
+
+        System.out.println(allProfit);
+    }
+
+    public static void solve3(int[] prices){
+
+        int allProfit = 0;
+        for(int i = 1, size = prices.length; i < size; i++){
+            if(prices[i] - prices[i-1] > 0){
+                allProfit += prices[i] - prices[i-1];
+            }
+        }
+
+    }
+
     public static void main(String[] args) {
+
+        LongestSonString sum2 = new LongestSonString();
+        sum2.test();
+//        AtomicInteger atomicInteger;
+//        atomicInteger.compareAndSet()
+//
+//        ReentrantLock lock;
+//        lock.lock();
+//
+//        FlattenTree.test();
+//        solve2(new int[]{7,1,5,3,6,4});
+//        solve2(new int[]{7,6,4,3,2,1});
+
+//        ProducerAndComsumer producerAndComsumer = new ProducerAndComsumer<String>(new IProducer<String>() {
+//            @Override
+//            public String produce() {
+//                return "fuck";
+//            }
+//        }, new IComsumer<String>() {
+//            @Override
+//            public void comsume(String o) {
+//                System.out.println(Thread.currentThread().getName()+" "+o);
+//            }
+//        });
+//
+//        producerAndComsumer.start();
+//        System.out.println(isEmailAddress("6233737@qq.com"));
+//        System.out.println(isEmailAddress("6233737@qqcom"));
+//        System.out.println(isEmailAddress("6233737qq.com"));
+//        System.out.println(isEmailAddress("6233737.132@qq.cm"));
+//
+//        final Object lock = new Object();
+//        List<String> data = new ArrayList<>();
+//
+//        new Thread(){
+//
+//            @Override
+//            public void run() {
+//
+//                while (true) {
+//                    synchronized (lock) {
+//                        try {
+//                            lock.wait();
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//
+//                    for (String dat : data) {
+//                        System.out.println(dat);
+//                    }
+//                }
+//            }
+//        }.start();
+
 //        testEx();
 //        SynTest.test();
 //
@@ -282,14 +515,14 @@ public class Main {
 //        AB_MinMax ab_minMaxa = new AB_MinMax();
 //        ab_minMaxa.deal();
 
-        RxjavaTest rxjavaTest = new RxjavaTest();
-        rxjavaTest.testOnErrorResume11();
-
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        RxjavaTest rxjavaTest = new RxjavaTest();
+//        rxjavaTest.testOnErrorResume11();
+//
+//        try {
+//            Thread.sleep(10000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
 //        BinaryInsert.test();
 //        Map<Long, Long> map = new ConcurrentHashMap<>();
