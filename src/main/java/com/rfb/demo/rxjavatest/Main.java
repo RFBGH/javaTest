@@ -8,10 +8,7 @@ import com.rfb.demo.rxjavatest.algorithm.LCA.LCA3;
 import com.rfb.demo.rxjavatest.algorithm.RMQ.RMQ;
 import com.rfb.demo.rxjavatest.algorithm.SuffixArray.SuffixArray;
 import com.rfb.demo.rxjavatest.algorithm.SuffixArray.SuffixArray2;
-import com.rfb.demo.rxjavatest.algorithm.leetCode.FlattenTree;
-import com.rfb.demo.rxjavatest.algorithm.leetCode.LongestSonString;
-import com.rfb.demo.rxjavatest.algorithm.leetCode.MidNum;
-import com.rfb.demo.rxjavatest.algorithm.leetCode.Sum2;
+import com.rfb.demo.rxjavatest.algorithm.leetCode.*;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.segmentTree.Leet218;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet47;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet90;
@@ -343,7 +340,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        MidNum sum2 = new MidNum();
+        Trap sum2 = new Trap();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()

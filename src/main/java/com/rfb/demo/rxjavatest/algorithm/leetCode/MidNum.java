@@ -36,6 +36,14 @@ public class MidNum {
 //
 
     private int getLessIndex(int[] num, int left, int right, int target){
+
+        if(left == right){
+            if(num[left] < target){
+                return left;
+            }
+            return -1;
+        }
+
         int mid = (left + right) / 2;
         while (true){
 
@@ -58,6 +66,23 @@ public class MidNum {
         }
     }
 
+    private double getResult(int[] nums1, int[] nums2, int target, int seek2){
+
+        int size = nums1.length + nums2.length;
+        if(size % 2 == 1){
+            return nums1[target];
+        }else{
+            int x = nums1[target];
+            int y;
+            if(target == 0){
+                y = nums2[seek2];
+            }else{
+                y = nums1[target-1];
+            }
+            return (x + y) / 2f;
+        }
+    }
+
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
 
         if(nums1.length == 0 || nums2.length == 0){
@@ -75,92 +100,117 @@ public class MidNum {
             }
         }
 
+        int left1 = 0;
+        int right1 = nums1.length - 1;
+
+        int left2 = 0;
+        int right2 = nums2.length - 1;
+
+
         int size = nums1.length + nums2.length;
         int mid = size / 2;
 
-        if(nums2[0] > nums1[nums1.length-1] || nums1[0] > nums2[nums2.length-1]){
-            int[] numX = nums1;
-            int[] numY = nums2;
-            if(nums1[0] > nums2[nums1.length-1]){
-                numX = nums2;
-                numY = nums1;
-            }
-
-            if(size % 2 == 1){
-                if(mid < numX.length){
-                    return numX[mid];
-                }
-                mid -= numX.length;
-                return numY[mid];
-            }else{
-
-                int x;
-                int y;
-                if(mid < numX.length){
-                    x = numX[mid];
-                    y = numX[mid-1];
-                }else{
-                    mid -= numX.length;
-                    x = numY[mid];
-                    if(mid == 0){
-                        y = numX[numX.length-1];
-                    }else{
-                        y = numY[mid-1];
-                    }
-                }
-                return (x + y)/2f;
-            }
-        }
-
-        int seek1 = nums1.length-1;
-        int seek2 = nums2.length-1;
-
-
         while (true){
 
-            if(nums1[seek1] > nums2[seek2]){
+            int mid2 = (left2 + right2) / 2;
+            int seek1 = getLessIndex(nums1, left1, right1, nums2[mid2]);
 
-                int newSeek1 = getLessIndex(nums1, 0, seek1, nums2[seek2]);
-                if(newSeek1 == -1){
-                    mid -=
-                }
-
-                if(newSeek1 + seek2 < mid){
-                    int target = mid - newSeek1 - seek2;
-
-                    if(size % 2 == 1){
-                        return nums1[target];
-                    }else{
-                        int x = nums1[target];
-                        int y;
-                        if(target == 0){
-                            y = nums2[seek2];
-                        }else{
-                            y = nums1[target-1];
-                        }
-                        return (x + y) / 2f;
-                    }
-                }
-
-                seek1 = newSeek1;
-            }else{
-                int lessIndexInNum2 = getLessIndex(nums2, 0, mid2, nums1[mid1]);
-                mid2 = lessIndexInNum2;
+            if(seek1 == -1){
+                left2 = mid2+1;
+                continue;
             }
 
-        }
+            if(mid2 + seek1 == mid){
+//                if(size % 2 == 1){
+//                    int x = Integer.MAX_VALUE;
+//                    if(mid2 > 0){
+//                        x = nums2[mid2-1];
+//                    }
+//
+//                    if(seek1 > 0 && nums1[seek1-1] > x){
+//                        x = nums1[seek1-1];
+//                    }
+//                    return x;
+//                }else{
+//
+//                    int x = Integer.MAX_VALUE;
+//                    int y =
+//                    if(mid2 > 0){
+//                        x = nums2[mid2-1];
+//                    }
+//
+//                    if(seek1 > 0 && nums1[seek1-1] > x){
+//                        x = nums1[seek1-1];
+//                    }
+//
+//                }
+            }else if(mid2 + seek1 == mid-1){
+                if(size % 2 == 1){
+                    return nums2[mid2];
+                }else{
+                    int x = nums2[mid2];
+                    int y = Integer.MAX_VALUE;
+                    if(mid2 < nums2.length-1){
+                        y = nums2[mid2+1];
+                    }
+                    if(seek1 < nums1.length-1 && y > nums1[seek1+1]){
+                        y = nums1[seek1+1];
+                    }
+                    return (x + y) / 2f;
+                }
+            }if(mid2 + seek1 == mid-2){
 
-        return 0;
+                if(size % 2 == 1){
+                    int x = Integer.MAX_VALUE;
+                    if(mid2 < nums2.length-1){
+                        x = nums2[mid2+1];
+                    }
+
+                    if(seek1 < nums1.length - 1 && x > nums1[seek1+1]){
+                        x = nums1[seek1+1];
+                    }
+                    return x;
+                }else{
+                    int x = Integer.MAX_VALUE;
+                    int y = Integer.MAX_VALUE;
+                    if(mid2 < nums2.length-1){
+                        x = nums2[mid2+1];
+                        if(mid2 < nums2.length - 2){
+                            y = nums2[mid2+2];
+                        }
+                    }
+
+                    if(seek1 < nums1.length - 1 && x > nums1[seek1+1]){
+                        y = x;
+                        x = nums1[seek1+1];
+                        if(seek1 < nums1.length - 2 && y > nums1[seek1+2]){
+                            y = nums1[seek1+2];
+                        }
+                    }
+                    return (x + y) / 2f;
+                }
+            }else if(mid2 + seek1 > mid-2){
+                right1 = seek1;
+                right2 = mid2;
+            }else{
+                left1 = seek1 + 1;
+                left2 = mid2 + 1;
+            }
+        }
     }
 
     public void test(){
 
-        System.out.println(findMedianSortedArrays(new int[]{1,3}, new int[]{2}));
+//        System.out.println(findMedianSortedArrays(new int[]{1,2,4,7}, new int[]{3,5,6}));
 
-        System.out.println(findMedianSortedArrays(new int[]{1,3}, new int[]{2,4}));
+//        System.out.println(findMedianSortedArrays(new int[]{3,5,6}, new int[]{1,2,4,7} ));
 
-        System.out.println(findMedianSortedArrays(new int[]{}, new int[]{1}));
-        System.out.println(findMedianSortedArrays(new int[]{2}, new int[]{}));
+//        System.out.println(findMedianSortedArrays(new int[]{1,3}, new int[]{2,4}));
+
+        System.out.println(findMedianSortedArrays(new int[]{2,4}, new int[]{1,3}));
+//
+//        System.out.println(findMedianSortedArrays(new int[]{}, new int[]{1}));
+//        System.out.println(findMedianSortedArrays(new int[]{2}, new int[]{}));
 
     }
 }
