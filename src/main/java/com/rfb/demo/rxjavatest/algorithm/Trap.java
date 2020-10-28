@@ -43,24 +43,19 @@ public class Trap {
             while (!stack.isEmpty()){
                 Info temp = stack.peek();
                 sum += info.height * (info.index - temp.index);
+                info = temp;
 
                 if(temp.height > cur){
                     break;
                 }
                 stack.pop();
-                info = temp;
             }
 
-            if(stack.isEmpty()){
-                sum += info.height;
+            int high = info.height;
+            if(high > cur){
+                high = cur;
             }
-
-            int rect;
-            if(stack.isEmpty()){
-                rect = info.height*(i - info.index);
-            }else{
-                rect = cur*(i - info.index);
-            }
+            int rect = high*(i - info.index - 1);
 
             rect -= sum;
             container += rect;
@@ -74,9 +69,9 @@ public class Trap {
 
         System.out.println(trap(new int[]{5,5,1,7,1,1,5,2,7,6}));
 
-//        System.out.println(trap(new int[]{0,1,0,2,1,0,1,3,2,1,2,1}));
+        System.out.println(trap(new int[]{0,1,0,2,1,0,1,3,2,1,2,1}));
 
-//        System.out.println(trap(new int[]{4,2,0,3,2,5}));
+        System.out.println(trap(new int[]{4,2,0,3,2,5}));
 
     }
 
