@@ -340,7 +340,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Trap sum2 = new Trap();
+        MaxSumBST2 sum2 = new MaxSumBST2();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
