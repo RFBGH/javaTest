@@ -340,7 +340,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Jump sum2 = new Jump();
+        WordBreak sum2 = new WordBreak();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
