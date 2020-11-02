@@ -340,7 +340,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        WordBreak sum2 = new WordBreak();
+        RecoverTree sum2 = new RecoverTree();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()

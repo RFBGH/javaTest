@@ -8,12 +8,10 @@ public class Jump {
     private static class Node{
         int pos;
         int step;
-        Node pre;
 
-        public Node(int pos, int step, Node pre) {
+        public Node(int pos, int step) {
             this.pos = pos;
             this.step = step;
-            this.pre = pre;
         }
     }
 
@@ -30,32 +28,30 @@ public class Jump {
 
         int size = nums.length;
         Queue<Node> queue = new LinkedList<>();
-        queue.add(new Node(0, 0, null));
+        queue.add(new Node(0, 0));
 
+        int longest = 0;
         while (!queue.isEmpty()){
             Node cur = queue.poll();
-            Node pre = cur.pre;
-            int length = nums[cur.pos];
+            int length = cur.pos + nums[cur.pos];
 
-            int start = 0;
-            if(pre != null){
-                start = pre.pos + nums[pre.pos];
-                length = cur.pos + nums[cur.pos] - pre.pos - nums[pre.pos];
-            }
-
-            for(int i = 1; i <= length; i++){
-                int pos = start + i;
+            for(int i = longest; i <= length; i++){
+                int pos = i;
                 if(used[pos]){
                     continue;
                 }
 
                 used[pos] = true;
+                if(pos > longest){
+                    longest = pos;
+                }
+
                 int step = cur.step + 1;
                 if(pos == size-1){
                     return step;
                 }
 
-                queue.add(new Node(pos, step, cur));
+                queue.add(new Node(pos, step));
             }
         }
 
