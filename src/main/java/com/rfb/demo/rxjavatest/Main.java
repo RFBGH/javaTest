@@ -340,7 +340,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        RecoverTree sum2 = new RecoverTree();
+        RecoverTree3 sum2 = new RecoverTree3();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
