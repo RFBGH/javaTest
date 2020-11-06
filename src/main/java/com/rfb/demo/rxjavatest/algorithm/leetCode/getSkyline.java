@@ -61,16 +61,33 @@ public class getSkyline {
                         k++;
                     }else{
                         int tempTo = findNode.to;
-                        findNode.to = from;
-                        if(to >= tempTo){
-                            nodes.add(k+1, new Node(from, tempTo, h));
-                            from = tempTo;
-                            k += 2;
+                        if(findNode.from == from){
+
+                            if(to >= tempTo){
+                                findNode.h = h;
+                                from = tempTo;
+                                k++;
+                            }else{
+                                int tempH = findNode.h;
+                                findNode.h = h;
+                                findNode.to = to;
+                                nodes.add(k+1, new Node(to, tempTo, tempH));
+                                break;
+                            }
+
                         }else{
-                            nodes.add(k+1, new Node(from, to, h));
-                            nodes.add(k+2, new Node(to, tempTo, findNode.h));
-                            break;
+                            findNode.to = from;
+                            if(to >= tempTo){
+                                nodes.add(k+1, new Node(from, tempTo, h));
+                                from = tempTo;
+                                k += 2;
+                            }else{
+                                nodes.add(k+1, new Node(from, to, h));
+                                nodes.add(k+2, new Node(to, tempTo, findNode.h));
+                                break;
+                            }
                         }
+
                     }
                 }else{
                     nodes.add(new Node(from, to, h));
@@ -125,7 +142,7 @@ public class getSkyline {
 
     public void test(){
 
-        getSkyline(new int[][]{{0,3,3},{1,5,3},{2,4,3},{3,7,3}});
+        getSkyline(new int[][]{{6765,184288,53874},{13769,607194,451649},{43325,568099,982005},{47356,933141,123943},{59810,561434,119381},{75382,594625,738524},{111895,617442,587304},{143767,869128,471633},{195676,285251,107127},{218793,772827,229219},{316837,802148,899966},{329669,790525,416754},{364886,882642,535852},{368825,651379,6209},{382318,992082,300642},{397203,478094,436894},{436174,442141,612149},{502967,704582,918199},{503084,561197,625737},{533311,958802,705998},{565945,674881,149834},{615397,704261,746064},{624917,909316,831007},{788731,924868,633726},{791965,912123,438310}});
 
 //        getSkyline(new int[][]{{1,2,1},{1,2,2},{1,2,3}});
 
