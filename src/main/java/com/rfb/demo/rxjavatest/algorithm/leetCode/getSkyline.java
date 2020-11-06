@@ -93,7 +93,6 @@ public class getSkyline {
                 Node last = stack.peek();
                 if(last.to == cur.from && last.h == cur.h){
                     last.to = cur.to;
-                    continue;
                 }else{
                     stack.push(cur);
                 }
@@ -103,15 +102,16 @@ public class getSkyline {
         List<List<Integer>> lists = new ArrayList<>();
         for(int i = 0, size = stack.size(); i < size; i++){
             Node node = stack.get(i);
-            Node next = null;
-            if(i < size-1){
-                next = stack.get(i+1);
-            }
+
             List<Integer> list = new ArrayList<>();
             list.add(node.from);
             list.add(node.h);
             lists.add(list);
 
+            Node next = null;
+            if(i < size-1){
+                next = stack.get(i+1);
+            }
             if(next == null || node.to != next.from){
                 list = new ArrayList<>();
                 list.add(node.to);
