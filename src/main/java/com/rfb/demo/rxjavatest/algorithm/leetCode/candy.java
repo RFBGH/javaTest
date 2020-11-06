@@ -9,7 +9,7 @@ public class candy {
 
         int[] give = new int[ratings.length];
         give[0] = 1;
-        int sum = 1;
+        int sum = 0;
         int cur = 0;
         for(int i = cur+1, size = ratings.length; i < size; i++){
             if(ratings[i] == ratings[i-1]){
@@ -42,12 +42,17 @@ public class candy {
             }
         }
 
+        for(int i = 0, size = ratings.length; i < size; i++){
+            sum += give[i];
+        }
+
         return sum;
     }
 
     public void test(){
 
         System.out.println(candy(new int[]{1,0,2}));
+        System.out.println(candy(new int[]{1,2,2}));
 
     }
 

@@ -340,7 +340,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        candy sum2 = new candy();
+        getSkyline sum2 = new getSkyline();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
