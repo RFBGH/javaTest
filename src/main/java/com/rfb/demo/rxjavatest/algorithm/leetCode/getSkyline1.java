@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public class getSkyline {
+public class getSkyline1 {
 
     private static class Node{
         int from;
@@ -55,43 +55,43 @@ public class getSkyline {
                 }
 
                 Node findNode = nodes.get(k);
-                if(from >= findNode.to){
-                    nodes.add(new Node(from, to, h));
-                    break;
-                }
-
-                if(h <= findNode.h){
-                    from = findNode.to;
-                    k++;
-                    continue;
-                }
-
-                int tempTo = findNode.to;
-                if(findNode.from == from){
-
-                    if(to >= tempTo){
-                        findNode.h = h;
-                        from = tempTo;
+                if(from < findNode.to){
+                    if(h <= findNode.h){
+                        from = findNode.to;
                         k++;
                     }else{
-                        int tempH = findNode.h;
-                        findNode.h = h;
-                        findNode.to = to;
-                        nodes.add(k+1, new Node(to, tempTo, tempH));
-                        break;
-                    }
+                        int tempTo = findNode.to;
+                        if(findNode.from == from){
 
-                }else{
-                    findNode.to = from;
-                    if(to >= tempTo){
-                        nodes.add(k+1, new Node(from, tempTo, h));
-                        from = tempTo;
-                        k += 2;
-                    }else{
-                        nodes.add(k+1, new Node(from, to, h));
-                        nodes.add(k+2, new Node(to, tempTo, findNode.h));
-                        break;
+                            if(to >= tempTo){
+                                findNode.h = h;
+                                from = tempTo;
+                                k++;
+                            }else{
+                                int tempH = findNode.h;
+                                findNode.h = h;
+                                findNode.to = to;
+                                nodes.add(k+1, new Node(to, tempTo, tempH));
+                                break;
+                            }
+
+                        }else{
+                            findNode.to = from;
+                            if(to >= tempTo){
+                                nodes.add(k+1, new Node(from, tempTo, h));
+                                from = tempTo;
+                                k += 2;
+                            }else{
+                                nodes.add(k+1, new Node(from, to, h));
+                                nodes.add(k+2, new Node(to, tempTo, findNode.h));
+                                break;
+                            }
+                        }
+
                     }
+                }else{
+                    nodes.add(new Node(from, to, h));
+                    break;
                 }
             }
         }
