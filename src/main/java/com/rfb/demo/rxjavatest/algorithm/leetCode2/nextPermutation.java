@@ -15,7 +15,7 @@ public class nextPermutation {
         for(int i = size-1; i >= 0; i--){
             int index = -1;
             int min = Integer.MAX_VALUE;
-            for(int j = i+1; j < size; j++){
+            for(int j = size-1; j > i; j--){
                 if(nums[j] > nums[i] && min > nums[j]){
                     min = nums[j];
                     index = j;
@@ -28,7 +28,16 @@ public class nextPermutation {
 
             nums[index] = nums[i];
             nums[i] = min;
-            Arrays.sort(nums, i+1, size);
+
+            int left = i+1;
+            int right = size-1;
+            while (left < right){
+                int t = nums[left];
+                nums[left] = nums[right];
+                nums[right] = t;
+                left++;
+                right--;
+            }
 
             find = true;
             break;
@@ -36,20 +45,21 @@ public class nextPermutation {
 
         if(!find){
 
-            int[] temp = new int[size];
-            for(int i = 0; i < size; i++){
-                temp[i] = nums[i];
-            }
-
-            for(int i = 0; i < size; i++){
-                nums[size-1-i] = temp[i];
+            int left = 0;
+            int right = size-1;
+            while (left < right){
+                int t = nums[left];
+                nums[left] = nums[right];
+                nums[right] = t;
+                left++;
+                right--;
             }
         }
     }
 
     public void test(){
 
-        nextPermutation(new int[]{2,3,1});
+        nextPermutation(new int[]{2,3,1,3,3});
 
     }
 }

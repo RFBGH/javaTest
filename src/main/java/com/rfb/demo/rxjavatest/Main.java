@@ -343,7 +343,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        sortItems sum2 = new sortItems();
+        nextPermutation sum2 = new nextPermutation();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
