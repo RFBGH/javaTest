@@ -12,6 +12,9 @@ import com.rfb.demo.rxjavatest.algorithm.leetCode.*;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.segmentTree.Leet218;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet47;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet90;
+import com.rfb.demo.rxjavatest.algorithm.leetCode2.hIndex;
+import com.rfb.demo.rxjavatest.algorithm.leetCode2.nextPermutation;
+import com.rfb.demo.rxjavatest.algorithm.leetCode2.sortItems;
 import com.rfb.demo.rxjavatest.algorithm.maxFlow.POJ2112;
 import com.rfb.demo.rxjavatest.algorithm.sort.BucketSort;
 import com.rfb.demo.rxjavatest.algorithm.stack.Test;
@@ -340,7 +343,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        BSTSequences sum2 = new BSTSequences();
+        sortItems sum2 = new sortItems();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
