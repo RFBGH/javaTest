@@ -6,9 +6,9 @@ public class sortItems {
 
     public int[] sortItems(int n, int m, int[] group, List<List<Integer>> beforeItems) {
 
-        List<Integer>[] G = new ArrayList[n];
+        List<Integer>[] taskG = new ArrayList[n];
         for(int i = 0; i < n; i++){
-            G[i] = new ArrayList<>();
+            taskG[i] = new ArrayList<>();
         }
 
         List<Integer>[] groupG = new ArrayList[m];
@@ -21,30 +21,30 @@ public class sortItems {
             groupBefores[i] = new ArrayList<>();
         }
 
-        List<Integer>[] has = new ArrayList[m];
-        List<Integer> unhas = new ArrayList<>();
+        List<Integer>[] groupHasTasks = new ArrayList[m];
+        List<Integer> unbelong = new ArrayList<>();
 
         for(int i = 0; i < m; i++){
-            has[i] = new ArrayList<>();
+            groupHasTasks[i] = new ArrayList<>();
         }
 
-        int[] dep = new int[n];
+        int[] taskDep = new int[n];
         int[] groupDep = new int[m];
 
         for(int i = 0; i < n; i++){
             List<Integer> list = beforeItems.get(i);
-            dep[i] = list.size();
+            taskDep[i] = list.size();
 
             List<Integer> groupBefore = null;
             if(group[i] != -1){
                 groupBefore = groupBefores[group[i]];
-                has[group[i]].add(i);
+                groupHasTasks[group[i]].add(i);
             }else{
-                unhas.add(i);
+                unbelong.add(i);
             }
 
             for(Integer p : list){
-                G[p].add(i);
+                taskG[p].add(i);
                 int g = group[p];
                 if(groupBefore != null
                         && g != -1
@@ -72,16 +72,16 @@ public class sortItems {
             int curGroup = groupQueue.poll();
 
             Queue<Integer> taskQueue = new LinkedList<>();
-            for(int i : unhas){
-                if(dep[i] == 0 && !result.contains(i)){
+            for(int i : unbelong){
+                if(taskDep[i] == 0 && !result.contains(i)){
                     result.add(i);
                     taskQueue.offer(i);
                 }
             }
 
             int count = 0;
-            for(int i : has[curGroup]){
-                if(dep[i] == 0){
+            for(int i : groupHasTasks[curGroup]){
+                if(taskDep[i] == 0){
                     result.add(i);
                     taskQueue.offer(i);
                     count++;
@@ -90,9 +90,9 @@ public class sortItems {
 
             while (!taskQueue.isEmpty()){
                 int curTask = taskQueue.poll();
-                for(int next : G[curTask]){
-                    dep[next]--;
-                    if(dep[next] == 0 && group[next] == curGroup){
+                for(int next : taskG[curTask]){
+                    taskDep[next]--;
+                    if(taskDep[next] == 0 && group[next] == curGroup){
                         result.add(next);
                         taskQueue.offer(next);
                         count++;
@@ -100,7 +100,7 @@ public class sortItems {
                 }
             }
 
-            if(count == has[curGroup].size()){
+            if(count == groupHasTasks[curGroup].size()){
                 for(int next : groupG[curGroup]){
                     groupDep[next]--;
                     if(groupDep[next] == 0){
@@ -112,9 +112,9 @@ public class sortItems {
             }
         }
 
-        if(!unhas.isEmpty()){
-            for(int i : unhas){
-                if(dep[i] == 0 && !result.contains(i)){
+        if(!unbelong.isEmpty()){
+            for(int i : unbelong){
+                if(taskDep[i] == 0 && !result.contains(i)){
                     result.add(i);
                 }
             }
