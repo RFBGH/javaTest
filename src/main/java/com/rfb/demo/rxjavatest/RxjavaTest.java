@@ -6623,4 +6623,50 @@ public class RxjavaTest implements Cloneable{
                 });
 
     }
+
+    public void testFilter22(){
+
+        final PublishSubject<String> publishSubject = PublishSubject.create();
+
+        publishSubject
+                .asObservable()
+                .onBackpressureLatest()
+                .observeOn(Schedulers.io())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        System.out.println(s);
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+        new Thread(){
+            @Override
+            public void run() {
+
+                for(int i = 0; i < 100; i++){
+                    publishSubject.onNext(i+"");
+                    try {
+                        Thread.sleep(1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.start();
+    }
 }

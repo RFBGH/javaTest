@@ -12,10 +12,9 @@ import com.rfb.demo.rxjavatest.algorithm.leetCode.*;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.segmentTree.Leet218;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet47;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet90;
-import com.rfb.demo.rxjavatest.algorithm.leetCode2.hIndex;
-import com.rfb.demo.rxjavatest.algorithm.leetCode2.nextPermutation;
-import com.rfb.demo.rxjavatest.algorithm.leetCode2.sortItems;
+import com.rfb.demo.rxjavatest.algorithm.leetCode2.*;
 import com.rfb.demo.rxjavatest.algorithm.maxFlow.POJ2112;
+import com.rfb.demo.rxjavatest.algorithm.niuke.findKth;
 import com.rfb.demo.rxjavatest.algorithm.sort.BucketSort;
 import com.rfb.demo.rxjavatest.algorithm.stack.Test;
 import com.rfb.demo.rxjavatest.productAndComsumer.IComsumer;
@@ -343,7 +342,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        nextPermutation sum2 = new nextPermutation();
+//        TaskList.test(args);
+        findKth sum2 = new findKth();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
@@ -517,10 +517,10 @@ public class Main {
 //        ab_minMaxa.deal();
 
 //        RxjavaTest rxjavaTest = new RxjavaTest();
-//        rxjavaTest.testOnErrorResume11();
-//
+//        rxjavaTest.testFilter22();
+////
 //        try {
-//            Thread.sleep(10000);
+//            Thread.sleep(20000);
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
