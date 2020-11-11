@@ -47,7 +47,7 @@ public class findKth {
 
     public int findKth(int[] a, int n, int K) {
         // write code here
-        return dfs(a, 0, n-1, K-1);
+        return dfs(a, 0, n-1, n-K);
     }
 
     public void test(){

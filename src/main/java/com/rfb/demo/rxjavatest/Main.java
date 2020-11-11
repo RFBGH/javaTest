@@ -14,6 +14,7 @@ import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet47;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet90;
 import com.rfb.demo.rxjavatest.algorithm.leetCode2.*;
 import com.rfb.demo.rxjavatest.algorithm.maxFlow.POJ2112;
+import com.rfb.demo.rxjavatest.algorithm.niuke.LCS;
 import com.rfb.demo.rxjavatest.algorithm.niuke.findKth;
 import com.rfb.demo.rxjavatest.algorithm.sort.BucketSort;
 import com.rfb.demo.rxjavatest.algorithm.stack.Test;
@@ -343,7 +344,7 @@ public class Main {
     public static void main(String[] args) {
 
 //        TaskList.test(args);
-        findKth sum2 = new findKth();
+        LCS sum2 = new LCS();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
