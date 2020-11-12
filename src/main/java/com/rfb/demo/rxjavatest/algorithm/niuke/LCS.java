@@ -35,7 +35,7 @@ public class LCS {
     }
 
     public void test(){
-        System.out.println(LCS("eeeabc","abeeecd"));
+        System.out.println(LCS("a","b"));
     }
 
 }

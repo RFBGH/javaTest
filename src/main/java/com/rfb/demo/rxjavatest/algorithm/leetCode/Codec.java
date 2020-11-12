@@ -27,7 +27,7 @@ public class Codec {
                 sb.append("#");
             }else{
                 sb.append(cur.val);
-                queue.add(cur.left);
+                queue.offer(cur.left);
                 queue.offer(cur.right);
             }
             sb.append(",");
