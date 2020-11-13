@@ -341,10 +341,74 @@ public class Main {
 
     }
 
+    private static void dfs(List<Character> list, int leftCount, int rightCount, int n){
+
+        if(rightCount == n){
+            for(int i = 0; i < list.size(); i++){
+                System.out.print(list.get(i));
+            }
+            System.out.println();
+            return;
+        }
+
+        if(leftCount < n){
+            list.add('(');
+            dfs(list, leftCount+1, rightCount, n);
+            list.remove(list.size()-1);
+        }
+
+        if(rightCount < leftCount){
+            list.add(')');
+            dfs(list, leftCount, rightCount+1, n);
+            list.remove(list.size()-1);
+        }
+    }
+
+    private void maj(){
+
+        int[] a = new int[]{};
+        int m = 0, count = 0;
+        for(int i = 0; i < a.length; i++){
+            if(count == 0){
+                m = a[i];
+                count++;
+            }else{
+                if(m == a[i]){
+                    count++;
+                }else{
+                    count--;
+                }
+            }
+        }
+
+
+
+    }
+
     public static void main(String[] args) {
 
+//        Object o = new Object();
+//        synchronized (o){
+//            System.out.println("xxxx");
+//            synchronized (o){
+//                System.out.println("yyyy");
+//            }
+//            System.out.println("xxxx");
+//        }
+//        Integer a = 1000, b = 1000;
+//        System.out.println(a == b);//1
+//        Integer c = 100, d = 100;
+//        System.out.println(c == d);
+//        NumMatrix matrix = new NumMatrix(new int[][]{
+//                {3, 0, 1, 4, 2},
+//                {5, 6, 3, 2, 1},
+//                {1, 2, 0, 1, 5},
+//                {4, 1, 0, 1, 7},
+//                {1, 0, 3, 0, 5}
+//        });
+//        matrix.sumRegion(2, 1, 4,3);
 //        TaskList.test(args);
-        LCS sum2 = new LCS();
+        maxNumberTimeOut sum2 = new maxNumberTimeOut();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
