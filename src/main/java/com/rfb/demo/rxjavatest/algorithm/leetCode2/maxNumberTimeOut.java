@@ -1,26 +1,9 @@
 package com.rfb.demo.rxjavatest.algorithm.leetCode2;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class maxNumberTimeOut {
 
-    private boolean bigger(int[] num1, int[] num2, int len){
-        for(int t = 0; t < len; t++){
-            if(num1[t] == num2[t]){
-                continue;
-            }
 
-            if(num1[t] > num2[t]){
-                return true;
-            }else{
-                return false;
-            }
-        }
-        return false;
-    }
-
-    private boolean bigger2(int[] num1, int from1, int[] num2, int from2){
+    private boolean bigger(int[] num1, int from1, int[] num2, int from2){
         int i = from1;
         int j = from2;
         while (true){
@@ -62,32 +45,20 @@ public class maxNumberTimeOut {
         int rest = k;
         while (true){
             int max = Integer.MIN_VALUE;
-            List<Integer> indexs = new ArrayList<>();
+            int firstMaxIndex = 0;
             for(int i = start, size = num.length-rest+1; i < size; i++){
                 if(max < num[i]){
                     max = num[i];
-                    indexs.clear();
-                    indexs.add(i);
-                }else if(max == num[i]){
-                    indexs.add(i);
+                    firstMaxIndex = i;
                 }
             }
 
-            int count = indexs.size();
-            while (count > 0){
-                result[resultCount++] = max;
-                if(resultCount == k){
-                    break;
-                }
-                count--;
-            }
-
-            if(resultCount == k){
+            result[resultCount++] = max;
+            rest = k - resultCount;
+            start = firstMaxIndex+1;
+            if(rest == 0){
                 break;
             }
-
-            start = indexs.get(indexs.size()-1)+1;
-            rest = k - resultCount;
         }
 
         return result;
@@ -111,7 +82,7 @@ public class maxNumberTimeOut {
             int i2 = 0;
 
             while (i1 < maxNum1.length && i2 < maxNum2.length){
-                if(bigger2(maxNum1, i1, maxNum2, i2)){
+                if(bigger(maxNum1, i1, maxNum2, i2)){
                     temp[count++] = maxNum1[i1++];
                 }else{
                     temp[count++] = maxNum2[i2++];
@@ -126,7 +97,7 @@ public class maxNumberTimeOut {
                 temp[count++] = maxNum2[i2++];
             }
 
-            if(bigger(temp, ans, k)){
+            if(bigger(temp, 0, ans, 0)){
                 for(int j = 0; j < k; j++){
                     ans[j] = temp[j];
                 }
@@ -137,7 +108,9 @@ public class maxNumberTimeOut {
     }
 
     public void test(){
-        maxNumber(new int[]{6,6,8}, new int[]{5,0,9}, 3);
+
+        maxNumber(new int[]{9,8,7,6,5,4,3,2,1}, 4);
+//        maxNumber(new int[]{3,3,3,2,3,7,3,8,6,0,5,0,7,8,9,2,9,6,6,9,9,7,9,7,6,1,7,2,7,5,5,1}, new int[]{5,6,4,9,6,9,2,2,7,5,4,3,0,0,1,7,1,8,1,5,2,5,7,0,4,3,8,7,3,8,5,3,8,3,4,0,2,3,8,2,7,1,2,3,8,7,6,7,1,1,3,9,0,5,2,8,2,8,7,5,0,8,0,7,2,8,5,6,5,9,5,1,5,2,6,2,4,9,9,7,6,5,7,9,2,8,8,3,5,9,5,1,8,8,4,6,6,3,8,4,6,6,1,3,4,1,6,7,0,8,0,3,3,1,8,2,2,4,5,7,3,7,7,4,3,7,3,0,7,3,0,9,7,6,0,3,0,3,1,5,1,4,5,2,7,6,2,4,2,9,5,5,9,8,4,2,3,6,1,9}, 160);
     }
 
 }
