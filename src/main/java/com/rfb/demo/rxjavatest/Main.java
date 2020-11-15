@@ -385,7 +385,30 @@ public class Main {
 
     }
 
+    private static void tt(List<? extends Number> list){
+
+    }
+
+    private static void dd(List<? super Number> list){
+
+
+    }
+
     public static void main(String[] args) {
+
+//        List<Integer> list = new ArrayList<>();
+//        list.add(1);
+//
+//        tt(list);
+//
+//        List<? super Number> list1 = new ArrayList<>();
+//        list1.add(1);
+//        list1.add(2.0f);
+//        list1.add(1);
+//
+//        List<Object> list2 = new ArrayList<Object>();
+//        dd(list2);
+
 
 //        Object o = new Object();
 //        synchronized (o){
@@ -408,7 +431,7 @@ public class Main {
 //        });
 //        matrix.sumRegion(2, 1, 4,3);
 //        TaskList.test(args);
-        relativeSortArray sum2 = new relativeSortArray();
+        removeKdigits2 sum2 = new removeKdigits2();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
