@@ -431,7 +431,7 @@ public class Main {
 //        });
 //        matrix.sumRegion(2, 1, 4,3);
 //        TaskList.test(args);
-        removeKdigits2 sum2 = new removeKdigits2();
+        canMeasureWater sum2 = new canMeasureWater();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
