@@ -431,7 +431,9 @@ public class Main {
 //        });
 //        matrix.sumRegion(2, 1, 4,3);
 //        TaskList.test(args);
-        canMeasureWater sum2 = new canMeasureWater();
+//        System.out.println(Objects.hash(1, 2));
+//        System.out.println(Objects.hash(2, 1));
+        kthSmallest sum2 = new kthSmallest();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()

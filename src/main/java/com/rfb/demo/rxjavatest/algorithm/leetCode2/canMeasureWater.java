@@ -1,8 +1,6 @@
 package com.rfb.demo.rxjavatest.algorithm.leetCode2;
 
-import java.util.LinkedList;
-import java.util.Objects;
-import java.util.Queue;
+import java.util.*;
 
 public class canMeasureWater {
 
@@ -14,6 +12,20 @@ public class canMeasureWater {
             this.x = x;
             this.y = y;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Node node = (Node) o;
+            return x == node.x &&
+                    y == node.y;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
     }
 
     public boolean canMeasureWater(int x, int y, int z) {
@@ -24,9 +36,7 @@ public class canMeasureWater {
             y = t;
         }
 
-        boolean[][] gone = new boolean[x+1][y+1];
-        gone[0][0] = true;
-
+        Set<Node> set = new HashSet<>();
         Queue<Node> queue = new LinkedList<>();
         queue.offer(new Node(x, y));
         while (!queue.isEmpty()){
@@ -39,31 +49,38 @@ public class canMeasureWater {
             }
 
             nextX = x;
-            if(!gone[nextX][nextY]){
-                gone[nextX][nextY] = true;
-                queue.offer(new Node(nextX, nextY));
+            Node newNode = new Node(nextX, nextY);
+            if(!set.contains(newNode)){
+                set.add(newNode);
+                queue.offer(newNode);
             }
 
             nextX = 0;
-            if(!gone[nextX][nextY]){
-                gone[nextX][nextY] = true;
-                queue.offer(new Node(nextX, nextY));
+            newNode = new Node(nextX, nextY);
+            if(!set.contains(newNode)){
+                set.add(newNode);
+                queue.offer(newNode);
             }
+
 
             nextX = cur.x;
             nextY = cur.y;
 
             nextY = y;
-            if(!gone[nextX][nextY]){
-                gone[nextX][nextY] = true;
-                queue.offer(new Node(nextX, nextY));
+            newNode = new Node(nextX, nextY);
+            if(!set.contains(newNode)){
+                set.add(newNode);
+                queue.offer(newNode);
             }
 
+
             nextY = 0;
-            if(!gone[nextX][nextY]){
-                gone[nextX][nextY] = true;
-                queue.offer(new Node(nextX, nextY));
+            newNode = new Node(nextX, nextY);
+            if(!set.contains(newNode)){
+                set.add(newNode);
+                queue.offer(newNode);
             }
+
 
             nextX = 0;
             nextY = cur.y + cur.x;
@@ -71,9 +88,10 @@ public class canMeasureWater {
                 nextX = nextY-y;
                 nextY = y;
             }
-            if(!gone[nextX][nextY]){
-                gone[nextX][nextY] = true;
-                queue.offer(new Node(nextX, nextY));
+            newNode = new Node(nextX, nextY);
+            if(!set.contains(newNode)){
+                set.add(newNode);
+                queue.offer(newNode);
             }
 
             nextX = cur.y + cur.x;
@@ -82,9 +100,10 @@ public class canMeasureWater {
                 nextY = nextX - x;
                 nextX = x;
             }
-            if(!gone[nextX][nextY]){
-                gone[nextX][nextY] = true;
-                queue.offer(new Node(nextX, nextY));
+            newNode = new Node(nextX, nextY);
+            if(!set.contains(newNode)){
+                set.add(newNode);
+                queue.offer(newNode);
             }
         }
 
