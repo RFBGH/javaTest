@@ -434,7 +434,7 @@ public class Main {
 //        System.out.println(Objects.hash(1, 2));
 //        System.out.println(Objects.hash(2, 1));
 //        Twitter.test();
-        trapRainWater sum2 = new trapRainWater();
+        calculate sum2 = new calculate();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
