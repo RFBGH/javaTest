@@ -434,7 +434,7 @@ public class Main {
 //        System.out.println(Objects.hash(1, 2));
 //        System.out.println(Objects.hash(2, 1));
 //        Twitter.test();
-        calculate sum2 = new calculate();
+        maxSlidingWindow sum2 = new maxSlidingWindow();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
