@@ -433,9 +433,9 @@ public class Main {
 //        TaskList.test(args);
 //        System.out.println(Objects.hash(1, 2));
 //        System.out.println(Objects.hash(2, 1));
-//        Twitter.test();
-        maxSlidingWindow sum2 = new maxSlidingWindow();
-        sum2.test();
+        AllOne.test();
+//        minMutation sum2 = new minMutation();
+//        sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
 //
