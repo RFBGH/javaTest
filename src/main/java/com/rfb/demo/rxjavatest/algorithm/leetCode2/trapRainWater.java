@@ -1,190 +1,157 @@
 package com.rfb.demo.rxjavatest.algorithm.leetCode2;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 public class trapRainWater {
 
-    private static class Node{
-        int i;
-        int j;
+    public static class MinHeap<T>{
 
-        public Node(int i, int j) {
+        public interface ICompare<T>{
+            int compare(T t1, T t2);
+        }
+
+        private int mCapacity;
+        private List<T> mData;
+        private ICompare mCompare;
+
+        public MinHeap(int capacity, ICompare compare){
+            mCapacity = capacity;
+            mData = new ArrayList<>(capacity);
+            mCompare = compare;
+        }
+
+        public T poll(){
+
+            T head = mData.get(0);
+            T temp = mData.get(mData.size()-1);
+
+            mData.set(0, temp);
+            int cur = 0;
+            while (true){
+
+                int left = cur*2 + 1;
+                if(left >= mData.size()){
+                    break;
+                }
+
+                int right = cur*2 + 2;
+                if(right >= mData.size()){
+                    break;
+                }
+
+                int minSon = left;
+                if(mCompare.compare(mData.get(left), mData.get(right)) > 0){
+                    minSon = right;
+                }
+
+                if(mCompare.compare(mData.get(cur), mData.get(minSon)) <= 0){
+                    break;
+                }
+
+                temp = mData.get(cur);
+                mData.set(cur, mData.get(minSon));
+                mData.set(minSon, temp);
+
+                cur = minSon;
+            }
+
+            mData.remove(mData.size()-1);
+            return head;
+        }
+
+        public void add(T t){
+            mData.add(t);
+            int cur = mData.size()-1;
+
+            while (cur != 0){
+                int parent = (cur - 1) / 2;
+                if(mCompare.compare(t, mData.get(parent)) < 0){
+                    mData.set(cur, mData.get(parent));
+                    mData.set(parent, t);
+                    cur = parent;
+                }else{
+                    break;
+                }
+            }
+        }
+
+        public boolean isEmpty(){
+            return mData.isEmpty();
+        }
+    }
+
+    private static class PosInfo{
+        public int height;
+        public int i;
+        public int j;
+
+        public PosInfo(int height, int i, int j) {
+            this.height = height;
             this.i = i;
             this.j = j;
         }
     }
-
-    private static class SumInfo{
-        int sum;
-        int top;
-        int bottom;
-
-        public SumInfo(int sum, int top, int bottom) {
-            this.sum = sum;
-            this.top = top;
-            this.bottom = bottom;
-        }
-    }
-
     private int[][] move = new int[][]{{-1, 0},{0,-1},{1,0},{0,1}};
-    private SumInfo trapRainWaterWithHeight(int[][] heightMap, int h){
-
-        int sum = 0;
-        int n = heightMap.length;
-        int m = heightMap[0].length;
-        boolean[][] gone = new boolean[n][m];
-        boolean allLess = true;
-        int biggerHMin = Integer.MAX_VALUE;
-        int smallerHMax = Integer.MIN_VALUE;
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < m; j++){
-
-                if(heightMap[i][j] >= h){
-
-                    if(biggerHMin > heightMap[i][j]){
-                        biggerHMin = heightMap[i][j];
-                    }
-
-                    continue;
-                }
-
-                if(heightMap[i][j] > smallerHMax){
-                    smallerHMax = heightMap[i][j];
-                }
-
-                allLess = false;
-                if(gone[i][j]){
-                    continue;
-                }
-
-                gone[i][j] = true;
-                List<Node> queue = new ArrayList<>();
-                queue.add(new Node(i, j));
-                int front = 0;
-                while (front < queue.size()){
-                    Node cur = queue.get(front);
-
-                    for(int k = 0; k < 4; k++){
-                        int nextI = cur.i + move[k][0];
-                        int nextJ = cur.j + move[k][1];
-                        if(nextI < 0 || nextI >= n || nextJ < 0 || nextJ >= m){
-                            continue;
-                        }
-
-                        if(heightMap[nextI][nextJ] >= h){
-                            continue;
-                        }
-
-                        if(gone[nextI][nextJ]){
-                            continue;
-                        }
-
-                        gone[nextI][nextJ] = true;
-                        queue.add(new Node(nextI, nextJ));
-                    }
-
-                    front++;
-                }
-
-                int minEdgeHeight = Integer.MAX_VALUE;
-                int minHeight = Integer.MAX_VALUE;
-
-                for(Node node : queue){
-                    if(node.i == 0 || node.i == n-1 || node.j == 0 || node.j == m-1){
-                        if(minEdgeHeight > heightMap[node.i][node.j]){
-                            minEdgeHeight = heightMap[node.i][node.j];
-                        }
-                    }
-
-                    if(minHeight > heightMap[node.i][node.j]){
-                        minHeight = heightMap[node.i][node.j];
-                    }
-                }
-
-                if(minHeight < minEdgeHeight){
-
-                    int minH = Math.min(minEdgeHeight, h);
-                    for(Node node: queue){
-                        if(heightMap[node.i][node.j] < minH){
-                            sum += minH-heightMap[node.i][node.j];
-                            heightMap[node.i][node.j] = minH;
-                        }
-                    }
-                }
-
-            }
-        }
-
-        if(allLess){
-            sum = -1;
-        }
-
-        return new SumInfo(sum, biggerHMin, smallerHMax);
-    }
-
-    private int dfs(int[][] heightMap, int min, int max){
-
-        if(min > max){
-            return 0;
-        }
-
-        if(min == max){
-            SumInfo sum = trapRainWaterWithHeight(heightMap, min);
-            if(sum.sum < 0){
-                sum.sum = 0;
-            }
-            return sum.sum;
-        }
-
-        if(min + 1 == max){
-            SumInfo sum1 = trapRainWaterWithHeight(heightMap, min);
-            if(sum1.sum < 0){
-                sum1.sum = 0;
-            }
-            SumInfo sum2 = trapRainWaterWithHeight(heightMap, max);
-            if(sum2.sum < 0){
-                sum2.sum = 0;
-            }
-            return sum1.sum + sum2.sum;
-        }
-
-        int mid = (min + max) / 2;
-        SumInfo sum = trapRainWaterWithHeight(heightMap, mid);
-
-        if(sum.sum < 0){
-            return dfs(heightMap, Math.max(sum.top + 1, mid + 1), max);
-        }else if(sum.sum == 0){
-            return dfs(heightMap,  Math.max(sum.top + 1, mid + 1), max)
-                    + dfs(heightMap, min, Math.min(mid, sum.bottom));
-        }else{
-            return sum.sum + dfs(heightMap,  Math.max(sum.top + 1, mid + 1), max)
-                    + dfs(heightMap, min, Math.min(mid, sum.bottom));
-        }
-    }
 
     public int trapRainWater(int[][] heightMap) {
 
         int n = heightMap.length;
         int m = heightMap[0].length;
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
+        boolean[][] gone = new boolean[n][m];
+
+        MinHeap<PosInfo> minHeap = new MinHeap<>(n * m + 5, new MinHeap.ICompare<PosInfo>() {
+            @Override
+            public int compare(PosInfo t1, PosInfo t2) {
+                if(t1.height < t2.height){
+                    return -1;
+                }else if(t1.height > t2.height){
+                    return 1;
+                }else{
+                    return 0;
+                }
+            }
+        });
 
         for(int i = 0; i < n; i++){
-            for(int j = 0; j < m; j++){
-                if(min > heightMap[i][j]){
-                    min = heightMap[i][j];
+            gone[i][0] = true;
+            gone[i][m-1] = true;
+            minHeap.add(new PosInfo(heightMap[i][0], i, 0));
+            minHeap.add(new PosInfo(heightMap[i][m-1], i, m-1));
+        }
+
+        for(int j = 1; j < m-1; j++){
+            gone[0][j] = true;
+            gone[n-1][j] = true;
+            minHeap.add(new PosInfo(heightMap[0][j], 0, j));
+            minHeap.add(new PosInfo(heightMap[n-1][j], n-1, j));
+        }
+
+        int sum = 0;
+        while (!minHeap.isEmpty()){
+            PosInfo cur = minHeap.poll();
+            for(int k = 0; k < 4; k++){
+                int i = cur.i + move[k][0];
+                int j = cur.j + move[k][1];
+                if(i < 0 || i >= n || j < 0 || j >= m){
+                    continue;
                 }
 
-                if(max < heightMap[i][j]){
-                    max = heightMap[i][j];
+                if(gone[i][j]){
+                    continue;
+                }
+
+                gone[i][j] = true;
+                if(heightMap[i][j] < cur.height){
+                    sum += cur.height - heightMap[i][j];
+                    minHeap.add(new PosInfo(cur.height, i, j));
+                }else{
+                    minHeap.add(new PosInfo(heightMap[i][j], i, j));
                 }
             }
         }
 
-        return dfs(heightMap, min, max);
+        return sum;
     }
 
     public void test(){
