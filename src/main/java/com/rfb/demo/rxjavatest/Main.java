@@ -14,6 +14,7 @@ import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet47;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet90;
 import com.rfb.demo.rxjavatest.algorithm.leetCode2.*;
 import com.rfb.demo.rxjavatest.algorithm.leetCode2.pathSum;
+import com.rfb.demo.rxjavatest.algorithm.leetCode3.inorderTraversal;
 import com.rfb.demo.rxjavatest.algorithm.maxFlow.POJ2112;
 import com.rfb.demo.rxjavatest.algorithm.niuke.LCS;
 import com.rfb.demo.rxjavatest.algorithm.niuke.findKth;
@@ -456,7 +457,7 @@ public class Main {
 //        System.out.println(Objects.hash(1, 2));
 //        System.out.println(Objects.hash(2, 1));
 //        AllOne.test();
-        poorPigs sum2 = new poorPigs();
+        inorderTraversal sum2 = new inorderTraversal();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
