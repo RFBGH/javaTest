@@ -13,6 +13,7 @@ import com.rfb.demo.rxjavatest.algorithm.leetCode.segmentTree.Leet218;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet47;
 import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet90;
 import com.rfb.demo.rxjavatest.algorithm.leetCode2.*;
+import com.rfb.demo.rxjavatest.algorithm.leetCode2.pathSum;
 import com.rfb.demo.rxjavatest.algorithm.maxFlow.POJ2112;
 import com.rfb.demo.rxjavatest.algorithm.niuke.LCS;
 import com.rfb.demo.rxjavatest.algorithm.niuke.findKth;
@@ -394,8 +395,29 @@ public class Main {
 
     }
 
-    public static void main(String[] args) {
+    public interface Test<T>{
 
+        <S extends T> S test(T t);
+
+        <S extends T> List<S> test1(T t);
+    }
+
+    public static class TestImpl implements Test<CharSequence>{
+
+        @Override
+        public <S extends CharSequence> S test(CharSequence s) {
+            return null;
+        }
+
+        @Override
+        public <S extends CharSequence> List<S> test1(CharSequence charSequence) {
+            return null;
+        }
+    }
+
+    public static void main(String[] args) {
+//        PrintOddEven printOddEven = new PrintOddEven(100);
+//        printOddEven.test();
 //        List<Integer> list = new ArrayList<>();
 //        list.add(1);
 //
@@ -433,9 +455,9 @@ public class Main {
 //        TaskList.test(args);
 //        System.out.println(Objects.hash(1, 2));
 //        System.out.println(Objects.hash(2, 1));
-        AllOne.test();
-//        minMutation sum2 = new minMutation();
-//        sum2.test();
+//        AllOne.test();
+        poorPigs sum2 = new poorPigs();
+        sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
 //
