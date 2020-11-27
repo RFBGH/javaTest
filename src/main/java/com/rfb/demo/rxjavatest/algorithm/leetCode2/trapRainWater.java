@@ -35,14 +35,13 @@ public class trapRainWater {
                     break;
                 }
 
-                int right = cur*2 + 2;
-                if(right >= mData.size()){
-                    break;
-                }
-
                 int minSon = left;
-                if(mCompare.compare(mData.get(left), mData.get(right)) > 0){
-                    minSon = right;
+
+                int right = cur*2 + 2;
+                if(right < mData.size()){
+                    if(mCompare.compare(mData.get(left), mData.get(right)) > 0){
+                        minSon = right;
+                    }
                 }
 
                 if(mCompare.compare(mData.get(cur), mData.get(minSon)) <= 0){

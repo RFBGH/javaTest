@@ -1,44 +1,12 @@
 package com.rfb.demo.rxjavatest;
 
 
-import com.rfb.demo.rxjavatest.algorithm.*;
-import com.rfb.demo.rxjavatest.algorithm.LCA.LCA;
-import com.rfb.demo.rxjavatest.algorithm.LCA.LCA2;
-import com.rfb.demo.rxjavatest.algorithm.LCA.LCA3;
-import com.rfb.demo.rxjavatest.algorithm.RMQ.RMQ;
-import com.rfb.demo.rxjavatest.algorithm.SuffixArray.SuffixArray;
-import com.rfb.demo.rxjavatest.algorithm.SuffixArray.SuffixArray2;
-import com.rfb.demo.rxjavatest.algorithm.leetCode.*;
-import com.rfb.demo.rxjavatest.algorithm.leetCode.segmentTree.Leet218;
-import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet47;
-import com.rfb.demo.rxjavatest.algorithm.leetCode.traceback.Leet90;
-import com.rfb.demo.rxjavatest.algorithm.leetCode2.*;
-import com.rfb.demo.rxjavatest.algorithm.leetCode2.pathSum;
-import com.rfb.demo.rxjavatest.algorithm.leetCode3.inorderTraversal;
-import com.rfb.demo.rxjavatest.algorithm.maxFlow.POJ2112;
-import com.rfb.demo.rxjavatest.algorithm.niuke.LCS;
-import com.rfb.demo.rxjavatest.algorithm.niuke.findKth;
-import com.rfb.demo.rxjavatest.algorithm.sort.BucketSort;
-import com.rfb.demo.rxjavatest.algorithm.stack.Test;
-import com.rfb.demo.rxjavatest.productAndComsumer.IComsumer;
-import com.rfb.demo.rxjavatest.productAndComsumer.IProducer;
-import com.rfb.demo.rxjavatest.productAndComsumer.ProducerAndComsumer;
-import com.rfb.demo.rxjavatest.rxjava3.RxJava3;
-import com.rfb.demo.rxjavatest.thread.SynTest;
-import rx.Observable;
-import rx.Subscriber;
-import rx.subjects.PublishSubject;
-import rx.subjects.ReplaySubject;
+import com.rfb.demo.rxjavatest.algorithm.leetCode3.PredictTheWinner;
+import com.rfb.demo.rxjavatest.algorithm.leetCode3.findSubsequences;
+import com.rfb.demo.rxjavatest.algorithm.leetCode3.reversePairs;
 
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -457,7 +425,10 @@ public class Main {
 //        System.out.println(Objects.hash(1, 2));
 //        System.out.println(Objects.hash(2, 1));
 //        AllOne.test();
-        inorderTraversal sum2 = new inorderTraversal();
+
+//        LFUCache.test();
+
+        reversePairs sum2 = new reversePairs();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
