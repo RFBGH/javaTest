@@ -1,9 +1,7 @@
 package com.rfb.demo.rxjavatest;
 
 
-import com.rfb.demo.rxjavatest.algorithm.leetCode3.PredictTheWinner;
-import com.rfb.demo.rxjavatest.algorithm.leetCode3.findSubsequences;
-import com.rfb.demo.rxjavatest.algorithm.leetCode3.reversePairs;
+import com.rfb.demo.rxjavatest.algorithm.leetCode3.*;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -428,7 +426,8 @@ public class Main {
 
 //        LFUCache.test();
 
-        reversePairs sum2 = new reversePairs();
+
+        canIWin sum2 = new canIWin();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
