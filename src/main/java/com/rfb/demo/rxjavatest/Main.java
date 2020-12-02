@@ -427,7 +427,7 @@ public class Main {
 //        LFUCache.test();
 
 
-        canIWin sum2 = new canIWin();
+        outerTrees sum2 = new outerTrees();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
