@@ -1,7 +1,9 @@
 package com.rfb.demo.rxjavatest;
 
 
+import com.rfb.demo.rxjavatest.algorithm.getMoneyAmount;
 import com.rfb.demo.rxjavatest.algorithm.leetCode3.*;
+import com.rfb.demo.rxjavatest.rxjava3.RxJava3;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -353,6 +355,7 @@ public class Main {
 
     }
 
+
     private static void tt(List<? extends Number> list){
 
     }
@@ -383,6 +386,11 @@ public class Main {
     }
 
     public static void main(String[] args) {
+
+//        RxJava3 rxJava3 = new RxJava3();
+//        rxJava3.testSubscrib();
+//        ConsumerAndProductor consumerAndProductor = new ConsumerAndProductor();
+//        consumerAndProductor.test(new int[]{10, -2, 5, 8, -4, 2, -3, 7, 12, -88, -23, 35});
 //        PrintOddEven printOddEven = new PrintOddEven(100);
 //        printOddEven.test();
 //        List<Integer> list = new ArrayList<>();
@@ -427,7 +435,7 @@ public class Main {
 //        LFUCache.test();
 
 
-        outerTrees sum2 = new outerTrees();
+        removeDuplicateLetters sum2 = new removeDuplicateLetters();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()

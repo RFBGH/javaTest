@@ -42,6 +42,7 @@ public class RxJava3 {
 
                     public void onSubscribe(@NonNull Subscription s) {
 
+                        System.out.println(Thread.currentThread().getName()+" onSubscribe ");
                         subscription = s;
                         subscription.request(1);
                     }
