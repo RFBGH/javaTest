@@ -435,7 +435,7 @@ public class Main {
 //        LFUCache.test();
 
 
-        removeDuplicateLetters sum2 = new removeDuplicateLetters();
+        smallestRange1 sum2 = new smallestRange1();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
