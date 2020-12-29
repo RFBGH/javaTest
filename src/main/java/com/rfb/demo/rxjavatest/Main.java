@@ -434,9 +434,9 @@ public class Main {
 
 //        LFUCache.test();
 
-        NumArray1.test();
-//        minNumberOperations sum2 = new minNumberOperations();
-//        sum2.test();
+//        NumArray1.test();
+        Lisp sum2 = new Lisp();
+        sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
 //
