@@ -1,6 +1,9 @@
 package com.rfb.demo.rxjavatest.algorithm.leetCode3;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Lisp {
 
@@ -57,7 +60,6 @@ public class Lisp {
     private static class VariableNode extends Node{
 
         private String variable;
-        private int value;
 
         public VariableNode(String variable) {
             super(NodeType.variable);
@@ -66,14 +68,6 @@ public class Lisp {
 
         public String getVariable() {
             return variable;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        public void setValue(int value) {
-            this.value = value;
         }
     }
 
@@ -171,19 +165,78 @@ public class Lisp {
 
         Context sonContext = new Context(context);
 
+        int result = -1;
 
+        Node node = nodes.get(cur++);
+        if(node.nodeType != NodeType.variable){
+            throw new RuntimeException("left node need variable "+node.nodeType);
+        }
+
+        VariableNode variableNode = (VariableNode)node;
+        sonContext.put(variableNode.getVariable(), getOperatorNum(sonContext));
+
+        while (true){
+
+            node = nodes.get(cur++);
+            if(node.nodeType != NodeType.variable){
+
+                if(node.nodeType == NodeType.leftBracket){
+                    cur--;
+                    result = statement(sonContext);
+                    break;
+                }
+
+                if(node.nodeType == NodeType.number){
+                    result = ((NumberNode)node).number;
+                    break;
+                }
+
+                throw new RuntimeException("left last expr need expr "+node.nodeType);
+            }
+
+            variableNode = (VariableNode) node;
+            Node nextNode = nodes.get(cur++);
+            if(nextNode.nodeType == NodeType.rightBracket){
+                result = sonContext.get(variableNode.getVariable());
+                cur--;
+                break;
+            }
+
+            cur--;
+            sonContext.put(variableNode.getVariable(), getOperatorNum(sonContext));
+        }
+
+        return result;
+    }
+
+    private int getOperatorNum(Context context){
+
+        Node node = nodes.get(cur++);
+        if(node.nodeType == NodeType.number){
+            return ((NumberNode)node).getNumber();
+        }
+
+        if(node.nodeType == NodeType.variable){
+            VariableNode variableNode = (VariableNode)node;
+            return context.get(variableNode.getVariable());
+        }
+
+        if(node.nodeType == NodeType.leftBracket){
+            cur--;
+            return statement(context);
+        }
+
+        throw new RuntimeException("operator is not number variable leftbracket "+node.nodeType);
     }
 
     private int add(Context context){
-
         checkParam();
-
+        return getOperatorNum(context) + getOperatorNum(context);
     }
 
     private int mult(Context context){
-
         checkParam();
-
+        return getOperatorNum(context) * getOperatorNum(context);
     }
 
     public int evaluate(String expression) {
@@ -206,8 +259,16 @@ public class Lisp {
 
                 default:
 
-                    if(c >= '0' && c <='9'){
-                        int number = c - '0';
+                    if(c >= '0' && c <='9' || c == '-'){
+
+                        boolean isNegative = false;
+                        int number = 0;
+                        if(c == '-'){
+                            isNegative = true;
+                        }else{
+                            number = c - '0';
+                        }
+
                         int k;
                         for(k = i+1; k < expression.length(); k++){
                             char nextC = expression.charAt(k);
@@ -218,6 +279,9 @@ public class Lisp {
                             }
                         }
 
+                        if(isNegative){
+                            number = -number;
+                        }
                         nodes.add(new NumberNode(number));
                         i = k-1;
                     }else{
@@ -255,7 +319,7 @@ public class Lisp {
     }
 
     public void test(){
-        System.out.println(evaluate("(let x 2 (add (let x 3 (let x 4 x)) x))"));
+        System.out.println(evaluate("(let x 7 -12)"));
     }
 
 }
