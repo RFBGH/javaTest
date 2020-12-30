@@ -1,7 +1,6 @@
 package com.rfb.demo.rxjavatest.algorithm.leetCode3;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Lisp {
 
@@ -78,6 +77,33 @@ public class Lisp {
         }
     }
 
+    private static class Context{
+
+        private Map<String, Integer> map = new HashMap<>();
+        private Context parent;
+
+        public Context(Context parent) {
+            this.parent = parent;
+        }
+
+        public Integer get(String key){
+
+            Context context = this;
+            while (context != null){
+                if(context.map.containsKey(key)){
+                    return context.map.get(key);
+                }
+                context = context.parent;
+            }
+
+            throw new RuntimeException("cant find var "+key);
+        }
+
+        public void put(String key, Integer value){
+            map.put(key, value);
+        }
+    }
+
     private static class LeftBracketNode extends Node{
 
         public LeftBracketNode() {
@@ -92,9 +118,75 @@ public class Lisp {
         }
     }
 
-    public int evaluate(String expression) {
+    private List<Node> nodes = new ArrayList<>();
+    private int cur = 0;
 
-        List<Node> nodes = new ArrayList<>();
+    private void checkParam(){
+        if(cur >= nodes.size()){
+            throw new RuntimeException("out of index "+cur+" "+nodes.size());
+        }
+    }
+
+    private int statement(Context context){
+
+        checkParam();
+
+        Node node = nodes.get(cur++);
+        if(node.nodeType != NodeType.leftBracket){
+            throw new RuntimeException("node is not leftBracket "+node.nodeType);
+        }
+
+        node = nodes.get(cur++);
+        if(node.nodeType != NodeType.key){
+            throw new RuntimeException("node is not key "+node.nodeType);
+        }
+
+        KeyNode keyNode = (KeyNode)node;
+        int value = -1;
+        switch (keyNode.key){
+            case LET:
+                value = let(context);
+                break;
+
+            case ADD:
+                value = add(context);
+                break;
+
+            case MULTI:
+                value = mult(context);
+                break;
+        }
+
+        node = nodes.get(cur++);
+        if(node.nodeType != NodeType.rightBracket){
+            throw new RuntimeException("node is not right bracket "+node.nodeType);
+        }
+
+        return value;
+    }
+
+    private int let(Context context){
+
+        checkParam();
+
+        Context sonContext = new Context(context);
+
+
+    }
+
+    private int add(Context context){
+
+        checkParam();
+
+    }
+
+    private int mult(Context context){
+
+        checkParam();
+
+    }
+
+    public int evaluate(String expression) {
 
         for(int i = 0; i < expression.length(); i++){
 
@@ -159,9 +251,7 @@ public class Lisp {
             }
         }
 
-        System.out.println(nodes);
-
-        return 0;
+        return statement(null);
     }
 
     public void test(){
