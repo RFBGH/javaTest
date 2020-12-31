@@ -435,8 +435,9 @@ public class Main {
 //        LFUCache.test();
 
 //        NumArray1.test();
-        cherryPickup sum2 = new cherryPickup();
-        sum2.test();
+        WordFilter.test();
+//        cherryPickup sum2 = new cherryPickup();
+//        sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
 //
