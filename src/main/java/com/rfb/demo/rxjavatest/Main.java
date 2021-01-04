@@ -436,7 +436,7 @@ public class Main {
 
 //        NumArray1.test();
 //        WordFilter.test();
-        containVirus sum2 = new containVirus();
+        asteroidCollision sum2 = new asteroidCollision();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
