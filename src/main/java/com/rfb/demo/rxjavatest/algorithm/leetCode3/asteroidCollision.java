@@ -1,13 +1,13 @@
 package com.rfb.demo.rxjavatest.algorithm.leetCode3;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class asteroidCollision {
 
     public int[] asteroidCollision(int[] asteroids) {
 
-        List<Integer> list = new LinkedList<>();
+        List<Integer> list = new ArrayList<>();
         for(int i: asteroids){
             list.add(i);
         }

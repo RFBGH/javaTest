@@ -436,7 +436,7 @@ public class Main {
 
 //        NumArray1.test();
 //        WordFilter.test();
-        asteroidCollision sum2 = new asteroidCollision();
+        largeGroupPositions sum2 = new largeGroupPositions();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
