@@ -436,7 +436,7 @@ public class Main {
 
 //        NumArray1.test();
 //        WordFilter.test();
-        largeGroupPositions sum2 = new largeGroupPositions();
+        reachNumber sum2 = new reachNumber();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
