@@ -436,7 +436,7 @@ public class Main {
 
 //        NumArray1.test();
 //        WordFilter.test();
-        reachNumber sum2 = new reachNumber();
+        eventualSafeNodes sum2 = new eventualSafeNodes();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
