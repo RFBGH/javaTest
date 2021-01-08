@@ -436,7 +436,7 @@ public class Main {
 
 //        NumArray1.test();
 //        WordFilter.test();
-        eventualSafeNodes sum2 = new eventualSafeNodes();
+        maxProfitAssignment sum2 = new maxProfitAssignment();
         sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
