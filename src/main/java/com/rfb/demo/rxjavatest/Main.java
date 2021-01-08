@@ -3,6 +3,7 @@ package com.rfb.demo.rxjavatest;
 
 import com.rfb.demo.rxjavatest.algorithm.getMoneyAmount;
 import com.rfb.demo.rxjavatest.algorithm.leetCode3.*;
+import com.rfb.demo.rxjavatest.kotlin.HelloKotlin;
 import com.rfb.demo.rxjavatest.rxjava3.RxJava3;
 
 import java.util.*;
@@ -436,8 +437,10 @@ public class Main {
 
 //        NumArray1.test();
 //        WordFilter.test();
-        maxProfitAssignment sum2 = new maxProfitAssignment();
-        sum2.test();
+
+        HelloKotlin.Companion.test();
+//        maxProfitAssignment sum2 = new maxProfitAssignment();
+//        sum2.test();
 //        AtomicInteger atomicInteger;
 //        atomicInteger.compareAndSet()
 //
