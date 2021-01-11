@@ -2,7 +2,7 @@ package com.rfb.demo.rxjavatest.kotlin.collection
 
 class CollectionTest{
 
-    data class Person(val name:String, val age:Int)
+    data class Person(var name:String, var age:Int)
 
     companion object {
 
@@ -13,8 +13,8 @@ class CollectionTest{
                     .map{
                         it.copy(age = 0)
                     }
-                    .first{
-                        it.name="first"
+                    .takeWhile {
+                        it.age == 0
                     }
             println(testCollection)
 
