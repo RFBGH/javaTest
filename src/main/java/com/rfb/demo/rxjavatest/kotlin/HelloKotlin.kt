@@ -1,13 +1,6 @@
 package com.rfb.demo.rxjavatest.kotlin
 
-import com.rfb.demo.rxjavatest.kotlin.collection.CollectionTest
-import com.rfb.demo.rxjavatest.kotlin.delegate.Person
-import com.rfb.demo.rxjavatest.kotlin.delegate.TestLazy
-import com.rfb.demo.rxjavatest.kotlin.delegate.numSimilarGroups
-import com.rfb.demo.rxjavatest.kotlin.delegate.stoneGame
-import com.rfb.demo.rxjavatest.kotlin.leetcode.minRefuelStops
-import com.rfb.demo.rxjavatest.kotlin.leetcode.smallestStringWithSwaps
-import java.util.ArrayList
+import com.rfb.demo.rxjavatest.kotlin.leetcode.stoneGame
 
 class HelloKotlin {
 

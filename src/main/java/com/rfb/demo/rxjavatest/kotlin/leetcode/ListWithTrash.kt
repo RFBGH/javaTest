@@ -1,4 +1,4 @@
-package com.rfb.demo.rxjavatest.kotlin.delegate
+package com.rfb.demo.rxjavatest.kotlin.leetcode
 
 class ListWithTrash<T>(private val innerList:MutableList<T> = ArrayList<T>()) :MutableCollection<T> by innerList{
 
