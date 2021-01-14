@@ -61,10 +61,16 @@ class minCostConnectPoints {
             }
         })
 
+        var connectCount = 0
         var ans = 0
         for(node in nodes){
             if (union(node.i, node.j)) {
                 ans += node.dist
+                connectCount++
+            }
+
+            if(connectCount == points.size-1){
+                break
             }
         }
 
