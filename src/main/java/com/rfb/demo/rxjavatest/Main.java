@@ -4,6 +4,9 @@ package com.rfb.demo.rxjavatest;
 import com.rfb.demo.rxjavatest.algorithm.getMoneyAmount;
 import com.rfb.demo.rxjavatest.algorithm.leetCode3.*;
 import com.rfb.demo.rxjavatest.kotlin.HelloKotlin;
+import com.rfb.demo.rxjavatest.kotlin.leetcode.distanceLimitedPathsExist;
+import com.rfb.demo.rxjavatest.kotlin.leetcode.findRedundantDirectedConnection;
+import com.rfb.demo.rxjavatest.kotlin.leetcode.minimumEffortPath;
 import com.rfb.demo.rxjavatest.rxjava3.RxJava3;
 
 import java.util.*;
@@ -439,7 +442,10 @@ public class Main {
 //        NumArray1.test();
 //        WordFilter.test();
 
-        HelloKotlin.Companion.test();
+        findRedundantDirectedConnection test = new findRedundantDirectedConnection();
+       int[] result = test.findRedundantDirectedConnection(new int[][]{{1,5},{3,2},{2,4},{4,5},{5,3}});
+       System.out.println(result[0] +" "+result[1]);
+        //        HelloKotlin.Companion.test();
 //        maxProfitAssignment sum2 = new maxProfitAssignment();
 //        sum2.test();
 //        AtomicInteger atomicInteger;

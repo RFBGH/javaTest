@@ -1,6 +1,6 @@
 package com.rfb.demo.rxjavatest.kotlin
 
-import com.rfb.demo.rxjavatest.kotlin.leetcode.stoneGame
+import com.rfb.demo.rxjavatest.kotlin.leetcode.*
 
 class HelloKotlin {
 
@@ -20,7 +20,7 @@ class HelloKotlin {
 //
 //            CollectionTest.test()
 
-            val test = stoneGame()
+            val test = distanceLimitedPathsExist()
             test.test()
 
 //            val site = object{
