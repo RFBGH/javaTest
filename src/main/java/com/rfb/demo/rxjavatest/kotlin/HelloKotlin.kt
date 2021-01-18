@@ -20,7 +20,7 @@ class HelloKotlin {
 //
 //            CollectionTest.test()
 
-            val test = distanceLimitedPathsExist()
+            val test = accountsMerge()
             test.test()
 
 //            val site = object{
