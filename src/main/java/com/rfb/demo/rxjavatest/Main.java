@@ -440,16 +440,16 @@ public class Main {
 //        NumArray1.test();
 //        WordFilter.test();
 
-        minimumMoves test = new minimumMoves();
-       System.out.println(test.minimumMoves(new int[][]{
-               {0,0,0,0,0,1},
-               {1,1,0,0,1,0},
-               {0,0,0,0,1,1},
-               {0,0,1,0,1,0},
-               {0,1,1,0,0,0},
-               {0,1,1,0,0,0}
-       }));
-                HelloKotlin.Companion.test();
+        StreamChecker streamChecker = new StreamChecker(new String[]{"ab","ba","aaab","abab","baa"});
+
+        char[] test = new char[]{'a','a','a','a','a','b','a','b','a','b','b','b','a','b','a','b','b','b','b','a','b','a','b','a','a','a','b','a','a','a'};
+        for(char t : test){
+            System.out.println(streamChecker.query(t));
+        }
+
+//        gardenNoAdj test = new gardenNoAdj();
+//       System.out.println(test.gardenNoAdj(3, new int[][] {{1,2},{2,3},{3, 1}}));
+//                HelloKotlin.Companion.test();
 //        maxProfitAssignment sum2 = new maxProfitAssignment();
 //        sum2.test();
 //        AtomicInteger atomicInteger;
