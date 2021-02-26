@@ -2,10 +2,10 @@ package com.rfb.demo.rxjavatest.kotlin.coroutines
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Executor
 import java.util.concurrent.Executors
-import kotlin.coroutines.*
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.startCoroutine
 
 object CoroutinesDemo {
 
@@ -34,7 +34,7 @@ object CoroutinesDemo {
 
     private suspend fun getResult2():Int{
         println("{${Thread.currentThread().name}}")
-        delay(1000)
+        delay(2000)
         return 2
     }
 
@@ -91,41 +91,25 @@ object CoroutinesDemo {
 
     }
 
+
+
     fun test0(){
 
-        testIntercept()
+        val executor = Executors.newSingleThreadExecutor()
 
+        GlobalScope.launch(executor.asCoroutineDispatcher()){
+            println("first")
+            val result = withContext(Dispatchers.Default) { getResult1() }
+            println("first")
+        }
 
-//        val executor = Executors.newSingleThreadExecutor()
-//
-//        GlobalScope.launch(executor.asCoroutineDispatcher()){
-//
-//            println(Thread.currentThread().name)
-//
-//            val test = suspendCoroutine<String> {
-//                continuation ->
-//                Thread.sleep(1000)
-//                continuation.resume("test")
-//            }
-//
-//            val test1 = suspendCoroutine<String> {
-//                continuation ->
-//                Thread.sleep(1000)
-//                continuation.resume("test")
-//            }
-//
-//            println("next")
-//
-//            println(test)
-//        }
-//
-//        GlobalScope.launch(executor.asCoroutineDispatcher()){
-//
-//            println(Thread.currentThread().name+" second")
-//        }
-//
+        GlobalScope.launch(executor.asCoroutineDispatcher()){
+            println("second")
+            val result = withContext(Dispatchers.Default) { getResult2() }
+            println("second")
+        }
+
         Thread.sleep(2000)
-//        executor.shutdownNow()
 
     }
 
