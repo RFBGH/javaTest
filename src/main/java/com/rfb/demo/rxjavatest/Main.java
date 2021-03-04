@@ -4,6 +4,9 @@ package com.rfb.demo.rxjavatest;
 import com.rfb.demo.rxjavatest.algorithm.getMoneyAmount;
 import com.rfb.demo.rxjavatest.algorithm.leetCode3.*;
 import com.rfb.demo.rxjavatest.algorithm.leetcode4.*;
+import com.rfb.demo.rxjavatest.asm.AsmDemo;
+import com.rfb.demo.rxjavatest.asm.Music;
+import com.rfb.demo.rxjavatest.asm_inner.InnerAsmDemo;
 import com.rfb.demo.rxjavatest.kotlin.HelloKotlin;
 import com.rfb.demo.rxjavatest.kotlin.coroutines.CoroutinesDemo;
 import com.rfb.demo.rxjavatest.kotlin.leetcode.*;
@@ -474,8 +477,10 @@ public class Main {
 //            System.out.println(streamChecker.query(t));
 //        }
 
-
-        CoroutinesDemo.INSTANCE.test();
+//        AsmDemo.fire();
+        InnerAsmDemo.fire();
+//        CoroutinesDemo.INSTANCE.test();
+//        HelloKotlin.Companion.test();
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {

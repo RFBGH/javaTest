@@ -3,9 +3,7 @@ package com.rfb.demo.rxjavatest.kotlin.coroutines
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import java.util.concurrent.Executors
-import kotlin.coroutines.Continuation
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.startCoroutine
+import kotlin.coroutines.*
 
 object CoroutinesDemo {
 
@@ -115,7 +113,26 @@ object CoroutinesDemo {
 
     fun test(){
 
-        test0()
+
+        val job = GlobalScope.launch(Dispatchers.IO) {
+
+            delay(1000)
+
+            val i = suspendCoroutine<Int> {
+                continuation ->
+
+                Thread(){
+                    kotlin.run {
+                        println("resume")
+                        continuation.resume(1)
+                    }
+                }.start()
+            }
+            println(i)
+        }
+
+        Thread.sleep(400)
+        job.cancel()
 
 //        channelTest()
 //
