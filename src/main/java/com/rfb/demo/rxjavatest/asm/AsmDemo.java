@@ -28,4 +28,12 @@ public class AsmDemo {
             e.printStackTrace();
         }
     }
+
+    public static void fire(){
+
+        AsmDemo asmDemo = new AsmDemo();
+        asmDemo.test();
+        Music music = new Music();
+        music.run();
+    }
 }
