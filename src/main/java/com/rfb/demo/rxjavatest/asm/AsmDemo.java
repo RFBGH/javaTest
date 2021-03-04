@@ -19,7 +19,8 @@ public class AsmDemo {
 
             byte[] result = writer.toByteArray();
 
-            File file = new File("/Users/admin/Documents/Music.class");
+
+            File file = new File("./target/classes/com/rfb/demo/rxjavatest/asm/Music.class");
             FileOutputStream outputStream = new FileOutputStream(file);
             outputStream.write(result);
             outputStream.close();
